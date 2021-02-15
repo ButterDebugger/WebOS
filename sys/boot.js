@@ -134,7 +134,7 @@ async function load() {
 	]
 	
 	for (let a = 0; a < app.length; a++) { // Add new apps
-		createIcon(parseInt(getJsonSave(app[a].path + app[a].name, "x", app[a].x)), parseInt(getJsonSave(app[a].path + app[a].name, "y", app[a].y)), parseInt(getJsonSave(app[a].path + app[a].name, "z", app[a].z)), app[a].name, app[a].call, app[a].img, app[a].width, app[a].height, app[a].rename, app[a].title)
+		if (app[a].path == "desktop/") createIcon(parseInt(getJsonSave(app[a].path + app[a].name, "x", app[a].x)), parseInt(getJsonSave(app[a].path + app[a].name, "y", app[a].y)), parseInt(getJsonSave(app[a].path + app[a].name, "z", app[a].z)), app[a].name, app[a].call, app[a].img, app[a].width, app[a].height, app[a].rename, app[a].title)
 		
 		var types = Object.keys(app[a].types);
 		for (let t = 0; t < types.length; t++) {
