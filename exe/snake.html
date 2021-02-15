@@ -1,0 +1,133 @@
+<html lang="en">
+	<head>
+		<title>snake.exe</title>
+		<meta charset="utf-8">
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Expires" content="0">
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<canvas id="canvas" style="height: 600px; width: 600px;"></canvas>
+		<script>
+			var canvas = document.getElementById('canvas');
+			var context = canvas.getContext('2d');
+
+			var fps = 8;
+			var canvasSize = 600;
+			var gridSize = canvasSize / 50;
+			canvas.height = canvasSize;
+			canvas.width = canvasSize;
+
+			var direction = newDirection = 1; // -2: up, 2: down, -1: left, 1: right
+			var snakeLength = 5;
+			let snakeColor = '#3e9106';
+			var snake = [{x: canvasSize / 2, y: canvasSize / 2}]; // Snake starts in the center
+			var candy = null;
+			var gameEnd = false;
+
+			function randomOffset() {
+				return Math.floor(Math.random() * canvasSize / gridSize) * gridSize;
+			}
+
+			function stringifyCoord(obj) {
+				return [obj.x, obj.y].join(',');
+			}
+
+			function tick() {
+				var newHead = {x: snake[0].x, y: snake[0].y};
+
+				// Only change directon if the new direction is a different axis
+				if (Math.abs(direction) !== Math.abs(newDirection)) {
+					direction = newDirection;
+				}
+				var axis = Math.abs(direction) === 1 ? 'x' : 'y'; // 1, -1 are X; 2, -2 are Y
+				if (direction < 0) {
+					newHead[axis] -= gridSize; // Move left or down
+				} else {
+					newHead[axis] += gridSize; // Move right or up
+				}
+				
+				if (candy && candy.x === newHead.x && candy.y === newHead.y) {
+					if (candy.type == 'apple') { // Add to snakes length
+						snakeLength += 3;
+					} else if (candy.type == 'blueberry') {
+						snakeLength += 5;
+					} else if (candy.type == 'mango') {
+						snakeLength += 7;
+					}
+					
+					candy = null; // Remove the candy
+				}
+				
+				context.fillStyle = '#0b6e44'; // Background Color
+				context.fillRect(0, 0, canvasSize, canvasSize); // Reset the play area
+				if (gameEnd) {
+					location.reload(); // Refresh page
+				} else {
+					// Move snake forward
+					snake.unshift(newHead);
+					snake = snake.slice(0, snakeLength);
+				}
+				
+				if (newHead.x < 0 || newHead.x >= canvasSize || newHead.y < 0 || newHead.y >= canvasSize) { // Detect wall collisions
+					gameEnd = true;
+				}
+
+				context.fillStyle = snakeColor;
+				var snakeObj = {};
+				for (var i = 0; i < snake.length; i++) {
+					var a = snake[i];
+					context.fillRect(a.x, a.y, gridSize, gridSize); // Render the snake
+					// Build a collision lookup object
+					if (i > 0) snakeObj[stringifyCoord(a)] = true;
+				}
+
+				if (snakeObj[stringifyCoord(newHead)]) gameEnd = true; // Collided with our tail
+				
+				while (!candy || snakeObj[stringifyCoord(candy)]) { // Generate a new candy
+					var chance = Math.floor(Math.random() * 12) + 1; // 1 in 10 chance
+					let candyType = '';
+					if (chance >= 1 && chance <= 6) {
+						candyType = 'apple';
+					} else if (chance >= 7 && chance <= 10) {
+						candyType = 'blueberry';
+					} else if (chance >= 11 && chance <= 12) {
+						candyType = 'mango';
+					}
+					
+					candy = {
+						x: randomOffset(),
+						y: randomOffset(),
+						type: candyType
+					};
+				}
+				
+				if (candy.type == 'apple') {
+					context.fillStyle = '#c21336';
+				} else if (candy.type == 'blueberry') {
+					context.fillStyle = '#129cb5';
+				} else if (candy.type == 'mango') {
+					context.fillStyle = '#e8a53a';
+				}
+				context.beginPath();
+				context.arc(candy.x + 6, candy.y + 6, 6, 0, Math.PI * 2, true); 
+				context.closePath();
+				context.fill();
+			}
+			
+			window.onload = function() {
+				setInterval(tick, 1000 / fps); // Start game loop!
+				window.onkeydown = function(e) {
+					newDirection = {37: -1, 38: -2, 39: 1, 40: 2}[e.keyCode] || newDirection;
+				};
+			};
+		</script>
+	</body>
+</html>

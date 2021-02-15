@@ -1,0 +1,143 @@
+* {
+	overflow: hidden;
+	font-family: "ＭＳ Ｐゴシック";
+	font-size: 12px;
+}
+.desktop {
+	margin: 0px;
+	padding: 0px;
+	
+	background-color: #11e8bb; /* For browsers that do not support gradients */
+	background: linear-gradient(135deg, #11e8bb, #8200c9);
+	background-repeat: no-repeat;
+	background-size: auto 100vh;
+	
+	color: #fcfcfc;
+}
+.terminal {
+	margin: 8px;
+	padding: 0px;
+	background-color: black;
+	color: #ffff00;
+}
+iframe {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	overflow: auto;
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+section {
+	position: absolute;
+}
+.clickable {
+	cursor: pointer;
+}
+.hidden {
+	visibility: hidden;
+	background: none;
+}
+.moveable {
+	position: absolute;
+}
+#footer {
+	position: fixed;
+	left: 0px;
+	bottom: 0px;
+	color: #000000;
+}
+.content {
+	background: #ebebeb;
+	border-top: 2px solid #f7f7f7;
+	border-left: 2px solid #f7f7f7;
+	border-bottom: 2px solid #d1d1d1;
+	border-right: 2px solid #d1d1d1;
+}
+.tab {
+	background: #ebebeb;
+	border-top: 2px solid #f7f7f7;
+	border-left: 2px solid #f7f7f7;
+	border-bottom: 2px solid #d1d1d1;
+	border-right: 2px solid #d1d1d1;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.19);
+}
+.input {
+	background: #ebebeb;
+	border-top: 2px solid #f7f7f7;
+	border-left: 2px solid #f7f7f7;
+	border-bottom: 2px solid #d1d1d1;
+	border-right: 2px solid #d1d1d1;
+	display: inline-block;
+	text-align: center;
+	vertical-align: middle;
+}
+button:hover {
+	cursor: pointer;
+}
+.input:active {
+	border-bottom: 2px solid #f7f7f7;
+	border-right: 2px solid #f7f7f7;
+	border-top: 2px solid #d1d1d1;
+	border-left: 2px solid #d1d1d1;
+}
+button:focus, input:focus {
+	outline: none;
+}
+.resizable {
+	resize: both;
+	overflow: auto;
+}
+.filename {
+	width: 80px;
+	text-align: center;
+	overflow-wrap: anywhere;
+}
+.verticalcenter {
+	line-height: 18px; /* Fix text vertical center */
+	vertical-align: middle;
+}
+.shadow {
+	filter: drop-shadow(rgba(0, 0, 0, 0.5) 3px 3px 0px);
+	transition: filter 0.1s ease-in-out;
+}
+.shadow-after {
+	filter: drop-shadow(rgba(0, 0, 0, 0.5) 0px 0px 0px);
+	transition: filter 0.1s ease-in-out;
+}
+.menu {
+	background: #ebebeb;
+	border-top: 2px solid #f7f7f7;
+	border-left: 2px solid #f7f7f7;
+	border-bottom: 2px solid #d1d1d1;
+	border-right: 2px solid #d1d1d1;
+	padding: 0px 0px;
+	margin: 0px 0px;
+}
+.menuseparator {
+	margin: 0px 0px;
+	border-top: 2px solid #f7f7f7;
+	border-bottom: 2px solid #d1d1d1;
+}
+.menuicon {
+	width: 0px;
+	padding: 0px 8px;
+}
+.menuitem {
+	color: black;
+	padding: 3px;
+}
+.menuitem:hover {
+	cursor: pointer;
+	background: #0090e4;
+	color: white;
+}
+.contextmenu {
+	box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.19);
+}
+.highlight {
+	outline: dotted 1px;
+	opacity: 1.0;
+}
