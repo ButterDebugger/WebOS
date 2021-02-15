@@ -1,4 +1,4 @@
-function run(self, input) {
+function run(self, input) { // App run function
 	function add(data) {
 		document.body.insertAdjacentHTML('beforeend', data);
 	}
@@ -16,25 +16,22 @@ function run(self, input) {
 		</section>`)
 	}
 	
-	let fileName = self.getAttribute('name');
-	let fileExtension = fileName.split(".").pop();
+	let fileName = self.getAttribute('name'); // Get file name
+	let fileExtension = fileName.split(".").pop(); // Get file extension
 	if (fileName.includes(".") == false) fileExtension = null;
-	let fileDir = "desktop/" + fileName;
+	let fileDir = "desktop/" + fileName; // Get file directory
 	
 	// callFile("./sys/app.json")
 	// var launch = getJsonSave("desktop/" + fileName, "exe", null);
 	// if (launch == null) return;
 	
 	if (fileExtension == null) return;
-	if (fileExtension == "lnk") {
+	if (fileExtension == "lnk") { // Check if file is an app shortcut
 		launchTab(getJsonSave(fileDir, "exe", ""), getJsonSave(fileDir, "tabWidth", ""), getJsonSave(fileDir, "tabHeight", ""), getJsonSave(fileDir, "icon", ""), getJsonSave(fileDir, "tabName", ""))
 	}
 	reloadIcons()
 }
 function callFile(path) {
-	function add(data) {
-		document.body.insertAdjacentHTML('beforeend', data);
-	}
 	var id = "json#" + Math.floor(Math.random() * 1000000).toString();
 	add(`<iframe id="${id}" class="hidden" style="width: 0px; height: 0px; z-index: -1;" src="${path}"></iframe>`)
 	console.log(document.getElementById(id).contentDocument)
@@ -44,25 +41,25 @@ function callFile(path) {
 
 
 function closeTab(self) { // Close tab function
-	self.parentElement.parentElement.remove();
+	self.parentElement.parentElement.remove(); // Remove parent element
 }
 
 windowLoad()
 window.onload = window.onresize = windowLoad;
-function windowLoad() {
-	var footer = document.getElementById("footer");
-	footer.style.width = (window.innerWidth - 4) + "px";
-	footer.style.zIndex = Math.pow(parseInt(getSave("latestZ", 1000)), 3);
+function windowLoad() { // Load window
+	var footer = document.getElementById("footer"); // Get footer
+	footer.style.width = (window.innerWidth - 4) + "px"; // Resize footer
+	footer.style.zIndex = Math.pow(parseInt(getSave("latestZ", 1000)), 3); // Make footer stand out
 	
 	var display = document.getElementById("display");
-	display.style.width = window.innerWidth + "px";
-	display.style.height = window.innerHeight + "px";
+	display.style.width = window.innerWidth + "px"; // Resize width of display
+	display.style.height = window.innerHeight + "px"; // Resize height of display
 }
 
 
 
-document.addEventListener('mouseup', function(event) {
-	let items = document.querySelectorAll('.moveable');
+document.addEventListener('mouseup', function(event) { // Mouse up event handler
+	let items = document.querySelectorAll('.moveable'); // Get all moveable objects
 	items.forEach(function(item) {
 		item.mouseoverfix = true;
 	})
@@ -71,7 +68,7 @@ document.addEventListener('mouseup', function(event) {
 let latestZ = parseInt(getSave("latestZ", 1000)); // Declare latestZ
 
 reloadIcons()
-function reloadIcons() {
+function reloadIcons() { // Refresh new or add moveable properties
 	let items = document.querySelectorAll('.moveable');
 	items.forEach(function(item) {
 		item.style.zIndex = parseInt(getJsonSave("desktop/" + item.getAttribute('name'), "z", 1000));
@@ -80,7 +77,7 @@ function reloadIcons() {
 		latestZ++;
 		setSave("latestZ", latestZ)
 		
-		item.onmousedown = function(event) {
+		item.onmousedown = function(event) { // Add item mouse down event handler
 			item.mouseoverfix = false;
 			let shiftX = event.clientX - item.getBoundingClientRect().left;
 			let shiftY = event.clientY - item.getBoundingClientRect().top;
@@ -94,13 +91,13 @@ function reloadIcons() {
 
 			moveAt(event.pageX, event.pageY);
 
-			function moveAt(pageX, pageY) {
+			function moveAt(pageX, pageY) { // Move item
 				item.style.left = pageX - shiftX + 'px';
 				item.style.top = pageY - shiftY + 'px';
 				if (!item.classList.contains("tab")) item.style.zIndex = Math.pow(latestZ, 4);
 			}
 			
-			function onMouseMove(event) {
+			function onMouseMove(event) { // Add item mouse move event handler
 				event.preventDefault();
 				// item.style.visibility = "inherit";
 				if (item.classList.contains("clickable")) {
@@ -118,9 +115,9 @@ function reloadIcons() {
 				}
 			}
 
-			document.addEventListener('mousemove', onMouseMove);
+			document.addEventListener('mousemove', onMouseMove); // Add item mouse move event handler
 
-			item.onmouseup = function() {
+			item.onmouseup = function() { // Add item mouse up event handler
 				item.style.cursor = null;
 				// item.style.visibility = "visible";
 				
@@ -133,7 +130,7 @@ function reloadIcons() {
 					}, 100);
 				}
 				
-				document.removeEventListener('mousemove', onMouseMove);
+				document.removeEventListener('mousemove', onMouseMove); // Remove unneeded event handler
 				if (!item.classList.contains("tab")) item.style.zIndex = latestZ;
 				if (typeof item.getAttribute('name') !== 'undefined' && item.getAttribute('name') !== null) {
 					setJsonSave("desktop/" + item.getAttribute('name'), "x", item.style.left) // Save position
@@ -149,35 +146,4 @@ function reloadIcons() {
 			return false;
 		};
 	});
-}
-
-
-
-function getSave(saveName, ifnot) {
-	var storage = window.localStorage;
-	if (typeof storage[saveName] !== "undefined") {
-		return storage[saveName];
-	} else {
-		return ifnot;
-	}
-}
-function setSave(saveName, value) {
-	window.localStorage.setItem(saveName, value.toString());
-}
-function getJsonSave(saveName, value, ifnot) {
-	var data = getSave(saveName, "{}")
-	var json = JSON.parse(data);
-	
-	if (typeof json[value] !== 'undefined') {
-		return json[value];
-	} else {
-		return ifnot;
-	}
-}
-function setJsonSave(saveName, variable, value) {
-	var save = JSON.parse(getSave(saveName, "{}"))
-	
-	save[variable] = value;
-	
-	setSave(saveName, JSON.stringify(save))
 }

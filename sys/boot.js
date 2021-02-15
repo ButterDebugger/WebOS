@@ -7,9 +7,9 @@ async function beforeload() {
 		script.src = file;
 		document.body.append(script);
 	}
-	await addScript("./sys/utils.js")
+	await addScript("./sys/utils.js") // Load system utils
 	
-	await new Promise(res => setTimeout(res, 250));
+	await new Promise(res => setTimeout(res, 250)); // Wait for utils to load
 	preload()
 }
 
@@ -39,7 +39,7 @@ async function preload() {
 	add("<br>");
 	add("<br>");
 	await delay(Math.floor(Math.random() * 1000))
-	add("System v0.2.7 booting on");
+	add("System v1.3.3 booting on");
 	add("<br>");
 	add(platform.description);
 	add("<br>");
@@ -62,7 +62,7 @@ async function preload() {
 
 async function load() {
 	await delay(Math.floor(Math.random() * 1000))
-	document.body.innerHTML = "";
+	document.body.innerHTML = ""; // Remove body loadup text
 	
 	function createIcon(x, y, z, name, call, img, width, height, rename, title) {
 		add(`<section class="moveable clickable" title="${title}" name="${name}" ondblclick="${call}" style="top: ${y}px; left: ${x}px;">
@@ -123,8 +123,7 @@ async function load() {
 		}
 	]
 	
-	// setSave()
-	for (let a = 0; a < app.length; a++) {
+	for (let a = 0; a < app.length; a++) { // Add new apps
 		createIcon(parseInt(getJsonSave(app[a].path + app[a].name, "x", app[a].x)), parseInt(getJsonSave(app[a].path + app[a].name, "y", app[a].y)), parseInt(getJsonSave(app[a].path + app[a].name, "z", app[a].z)), app[a].name, app[a].call, app[a].img, app[a].width, app[a].height, app[a].rename, app[a].title)
 		
 		var types = Object.keys(app[a].types);

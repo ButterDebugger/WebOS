@@ -1,11 +1,7 @@
-// Right click menu //
-// Start menu
-// File system
-
-document.addEventListener('contextmenu', function(event) {
+document.addEventListener('contextmenu', function(event) { // Context menu event handler
 	event.preventDefault();
 	
-	let items = document.querySelectorAll('.contextmenu');
+	let items = document.querySelectorAll('.contextmenu'); // Get all context menus
 	items.forEach(function(item) { // Remove old context menus
 		item.remove()
 	})
@@ -15,11 +11,10 @@ document.addEventListener('contextmenu', function(event) {
 			<li name="refresh" class="menuitem"><span class="menuicon"></span>Refresh</li>
 		</ul>
 	</section>`)
-	// reloadIcons()
 });
-document.getElementById("start").addEventListener("click", function() {
-	var numberOfButtons = 3;
-	var numberOfSeparator = 1;
+document.getElementById("start").addEventListener("click", function() { // Start menu event handler
+	var numberOfButtons = 3; // Number of buttons in the start menu
+	var numberOfSeparator = 1; // Number of separator in the start menu
 	var trueHeight = (window.innerHeight - (22 + 22)) - (18 * (numberOfButtons - 1)) - (4 * (numberOfSeparator));
 	
 	add(`<section class="contextmenu" style="left: 0px; top: ${trueHeight}px; z-index: ${Math.pow(parseInt(getSave("latestZ", 1000)), 5)};">
@@ -32,7 +27,7 @@ document.getElementById("start").addEventListener("click", function() {
 	</section>`)
 });
 
-document.addEventListener('mousedown', function(event) {
+document.addEventListener('mousedown', function(event) { // Button down event handler
 	let mouseOver = document.elementFromPoint(event.clientX, event.clientY);
 	function removeMenus() {
 		let items = document.querySelectorAll('.contextmenu');
@@ -51,21 +46,21 @@ document.addEventListener('mousedown', function(event) {
 		var itemType = mouseOver.getAttribute('name'); // Get menu item type
 		
 		if (menuType == "contextmenu") { // Context menu event handler
-			if (itemType == "refresh") {
+			if (itemType == "refresh") { // Refresh page
 				location.reload();
 			}
-			if (itemType == "reinstall") {
+			if (itemType == "reinstall") { // Reinstall system
 				window.localStorage.clear() // Clear stored data
 				location.reload()
 			}
-			if (itemType == "shutdown") {
+			if (itemType == "shutdown") { // Shutdown system
 				var newHTML = document.open("text/html", "replace"); 
 				newHTML.write("It is now safe to close your tab.");
 				newHTML.close();
 				document.body.style = `background: #000000; color: #ffff00; text-align: center; margin: 0px; padding: ${window.innerHeight / 2 + 12}px; overflow: hidden; font-family: "ＭＳ Ｐゴシック"; font-size: 20px;`;
 			}
 		}
-		removeMenus()
+		removeMenus() // Remove any menus
 		// console.log(menuType, itemType)
 	}
 });
