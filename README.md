@@ -1,7 +1,7 @@
-# Operating-System
+# WebOS
 Webpage operating system
 
 ### Todo:
- - File upload
- - Folders
+ - File manager and upload
  - Multiselect files
+ - Rework entire sight
