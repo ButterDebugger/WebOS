@@ -14,6 +14,23 @@
                 --slot-border-color: #3D3D3D;
             }
 
+            #boot-screen {
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                width: 100vw;
+                height: 100vh;
+                z-index: 10000;
+                background-color: black;
+                font-family: "ＭＳ Ｐゴシック";
+                font-size: 12px;
+	            color: yellow;
+            }
+            #boot-screen.fade-out {
+                transition: opacity 500ms ease-out;
+                opacity: 0;
+            }
+
             #wrapper {
                 display: flex;
                 flex-direction: column;
@@ -76,6 +93,7 @@
         </style>
     </head>
     <body>
+        <div id="boot-screen"></div>
         <div id="wrapper" class="no-select">
             <div id="info-bar">
                 <div class="flex-spacer"></div>
@@ -122,11 +140,8 @@
                 </div>
             </div>
         </div>
-        <div id="tabs"></div>
-        <script src="https://butterycode.com/static/js/1.1/utils.js"></script>
-        <script src="/sys.js"></script>
-        <script src="/time.js"></script>
-        <script src="/scale.js"></script>
-        <script src="/lib/clickable/script.js"></script>
+        <!-- <div id="tabs"></div> -->
+        <script async type="text/javascript" src="/boot.js"></script>
+        <script defer type="module" src="/sys.js"></script>
     </body>
 </html>

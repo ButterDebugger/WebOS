@@ -1,12 +1,12 @@
-(() => {
-    const FileSystem = () => {
+import "/time.js";
+import "/scale.js";
+import "/lib/clickable/script.js";
 
-    }
-    const AudioPlayer = () => {
+const FileSystem = () => {
 
-    }
-    const scopeEval = (script, scope) => Function(`"use strict";return(()=>{${script}})`).bind(scope)();
-    const asyncEval = (script, scope) => Function(`"use strict";return(async()=>{${script}})`).bind(scope)();
+}
+const AudioPlayer = () => {
 
-    window.webos = {}
-})();
+}
+const scopeEval = (script, scope) => Function(`"use strict";return(()=>{${script}})`).bind(scope)();
+const asyncEval = (script, scope) => Function(`"use strict";return(async()=>{${script}})`).bind(scope)();
