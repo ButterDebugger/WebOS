@@ -1,0 +1,13 @@
+#wrapper {
+    display: flex;
+    flex-direction: row;
+    
+    width: 1000px;
+}
+
+#navbar {
+    min-width: 200px;
+}
+#content {
+    flex: 1;
+}

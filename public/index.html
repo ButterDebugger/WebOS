@@ -3,13 +3,130 @@
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <title>WebOS</title>
-        <link rel="stylesheet" href="main.css">
-        <link rel="stylesheet" href="navbar.css">
+        <link rel="stylesheet" href="/main.css">
+        <link rel="stylesheet" href="/lib/clickable/style.css">
+        <style>
+            :root {
+                --button-color: #505050;
+                --slot-color: #303030;
+                --slot-border-color: #3D3D3D;
+            }
+
+            #wrapper {
+                display: flex;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                gap: 42px;
+            }
+            #wrapper.blur {
+                filter: blur(8px);
+            }
+
+            #info-bar, #task-bar {
+                height: 80px;
+                max-height: 80px;
+                margin: 0px 32px;
+
+                display: flex;
+                align-items: center;
+                flex-direction: row;
+                flex-wrap: nowrap;
+            }
+            #info-bar {
+                margin-top: 22px;
+            }
+            #task-bar {
+                margin-bottom: 22px;
+            }
+            #apps-bar {
+                margin: 0px 32px;
+
+                display: grid;
+                justify-content: center;
+                gap: 20px;
+                grid-template-columns: repeat(8, auto);
+            }
+            #task-bar {
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .flex-spacer {
+                flex: 1;
+            }
+
+            .app-box {
+                background-color: var(--slot-color);
+                border: var(--slot-border-color) 2px solid;
+                width: 150px;
+                height: 150px;
+                box-shadow: rgb(0 0 0 / 20%) 0px 0px 4px 2px;
+            }
+
+            .task-button {
+                background-color: var(--button-color);
+                color: var(--text-color);
+                border: none;
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+            }
+        </style>
     </head>
     <body>
-        <div id="screen"></div>
-        <script src="main.js"></script>
+        <div id="wrapper" class="no-select">
+            <div id="info-bar">
+                <div class="flex-spacer"></div>
+                <div id="time" class="no-select">
+                    <span name="clock"></span>
+                    <span name="post"></span>
+                </div>
+            </div>
+            <div id="apps-bar">
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+            </div>
+            <div id="task-bar">
+                <div class="task-button clickable" open="app-market">
+                    <img src="/icons/download.svg" style="margin: 10px;"></img>
+                </div>
+                <div class="task-button clickable" open="settings">
+                    <img src="/icons/settings.svg" style="margin: 10px;"></img>
+                </div>
+                <div class="task-button clickable" open="files">
+                    <img src="/icons/files.svg" style="margin: 10px 8px 10px 12px;"></img>
+                </div>
+            </div>
+        </div>
+        <div id="tabs"></div>
+        <script src="https://butterycode.com/static/js/1.1/utils.js"></script>
+        <script src="/sys.js"></script>
+        <script src="/time.js"></script>
+        <script src="/scale.js"></script>
+        <script src="/lib/clickable/script.js"></script>
     </body>
 </html>
