@@ -47,24 +47,40 @@
 }
 
 /* Menu bar date styles */
-#menubar-calendar {
+#menubar-right {
     position: absolute;
     bottom: 8px;
     right: 8px;
 
     height: 48px;
-    padding: 0px 10px;
+    padding: 0px 4px;
     backdrop-filter: blur(5px);
     background-color: rgba(26, 26, 26, 0.6);
     outline: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 12px;
+    
+    display: flex;
+    align-items: center;
+}
+
+#menubar-calendar {
     color: #ffffff;
     line-height: 16px;
-
+    padding: 4px;
+    border-radius: 8px;
+    
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
+
+#menubar-calendar:hover {
+    background-color: rgba(64, 64, 64, 0.3);
+}
+#menubar-calendar:active {
+    background-color: rgba(64, 64, 64, 0.6);
+}
+
 #menubar-calendar .time {
     font-size: 14px;
 }
