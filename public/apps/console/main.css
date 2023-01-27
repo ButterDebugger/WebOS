@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap');
+@import url('https://butterycode.com/static/css/simple.css');
+
+:root {
+    --background-color: #2D2D2D;
+    --text-color: #FFFFFF;
+
+    --primary-color: #d728fa;
+
+    --button-color: #505050;
+    --slot-color: #303030;
+    --slot-border-color: #3D3D3D;
+}
+
+html, body {
+    margin: 0px;
+    height: 100vh;
+    overflow: hidden;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+}
+
+#wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transform-origin: top left;
+    
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 42px;
+}
+#wrapper.blur {
+    filter: blur(8px);
+}
+
+#info-bar, #task-bar {
+    height: 80px;
+    max-height: 80px;
+    margin: 0px 32px;
+
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+#info-bar {
+    margin-top: 22px;
+}
+#task-bar {
+    margin-bottom: 22px;
+}
+#apps-bar {
+    margin: 0px 32px;
+
+    display: grid;
+    justify-content: center;
+    gap: 20px;
+    grid-template-columns: repeat(8, auto);
+}
+#task-bar {
+    justify-content: center;
+    gap: 10px;
+}
+
+.flex-spacer {
+    flex: 1;
+}
+
+.app-box {
+    background-color: var(--slot-color);
+    border: var(--slot-border-color) 2px solid;
+    width: 150px;
+    height: 150px;
+    box-shadow: rgb(0 0 0 / 20%) 0px 0px 4px 2px;
+}
+
+.task-button {
+    background-color: var(--button-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}

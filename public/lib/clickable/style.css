@@ -1,3 +1,7 @@
+:root {
+    --highlight-color: #38afff;
+}
+
 .clickable {
     cursor: pointer;
 }

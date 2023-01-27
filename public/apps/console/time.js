@@ -21,7 +21,7 @@ setInterval(() => {
     updateTime();
 }, 100);
 
-window.webos.time = {
+window.webapp.time = {
     elements: {
         time: timeEle,
         clock: clock,
