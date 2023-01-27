@@ -1,7 +1,10 @@
-/* Taskbar styles */
+/* 
+ * Taskbar styles
+ */
 #taskbar {
     display: flex;
     align-items: center;
+    gap: 4px;
 
     position: absolute;
     bottom: 8px;
@@ -46,8 +49,14 @@
     scale: 0.85;
 }
 
-/* Menu bar date styles */
-#menubar-right {
+/*
+ * Menu bar styles
+ */
+#side-menubar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
     position: absolute;
     bottom: 8px;
     right: 8px;
@@ -58,9 +67,6 @@
     background-color: rgba(26, 26, 26, 0.6);
     outline: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 12px;
-    
-    display: flex;
-    align-items: center;
 }
 
 #menubar-calendar {
