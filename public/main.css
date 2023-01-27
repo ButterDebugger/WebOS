@@ -1,0 +1,47 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    height: 100%;
+    overflow: hidden;
+    text-size-adjust: none;
+    background-color: black;
+}
+
+*, ::before, ::after {
+    box-sizing: border-box;
+    font-variant-numeric: tabular-nums;
+    text-rendering: optimizelegibility;
+    user-select: none;
+}
+
+/* Other styles */
+.crisp {
+	image-rendering: -moz-crisp-edges;
+	image-rendering: -webkit-crisp-edges;
+	image-rendering: pixelated;
+	image-rendering: crisp-edges;
+}
+.no-select {
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Old versions of Firefox */
+	-ms-user-select: none; /* Internet Explorer / Edge */
+	-o-user-select: none;
+	user-select: none; /* Non-prefixed version */
+}
+.no-drag {
+	-webkit-user-drag: none; /* Safari */
+	-khtml-user-drag: none; /* Konqueror HTML */
+	-moz-user-drag: none; /* Old versions of Firefox */
+	-o-user-drag: none;
+	-ms-user-drag: none; /* Internet Explorer / Edge */
+	user-drag: none; /* Non-prefixed version */
+}
+.hidden {
+	visibility: hidden !important;
+	display: none;
+}

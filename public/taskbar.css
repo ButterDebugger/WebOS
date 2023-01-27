@@ -1,0 +1,73 @@
+/* Taskbar styles */
+#taskbar {
+    display: flex;
+    align-items: center;
+
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    max-width: calc(100vw - 16px);
+    height: 48px;
+
+    padding: 0px 4px;
+    backdrop-filter: blur(5px);
+    background-color: rgba(26, 26, 26, 0.6);
+    outline: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+}
+
+.taskbar-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: background-color 0.2s ease-in-out;
+    border: none;
+    border-radius: 8px;
+    background-color: transparent;
+    width: 40px;
+    height: 40px;
+}
+.taskbar-item:hover {
+    background-color: rgba(64, 64, 64, 0.3);
+}
+.taskbar-item:active {
+    background-color: rgba(64, 64, 64, 0.6);
+}
+
+.taskbar-icon {
+    width: 28px;
+    height: 28px;
+    transition: scale 0.1s ease-in-out;
+}
+.taskbar-item:active > .taskbar-icon {
+    scale: 0.85;
+}
+
+/* Menu bar date styles */
+#menubar-calendar {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+
+    height: 48px;
+    padding: 0px 10px;
+    backdrop-filter: blur(5px);
+    background-color: rgba(26, 26, 26, 0.6);
+    outline: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    color: #ffffff;
+    line-height: 16px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+#menubar-calendar .time {
+    font-size: 14px;
+}
+#menubar-calendar .date {
+    font-size: 12px;
+}

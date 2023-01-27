@@ -3,59 +3,31 @@
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>WebOS</title>
+        <link rel="stylesheet" href="https://butterycode.com/static/css/simple.css">
         <link rel="stylesheet" href="/main.css">
+        <link rel="stylesheet" href="/taskbar.css">
         <link rel="stylesheet" href="/boot.css">
     </head>
-    <body>
-        <div id="wrapper" class="no-select">
-            <div id="info-bar">
-                <div class="flex-spacer"></div>
-                <div id="time" class="no-select">
-                    <span name="clock"></span>
-                    <span name="post"></span>
-                </div>
-            </div>
-            <div id="apps-bar">
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-            </div>
-            <div id="task-bar">
-                <div class="task-button clickable" open="app-market">
-                    <img src="/icons/download.svg" style="margin: 10px;"></img>
-                </div>
-                <div class="task-button clickable" open="settings">
-                    <img src="/icons/settings.svg" style="margin: 10px;"></img>
-                </div>
-                <div class="task-button clickable" open="files">
-                    <img src="/icons/files.svg" style="margin: 10px 8px 10px 12px;"></img>
+    <body class="zero-margin">
+        <div id="boot-screen"></div>
+        <div id="screen">
+            <main id="content"></main>
+            <div id="menubar">
+                <nav id="taskbar">
+                    <button id="taskbar-start" class="taskbar-item">
+                        <img class="taskbar-icon crisp no-drag" src="/assets/start-btn.png">
+                    </button>
+                </nav>
+                <div id="menubar-calendar">
+                    <span class="time">time</span>
+                    <span class="date">date</span>
                 </div>
             </div>
         </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/platform/1.3.6/platform.min.js"></script>
         <script type="text/javascript" src="./boot.js"></script>
-        <script defer type="module" src="./main.js"></script>
+        <script defer type="module" src="./sys.js"></script>
     </body>
 </html>
