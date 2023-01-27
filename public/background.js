@@ -1,5 +1,3 @@
-import { runAnimation } from "https://butterycode.com/static/js/1.2/utils.js";
-
 const canvas = document.getElementById("background");
 const ctx = canvas.getContext("2d");
 
