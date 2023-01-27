@@ -1,6 +1,8 @@
 import "/time.js";
-import "/scale.js";
+import { screenScaler } from "/scale.js";
 import "/lib/clickable/script.js";
+
+screenScaler(document.getElementById("wrapper"));
 
 const FileSystem = () => {
 
