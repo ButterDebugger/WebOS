@@ -7,33 +7,12 @@
         <title>WebOS</title>
         <link rel="stylesheet" href="/main.css">
         <link rel="stylesheet" href="/lib/clickable/style.css">
+        <link rel="stylesheet" href="/boot.css">
         <style>
             :root {
                 --button-color: #505050;
                 --slot-color: #303030;
                 --slot-border-color: #3D3D3D;
-            }
-
-            #boot-screen {
-                position: absolute;
-                top: 0px;
-                left: 0px;
-                width: 100vw;
-                height: 100vh;
-                z-index: 10000;
-                background-color: black;
-                font-family: 'Courier New', Courier, monospace;
-                font-size: 12px;
-	            color: yellow;
-                padding: 4px;
-
-                display: flex;
-                flex-direction: column;
-                gap: 2px;
-            }
-            #boot-screen.fade-out {
-                transition: opacity 500ms ease-out;
-                opacity: 0;
             }
 
             #wrapper {
