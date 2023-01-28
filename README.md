@@ -1,5 +1,5 @@
 # WebOS
-Webpage operating system
+Web-based operating system
 
 ### Todo:
  - Everything
