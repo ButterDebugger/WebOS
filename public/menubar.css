@@ -34,10 +34,10 @@
     height: 40px;
 }
 .taskbar-item:hover {
-    background-color: rgba(64, 64, 64, 0.3);
+    background-color: rgba(192, 192, 192, 0.1);
 }
 .taskbar-item:active {
-    background-color: rgba(64, 64, 64, 0.6);
+    background-color: rgba(192, 192, 192, 0.2);
 }
 
 .taskbar-icon {
@@ -74,6 +74,7 @@
     line-height: 16px;
     padding: 4px;
     border-radius: 8px;
+    transition: background-color 0.2s ease-in-out;
     
     display: flex;
     flex-direction: column;
@@ -81,10 +82,10 @@
 }
 
 #menubar-calendar:hover {
-    background-color: rgba(64, 64, 64, 0.3);
+    background-color: rgba(192, 192, 192, 0.1);
 }
 #menubar-calendar:active {
-    background-color: rgba(64, 64, 64, 0.6);
+    background-color: rgba(192, 192, 192, 0.2);
 }
 
 #menubar-calendar .time {
