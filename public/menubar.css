@@ -11,9 +11,7 @@
     left: 50%;
     transform: translateX(-50%);
 
-    max-width: calc(100vw - 16px);
     height: 48px;
-
     padding: 0px 4px;
     backdrop-filter: blur(5px);
     background-color: rgba(26, 26, 26, 0.6);
