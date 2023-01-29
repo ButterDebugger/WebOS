@@ -10,6 +10,16 @@ export function addDesktopIcon(src, x = 9, y = 9) {
     return item;
 }
 
+function resetDrag() {
+    if (dragHandler != null) {
+        window.removeEventListener("mousemove", dragHandler);
+
+        for (let item of document.querySelectorAll(".desktop-item.moving")) {
+            item.classList.remove("moving");
+        }
+    }
+}
+
 let dragHandler = null;
 
 window.addEventListener("mousedown", ({ target }) => {
@@ -21,6 +31,8 @@ window.addEventListener("mousedown", ({ target }) => {
         y: window.keys["MouseY"] - bounds.y
     }
 
+    resetDrag();
+
     dragHandler = function() {
         if (!target.classList.contains("moving")) target.classList.add("moving");
 
@@ -31,12 +43,4 @@ window.addEventListener("mousedown", ({ target }) => {
     window.addEventListener("mousemove", dragHandler);
 });
 
-window.addEventListener("mouseup", () => {
-    if (dragHandler != null) {
-        window.removeEventListener("mousemove", dragHandler);
-
-        for (let item of document.querySelectorAll(".desktop-item.moving")) {
-            item.classList.remove("moving");
-        }
-    }
-});
+window.addEventListener("mouseup", resetDrag);
