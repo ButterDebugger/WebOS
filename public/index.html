@@ -15,17 +15,15 @@
         <div id="screen">
             <canvas id="background" class="full-page"></canvas>
             <div id="desktop-content"></div>
-            <div id="menubar">
-                <nav id="taskbar">
-                    <button id="taskbar-start" class="taskbar-item">
-                        <img class="taskbar-icon crisp no-drag" src="/assets/start-btn.png">
-                    </button>
-                </nav>
-                <div id="side-menubar">
-                    <div id="menubar-calendar">
-                        <span class="time">time</span>
-                        <span class="date">date</span>
-                    </div>
+            <div id="taskbar" class="gray-container">
+                <button id="taskbar-start" class="taskbar-item gray-button">
+                    <img class="taskbar-icon crisp no-drag" src="/assets/start-btn.png">
+                    <span>Start</span>
+                </button>
+                <div id="taskbar-dock"></div>
+                <div id="taskbar-notif" class="gray-inset">
+                    <span class="time">time</span>
+                    <span class="date">date</span>
                 </div>
             </div>
         </div>

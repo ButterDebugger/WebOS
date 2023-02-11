@@ -3,7 +3,7 @@ const desktopContent = document.getElementById("desktop-content");
 export function addDesktopIcon(src, x = 9, y = 9) {
     let item = document.createElement("img");
     item.src = src;
-    item.classList.add("desktop-item", "no-drag");
+    item.classList.add("desktop-item", "no-drag", "crisp");
     item.style.left = `${x}px`;
     item.style.top = `${y}px`;
     desktopContent.appendChild(item);
