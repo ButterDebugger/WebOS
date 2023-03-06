@@ -1,9 +1,4 @@
-const webos = window.webos = {
-    loaded: false,
-    assets: new Map()
-};
-
-(() => {
+void (function() {
     const bootScreen = document.getElementById("boot-screen");
 
     const addBootText = (msg = null) => {
@@ -38,8 +33,6 @@ const webos = window.webos = {
 
     window.addEventListener("load", () => {
         addBootText("Resources ... loaded");
-
-        window.webos.loaded = true;
 
         setTimeout(() => {
             bootScreen.classList.add("fade-out");

@@ -8,4 +8,5 @@ function updateDates() {
 }
 
 updateDates();
-webos.timeInterval = setInterval(updateDates, 100);
+
+export const timeInterval = setInterval(updateDates, 100);

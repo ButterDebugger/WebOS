@@ -1,14 +1,17 @@
-import { initElementScaler } from "https://butterycode.com/static/js/1.2/utils.js";
-import "https://butterycode.com/static/js/keys.js";
-import "/calendar.js";
-import "/background.js";
-import { addDesktopIcon } from "/desktop.js";
+import { timeInterval } from "./calendar.js";
+import "./background.js";
+import { addDesktopIcon } from "./desktop.js";
 
-initElementScaler();
+let system = {};
 
-let startIcon = addDesktopIcon("/assets/start-btn.png");
+let startIcon = addDesktopIcon("./assets/start-btn.png");
 startIcon.addEventListener("dblclick", () => {
     alert("whoa");
 });
 
-console.log(webos);
+system.timeInterval = timeInterval;
+system.addDesktopIcon = addDesktopIcon;
+
+console.log(system);
+
+export default system;
