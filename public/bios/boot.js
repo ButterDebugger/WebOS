@@ -1,18 +1,7 @@
-void (function() {
+void function() {
     const bootScreen = document.getElementById("boot-screen");
 
-    const addBootText = (msg = null) => {
-        if (typeof msg == "string" && msg.length > 0) {
-            let line = document.createElement("span");
-            line.innerText = msg;
-            bootScreen.appendChild(line);
-        } else {
-            let line = document.createElement("br");
-            bootScreen.appendChild(line);
-        }
-    }
-
-    addBootText(platform.ua)
+    addBootText(platform.ua);
     addBootText(new Date().toUTCString());
     addBootText();
     addBootText("href: " + document.location.href);
@@ -42,4 +31,15 @@ void (function() {
             }, 500);
         }, 250);
     });
-})();
+    
+    function addBootText(msg = null) {
+        if (typeof msg == "string" && msg.length > 0) {
+            let line = document.createElement("span");
+            line.innerText = msg;
+            bootScreen.appendChild(line);
+        } else {
+            let line = document.createElement("br");
+            bootScreen.appendChild(line);
+        }
+    }
+}();
