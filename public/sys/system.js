@@ -1,7 +1,7 @@
 import { timeInterval } from "../calendar.js";
 import "../background.js";
 import { addDesktopIcon } from "../desktop.js";
-// import fs from "./fs.js";
+import * as fs from "./fs.js";
 
 let system = {};
 
@@ -12,7 +12,7 @@ startIcon.addEventListener("dblclick", () => {
 
 system.timeInterval = timeInterval;
 system.addDesktopIcon = addDesktopIcon;
-// system.fs = fs;
+system.fs = fs;
 
 console.log(system);
 
