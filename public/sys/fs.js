@@ -3,7 +3,7 @@ import * as JSBin from "https://butterycode.com/static/js/jsbin.js";
 
 export async function set(key, value, encode = true) {
     // Try encoding the value
-    if (encode && !(value instanceof Blob)) {
+    if (encode) {
         try {
             value = await JSBin.encode(value);
         } catch (err) {}
