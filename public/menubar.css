@@ -51,10 +51,6 @@
     margin-bottom: 1px;
 }
 
-#taskbar-dock {
-    flex: 1;
-}
-
 .taskbar-item {
     display: flex;
     align-items: center;
