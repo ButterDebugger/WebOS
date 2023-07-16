@@ -1,7 +1,9 @@
 void function() {
     const bootScreen = document.getElementById("boot-screen");
 
-    addBootText(platform.ua);
+    let checks = 0;
+
+    addBootText(navigator.userAgent);
     addBootText(new Date().toUTCString());
     addBootText();
     addBootText("href: " + document.location.href);
@@ -18,20 +20,18 @@ void function() {
 
     window.addEventListener("DOMContentLoaded", () => {
         addBootText("Document ... loaded");
-    });
+        passCheck();
+    }, { once: true });
 
-    window.addEventListener("load", () => {
+    window.addEventListener("load", async () => {
         addBootText("Resources ... loaded");
+        passCheck();
 
-        setTimeout(() => {
-            bootScreen.classList.add("fade-out");
+        await import("../sys/system.js");
+        addBootText("System ... loaded");
+        passCheck();
+    }, { once: true });
 
-            setTimeout(() => {
-                bootScreen.remove();
-            }, 500);
-        }, 250);
-    });
-    
     function addBootText(msg = null) {
         if (typeof msg == "string" && msg.length > 0) {
             let line = document.createElement("span");
@@ -41,5 +41,19 @@ void function() {
             let line = document.createElement("br");
             bootScreen.appendChild(line);
         }
+    }
+
+    function passCheck() {
+        checks++;
+
+        if (checks < 3) return;
+
+        setTimeout(() => {
+            bootScreen.classList.add("fade-out");
+
+            setTimeout(() => {
+                bootScreen.remove();
+            }, 500);
+        }, 250);
     }
 }();
