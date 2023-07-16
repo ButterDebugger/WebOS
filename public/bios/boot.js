@@ -4,7 +4,7 @@ void function() {
     let checks = 0;
 
     addBootText(navigator.userAgent);
-    addBootText(new Date().toUTCString());
+    addBootText(new Date().toString());
     addBootText();
     addBootText("href: " + document.location.href);
     addBootText("origin: " + document.location.origin);
