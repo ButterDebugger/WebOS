@@ -1,4 +1,4 @@
-import { initElementScaler } from "https://butterycode.com/static/js/utils.js@1.2";
+import { initElementScaler } from "https://debutter.dev/x/js/utils.js@1.2";
 
 const canvas = document.getElementById("background");
 const ctx = canvas.getContext("2d");

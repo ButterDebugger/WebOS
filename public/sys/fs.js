@@ -1,5 +1,5 @@
 import localforage from "https://cdn.jsdelivr.net/npm/localforage@1.10.0/+esm";
-import * as JSBin from "https://butterycode.com/static/js/jsbin.js";
+import * as JSBin from "https://debutter.dev/x/js/jsbin.js";
 
 export async function set(key, value, encode = true) {
     // Try encoding the value

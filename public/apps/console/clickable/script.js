@@ -1,4 +1,4 @@
-import { isChildOf } from "https://butterycode.com/static/js/utils.js@1.2";
+import { isChildOf } from "https://debutter.dev/x/js/utils.js@1.2";
 
 const clickables = document.querySelectorAll(".clickable");
 
