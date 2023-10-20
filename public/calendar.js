@@ -1,4 +1,4 @@
-import moment from 'https://cdn.jsdelivr.net/npm/moment@2.29.4/+esm'
+import moment from "https://cdn.jsdelivr.net/npm/moment@2.29.4/+esm";
 
 const calendarContainer = document.getElementById("taskbar-notif");
 const timeEle = calendarContainer.querySelector(".time");

@@ -1,13 +1,16 @@
-import { dom, domParser } from "https://debutter.dev/x/js/utils.js@1.2";
+import { domParser } from "https://debutter.dev/x/js/utils.js@1.2";
+import { addTaskbarItem } from "./taskbar.js";
 
 export default class Window {
-    constructor() {
-        this.ele = createWindowComponent(this);
+    constructor(frameSrc) {
+        this.ele = createWindowComponent(this, frameSrc);
+        this.taskbarItem = addTaskbarItem();
         document.body.appendChild(this.ele);
     }
 
     set icon(src) {
         this.ele.querySelector(".app-icon").src = src;
+        this.taskbarItem.querySelector(".taskbar-icon").src = src;
     }
     get icon() {
         return this.ele.querySelector(".app-icon").src;
@@ -15,6 +18,7 @@ export default class Window {
 
     set title(text) {
         this.ele.querySelector(".title").innerText = text;
+        this.taskbarItem.querySelector(".taskbar-title").innerText = text;
     }
     get title() {
         return this.ele.querySelector(".title").innerText;
@@ -24,10 +28,11 @@ export default class Window {
     maximize() {}
     close() {
         this.ele.remove();
+        this.taskbarItem.remove();
     }
 }
 
-function createWindowComponent(win) {
+function createWindowComponent(win, frameSrc) {
     let ele = domParser(`
         <div class="window gray-container moveable">
             <div class="title-bar">
@@ -35,9 +40,7 @@ function createWindowComponent(win) {
                 <span class="title">Untitled Window</span>
                 <div class="flex-spacer"></div>
             </div>
-            <div class="frame">
-                <iframe class="frame" src="https://info.cern.ch/"></iframe>
-            </div>
+            <iframe class="frame" src="${frameSrc}"></iframe>
         </div>
     `);
 

@@ -27,7 +27,7 @@ void function() {
         addBootText("Resources ... loaded");
         passCheck();
 
-        await import("../sys/system.js");
+        await import("/sys/system.js");
         addBootText("System ... loaded");
         passCheck();
     }, { once: true });

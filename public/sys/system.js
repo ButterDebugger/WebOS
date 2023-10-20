@@ -8,7 +8,7 @@ let system = {};
 
 let startIcon = addDesktopIcon("./assets/start-btn.png");
 startIcon.addEventListener("dblclick", () => {
-    let window = new Window();
+    let window = new Window("https://info.cern.ch/");
     window.title = "My Computer";
 });
 
