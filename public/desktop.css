@@ -3,10 +3,7 @@
     cursor: pointer;
     width: 32px;
     height: 32px;
-	transition: filter 0.1s ease-in-out;
 }
-
 .desktop-item.moving {
-    cursor: grabbing;
-	filter: drop-shadow(rgba(0, 0, 0, 0.5) 3px 3px 0px);
+    z-index: 10000;
 }

@@ -1,0 +1,19 @@
+.window {
+    display: flex;
+    flex-direction: column;
+    
+    position: absolute;
+}
+.window > .title-bar {
+    display: flex;
+    gap: 4px;
+
+    padding: 4px;
+}
+.window > .title-bar > .app-icon {
+    width: 16px;
+    height: 16px;
+}
+.window > .frame {
+
+}

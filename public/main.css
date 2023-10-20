@@ -20,7 +20,18 @@ body {
 }
 
 /* Generic styles */
-
 .flex-spacer {
     flex: 1;
+}
+
+/* Moving content styles */
+.moveable {
+	transition: filter 0.1s ease-in-out;
+}
+.moving {
+    cursor: grabbing;
+	filter: drop-shadow(rgba(0, 0, 0, 0.5) 3px 3px 0px);
+}
+.fix-drag {
+    pointer-events: none;
 }
