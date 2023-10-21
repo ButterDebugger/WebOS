@@ -29,7 +29,7 @@ body {
 	transition: filter 0.1s ease-in-out;
 }
 .moving {
-    cursor: grabbing;
+    cursor: grabbing !important;
 	filter: drop-shadow(rgba(0, 0, 0, 0.5) 3px 3px 0px);
 }
 .fix-drag {

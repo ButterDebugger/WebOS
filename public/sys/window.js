@@ -47,8 +47,6 @@ function createWindowComponent(win, frameSrc) {
     let titleBar = ele.querySelector(".title-bar");
 
     titleBar.addEventListener("mousedown", () => {
-        win.ele.classList.add("moving");
-
         let bounds = win.ele.getBoundingClientRect();
         let offset = {
             x: window.keys["MouseX"] - bounds.x,
@@ -56,6 +54,8 @@ function createWindowComponent(win, frameSrc) {
         }
 
         const dragHandler = function() {
+            if (!win.ele.classList.contains("moving")) win.ele.classList.add("moving");
+
             win.ele.style.left = `${Math.max(0, Math.min(window.innerWidth - bounds.width, window.keys["MouseX"] - offset.x))}px`;
             win.ele.style.top = `${Math.max(0, Math.min(window.innerHeight - bounds.height, window.keys["MouseY"] - offset.y))}px`;
         }
@@ -64,9 +64,9 @@ function createWindowComponent(win, frameSrc) {
         window.addEventListener("mousemove", dragHandler);
         
         window.addEventListener("mouseup", () => {
+            window.removeEventListener("mousemove", dragHandler);
             win.ele.classList.remove("moving");
             document.querySelectorAll("iframe").forEach(ele => ele.classList.remove("fix-drag"));
-            window.removeEventListener("mousemove", dragHandler);
         }, {
             once: true
         });

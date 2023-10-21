@@ -9,8 +9,6 @@ export function addDesktopIcon(src, x = 9, y = 9) {
 
     // Add drag handler
     item.addEventListener("mousedown", () => {
-        item.classList.add("moving");
-
         let bounds = item.getBoundingClientRect();
         let offset = {
             x: window.keys["MouseX"] - bounds.x,
@@ -18,6 +16,8 @@ export function addDesktopIcon(src, x = 9, y = 9) {
         }
 
         const dragHandler = function() {
+            if (!item.classList.contains("moving")) item.classList.add("moving");
+
             item.style.left = `${Math.max(0, Math.min(window.innerWidth - bounds.width, window.keys["MouseX"] - offset.x))}px`;
             item.style.top = `${Math.max(0, Math.min(window.innerHeight - bounds.height, window.keys["MouseY"] - offset.y))}px`;
         }
@@ -26,9 +26,9 @@ export function addDesktopIcon(src, x = 9, y = 9) {
         window.addEventListener("mousemove", dragHandler);
         
         window.addEventListener("mouseup", () => {
+            window.removeEventListener("mousemove", dragHandler);
             item.classList.remove("moving");
             document.querySelectorAll("iframe").forEach(ele => ele.classList.remove("fix-drag"));
-            window.removeEventListener("mousemove", dragHandler);
         }, {
             once: true
         });
