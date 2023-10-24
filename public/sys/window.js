@@ -53,6 +53,8 @@ function createWindowComponent(win, frameSrc) {
         </div>
     `);
 
+    ele.style.zIndex = system.zIndex;
+
     let titleBar = ele.querySelector(".title-bar");
 
     titleBar.addEventListener("mousedown", () => {
