@@ -12,6 +12,16 @@ startIcon.addEventListener("dblclick", () => {
     window.title = "My Computer";
 });
 
+let highestZ = 100;
+
+Object.defineProperty(system, "zIndex", {
+    configurable: true,
+    enumerable: true,
+    get: function() {
+        return highestZ++;
+    }
+});
+
 system.timeInterval = timeInterval;
 system.addDesktopIcon = addDesktopIcon;
 system.fs = fs;

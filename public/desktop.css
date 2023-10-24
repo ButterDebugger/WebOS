@@ -5,5 +5,5 @@
     height: 32px;
 }
 .desktop-item.moving {
-    z-index: 10000;
+    z-index: 1000002; /* Absurdly high number */
 }

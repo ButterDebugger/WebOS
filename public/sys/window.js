@@ -1,10 +1,19 @@
 import { domParser } from "https://debutter.dev/x/js/utils.js@1.2";
 import { addTaskbarItem } from "./taskbar.js";
+import system from "./system.js";
 
 export default class Window {
     constructor(frameSrc) {
         this.ele = createWindowComponent(this, frameSrc);
+
         this.taskbarItem = addTaskbarItem();
+        this.taskbarItem.addEventListener("click", () => {
+            this.ele.style.zIndex = system.zIndex;
+        });
+        this.ele.addEventListener("mousedown", () => {
+            this.ele.style.zIndex = system.zIndex;
+        });
+
         document.body.appendChild(this.ele);
     }
 

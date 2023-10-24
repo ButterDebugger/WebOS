@@ -12,6 +12,7 @@
     height: 30px;
     padding: 2px;
     margin: 0px;
+    z-index: 1000000; /* Absurdly high number */
 }
 
 .gray-container {
