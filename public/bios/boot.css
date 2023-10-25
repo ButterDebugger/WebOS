@@ -4,7 +4,7 @@
     left: 0px;
     width: 100vw;
     height: 100vh;
-    z-index: 10000;
+    z-index: 1000004; /* Absurdly high number */
     background-color: black;
     font-family: 'Courier New', Courier, monospace;
     font-size: 12px;

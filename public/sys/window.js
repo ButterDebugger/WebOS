@@ -55,6 +55,16 @@ function createWindowComponent(win, frameSrc) {
 
     ele.style.zIndex = system.zIndex;
 
+    // Add iframe focus event handlers
+    let blurFocus = false;
+    ele.addEventListener("mouseover", () => blurFocus = true);
+    ele.addEventListener("mouseout", () => blurFocus = false);
+    window.addEventListener("blur", () => {
+        if (blurFocus) ele.style.zIndex = system.zIndex;
+        setTimeout(() => window.focus(), 0);
+    });
+
+    // Add window drag event handlers
     let titleBar = ele.querySelector(".title-bar");
 
     titleBar.addEventListener("mousedown", () => {
