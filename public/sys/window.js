@@ -45,9 +45,9 @@ function createWindowComponent(win, frameSrc) {
     let ele = domParser(`
         <div class="window gray-container moveable">
             <div class="title-bar">
-                <img class="app-icon crisp no-drag no-select" src="/assets/icons/broken-image.png">
-                <span class="title">Untitled Window</span>
-                <div class="flex-spacer"></div>
+                <img data-grabbable class="app-icon crisp no-drag no-select" src="/assets/icons/broken-image.png">
+                <span data-grabbable class="title">Untitled Window</span>
+                <div data-grabbable class="flex-spacer"></div>
             </div>
             <iframe class="frame" src="${frameSrc}"></iframe>
         </div>
@@ -67,7 +67,9 @@ function createWindowComponent(win, frameSrc) {
     // Add window drag event handlers
     let titleBar = ele.querySelector(".title-bar");
 
-    titleBar.addEventListener("mousedown", () => {
+    titleBar.addEventListener("mousedown", ({ target }) => {
+        if (!target.hasAttribute("data-grabbable")) return;
+
         let bounds = win.ele.getBoundingClientRect();
         let offset = {
             x: window.keys["MouseX"] - bounds.x,
