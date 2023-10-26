@@ -5,16 +5,23 @@ import system from "./system.js";
 export default class Window {
     constructor(frameSrc) {
         this.ele = createWindowComponent(this, frameSrc);
+        this.ele.window = this;
 
         this.taskbarItem = addTaskbarItem();
         this.taskbarItem.addEventListener("click", () => {
-            this.ele.style.zIndex = system.zIndex;
-        });
-        this.ele.addEventListener("mousedown", () => {
-            this.ele.style.zIndex = system.zIndex;
-        });
+            if (this.isMinimized()) this.minimize();
 
-        document.body.appendChild(this.ele);
+            this.focusHandler();
+        });
+        this.taskbarItem.window = this;
+
+        this.ele.addEventListener("mousedown", () => this.focusHandler());
+        this.focusHandler();
+        window.addEventListener("click", ({ target }) => {
+            if (!this.ele.contains(target) && !this.taskbarItem.contains(target)) {
+                this.unfocusHandler();
+            }
+        });
     }
 
     set icon(src) {
@@ -33,8 +40,35 @@ export default class Window {
         return this.ele.querySelector(".title").innerText;
     }
 
-    minimize() {}
-    maximize() {}
+    focusHandler() {
+        this.ele.style.zIndex = system.zIndex;
+        this.ele.classList.remove("unfocused");
+        this.taskbarItem.classList.add("active");
+        document.querySelectorAll(".window").forEach(win => {
+            if (win !== this.ele) win.window.unfocusHandler();
+        });
+    }
+    unfocusHandler() {
+        this.ele.classList.add("unfocused");
+        this.taskbarItem.classList.remove("active");
+    }
+
+    isMinimized() {
+        return this.ele.classList.contains("minimized");
+    }
+    minimize() {
+        this.ele.classList.remove("maximized");
+        this.ele.classList.toggle("minimized");
+    }
+
+    isMaximized() {
+        return this.ele.classList.contains("maximized");
+    }
+    maximize() {
+        this.ele.classList.remove("minimized");
+        this.ele.classList.toggle("maximized");
+    }
+
     close() {
         this.ele.remove();
         this.taskbarItem.remove();
@@ -45,22 +79,20 @@ function createWindowComponent(win, frameSrc) {
     let ele = domParser(`
         <div class="window gray-container moveable">
             <div class="title-bar">
-                <img data-grabbable class="app-icon crisp no-drag no-select" src="/assets/icons/broken-image.png">
-                <span data-grabbable class="title">Untitled Window</span>
-                <div data-grabbable class="flex-spacer"></div>
+                <img class="app-icon crisp no-drag no-select" src="/assets/icons/broken-image.png">
+                <span class="title">Untitled Window</span>
+                <div class="flex-spacer"></div>
             </div>
-            <iframe class="frame" src="${frameSrc}"></iframe>
+            <iframe class="frame gray-inset" src="${frameSrc}"></iframe>
         </div>
     `);
-
-    ele.style.zIndex = system.zIndex;
 
     // Add iframe focus event handlers
     let blurFocus = false;
     ele.addEventListener("mouseover", () => blurFocus = true);
     ele.addEventListener("mouseout", () => blurFocus = false);
     window.addEventListener("blur", () => {
-        if (blurFocus) ele.style.zIndex = system.zIndex;
+        if (blurFocus) win.focusHandler();
         setTimeout(() => window.focus(), 0);
     });
 
@@ -68,7 +100,11 @@ function createWindowComponent(win, frameSrc) {
     let titleBar = ele.querySelector(".title-bar");
 
     titleBar.addEventListener("mousedown", ({ target }) => {
-        if (!target.hasAttribute("data-grabbable")) return;
+        if (target.hasAttribute("data-ungrabbable")) return;
+
+        // if (win.isMaximized()) {
+        //     win.maximize();
+        // }
 
         let bounds = win.ele.getBoundingClientRect();
         let offset = {
@@ -97,24 +133,25 @@ function createWindowComponent(win, frameSrc) {
 
     // Minimize button
     let minimizeBtn = domParser(`
-        <button class="gray-button">-</button>
+        <button data-ungrabbable class="gray-button">-</button>
     `);
     minimizeBtn.addEventListener("click", () => win.minimize());
     titleBar.appendChild(minimizeBtn);
 
     // Maximize button
     let maximizeBtn = domParser(`
-        <button class="gray-button">#</button>
+        <button data-ungrabbable class="gray-button">#</button>
     `);
     maximizeBtn.addEventListener("click", () => win.maximize());
     titleBar.appendChild(maximizeBtn);
 
     // Close button
     let closeBtn = domParser(`
-        <button class="gray-button">x</button>
+        <button data-ungrabbable class="gray-button">x</button>
     `);
     closeBtn.addEventListener("click", () => win.close());
     titleBar.appendChild(closeBtn);
 
+    document.body.appendChild(ele);
     return ele;
 }
