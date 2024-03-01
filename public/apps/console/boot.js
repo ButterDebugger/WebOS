@@ -1,0 +1,1 @@
+const webapp = window.webapp = {};

@@ -3,14 +3,8 @@ const path = require("path");
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use((req, res, next) => {
-    // Block forbidden files
-    if (req.url.startsWith("/sys/old")) {
-        res.status(403);
-        return;
-    }
-
-    next();
+app.get("/favicon.ico", (req, res) => {
+    res.sendFile(path.join(__dirname, "public/assets/favicon.ico"));
 });
 
 app.get("/sys/license", (req, res) => {

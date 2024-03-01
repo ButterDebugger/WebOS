@@ -1,0 +1,31 @@
+.window {
+    display: flex;
+    flex-direction: column;
+    
+    position: absolute;
+}
+.window > .title-bar {
+    display: flex;
+    gap: 4px;
+
+    padding: 4px;
+}
+.window.unfocused > .title-bar {
+    background-color: #808080;
+}
+.window > .title-bar > .app-icon {
+    width: 16px;
+    height: 16px;
+}
+.window > .frame {
+    height: 100%;
+}
+.window.minimized {
+    display: none;
+}
+.window.maximized {
+    top: 0px !important;
+    left: 0px !important;
+    right: 0px !important;
+    bottom: 30px !important; /* Pre calculated taskbar height */
+}

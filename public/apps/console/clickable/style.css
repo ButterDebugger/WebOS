@@ -1,0 +1,30 @@
+:root {
+    --highlight-color: #38afff;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.clickable.active-click {
+    transition: outline 0.05s ease-out;
+    outline-offset: 2px;
+    outline: 4px solid var(--highlight-color);
+}
+
+/* .clickable:active::before {
+    content: '';
+    position: absolute;
+    background-color: var(--highlight-color);
+    width: inherit;
+    height: inherit;
+    border-radius: inherit;
+    opacity: 0.2;
+} */
+
+/* .clickable.highlight-click {
+    color: var(--highlight-color);
+    font-size: 0.8em;
+    position: absolute;
+    z-index: 1000;
+} */

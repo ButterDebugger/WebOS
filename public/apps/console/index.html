@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>Console</title>
+        <link rel="stylesheet" href="./main.css">
+        <link rel="stylesheet" href="./clickable/style.css">
+    </head>
+    <body>
+        <div id="wrapper" class="no-select">
+            <div id="info-bar">
+                <div class="flex-spacer"></div>
+                <div id="time" class="no-select">
+                    <span name="clock"></span>
+                    <span name="post"></span>
+                </div>
+            </div>
+            <div id="apps-bar">
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+                <div class="app-box clickable"></div>
+            </div>
+            <div id="task-bar">
+                <div class="task-button clickable" open="app-market">
+                    <img src="/assets/icons/download.svg" style="margin: 10px;"></img>
+                </div>
+                <div class="task-button clickable" open="settings">
+                    <img src="/assets/icons/settings.svg" style="margin: 10px;"></img>
+                </div>
+                <div class="task-button clickable" open="files">
+                    <img src="/assets/icons/files.svg" style="margin: 10px 8px 10px 12px;"></img>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="./boot.js"></script>
+        <script defer type="module" src="./main.js"></script>
+    </body>
+</html>

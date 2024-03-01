@@ -1,24 +1,10 @@
-const webos = window.webos = {
-    loaded: false,
-    assets: new Map()
-};
-
-(() => {
+void function() {
     const bootScreen = document.getElementById("boot-screen");
 
-    const addBootText = (msg = null) => {
-        if (typeof msg == "string" && msg.length > 0) {
-            let line = document.createElement("span");
-            line.innerText = msg;
-            bootScreen.appendChild(line);
-        } else {
-            let line = document.createElement("br");
-            bootScreen.appendChild(line);
-        }
-    }
+    let checks = 0;
 
-    addBootText(platform.ua)
-    addBootText(new Date().toUTCString());
+    addBootText(navigator.userAgent);
+    addBootText(new Date().toString());
     addBootText();
     addBootText("href: " + document.location.href);
     addBootText("origin: " + document.location.origin);
@@ -34,12 +20,33 @@ const webos = window.webos = {
 
     window.addEventListener("DOMContentLoaded", () => {
         addBootText("Document ... loaded");
-    });
+        passCheck();
+    }, { once: true });
 
-    window.addEventListener("load", () => {
+    window.addEventListener("load", async () => {
         addBootText("Resources ... loaded");
+        passCheck();
 
-        window.webos.loaded = true;
+        await import("/sys/system.js");
+        addBootText("System ... loaded");
+        passCheck();
+    }, { once: true });
+
+    function addBootText(msg = null) {
+        if (typeof msg == "string" && msg.length > 0) {
+            let line = document.createElement("span");
+            line.innerText = msg;
+            bootScreen.appendChild(line);
+        } else {
+            let line = document.createElement("br");
+            bootScreen.appendChild(line);
+        }
+    }
+
+    function passCheck() {
+        checks++;
+
+        if (checks < 3) return;
 
         setTimeout(() => {
             bootScreen.classList.add("fade-out");
@@ -48,5 +55,5 @@ const webos = window.webos = {
                 bootScreen.remove();
             }, 500);
         }, 250);
-    });
-})();
+    }
+}();

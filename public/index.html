@@ -3,151 +3,30 @@
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>WebOS</title>
-        <link rel="stylesheet" href="/main.css">
-        <link rel="stylesheet" href="/lib/clickable/style.css">
-        <style>
-            :root {
-                --button-color: #505050;
-                --slot-color: #303030;
-                --slot-border-color: #3D3D3D;
-            }
-
-            #boot-screen {
-                position: absolute;
-                top: 0px;
-                left: 0px;
-                width: 100vw;
-                height: 100vh;
-                z-index: 10000;
-                background-color: black;
-                font-family: 'Courier New', Courier, monospace;
-                font-size: 12px;
-	            color: yellow;
-                padding: 4px;
-
-                display: flex;
-                flex-direction: column;
-                gap: 2px;
-            }
-            #boot-screen.fade-out {
-                transition: opacity 500ms ease-out;
-                opacity: 0;
-            }
-
-            #wrapper {
-                display: flex;
-                flex-direction: column;
-                flex-wrap: nowrap;
-                gap: 42px;
-            }
-            #wrapper.blur {
-                filter: blur(8px);
-            }
-
-            #info-bar, #task-bar {
-                height: 80px;
-                max-height: 80px;
-                margin: 0px 32px;
-
-                display: flex;
-                align-items: center;
-                flex-direction: row;
-                flex-wrap: nowrap;
-            }
-            #info-bar {
-                margin-top: 22px;
-            }
-            #task-bar {
-                margin-bottom: 22px;
-            }
-            #apps-bar {
-                margin: 0px 32px;
-
-                display: grid;
-                justify-content: center;
-                gap: 20px;
-                grid-template-columns: repeat(8, auto);
-            }
-            #task-bar {
-                justify-content: center;
-                gap: 10px;
-            }
-
-            .flex-spacer {
-                flex: 1;
-            }
-
-            .app-box {
-                background-color: var(--slot-color);
-                border: var(--slot-border-color) 2px solid;
-                width: 150px;
-                height: 150px;
-                box-shadow: rgb(0 0 0 / 20%) 0px 0px 4px 2px;
-            }
-
-            .task-button {
-                background-color: var(--button-color);
-                color: var(--text-color);
-                border: none;
-                border-radius: 50%;
-                width: 50px;
-                height: 50px;
-            }
-        </style>
+        <link rel="stylesheet" href="./main.css">
+        <link rel="stylesheet" href="./menubar.css">
+        <link rel="stylesheet" href="./desktop.css">
+        <link rel="stylesheet" href="./window.css">
+        <link rel="stylesheet" href="./bios/boot.css">
+        <script src="https://debutter.dev/x/js/keys.js@1.0"></script>
+        <script type="module" src="./bios/boot.js"></script>
     </head>
-    <body>
+    <body class="zero-margin">
         <div id="boot-screen"></div>
-        <div id="wrapper" class="no-select">
-            <div id="info-bar">
-                <div class="flex-spacer"></div>
-                <div id="time" class="no-select">
-                    <span name="clock"></span>
-                    <span name="post"></span>
-                </div>
-            </div>
-            <div id="apps-bar">
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-                <div class="app-box clickable"></div>
-            </div>
-            <div id="task-bar">
-                <div class="task-button clickable" open="app-market">
-                    <img src="/icons/download.svg" style="margin: 10px;"></img>
-                </div>
-                <div class="task-button clickable" open="settings">
-                    <img src="/icons/settings.svg" style="margin: 10px;"></img>
-                </div>
-                <div class="task-button clickable" open="files">
-                    <img src="/icons/files.svg" style="margin: 10px 8px 10px 12px;"></img>
-                </div>
+        <canvas id="background" class="full-page"></canvas>
+        <div id="desktop-content"></div>
+        <div id="taskbar" class="gray-container">
+            <button id="taskbar-start" class="taskbar-item gray-button">
+                <img class="taskbar-icon crisp no-drag" src="/assets/start-btn.png">
+                <span class="taskbar-title">Start</span>
+            </button>
+            <div class="flex-spacer"></div>
+            <div id="taskbar-notif" class="gray-inset">
+                <span class="time">time</span>
+                <span class="date">date</span>
             </div>
         </div>
-        <!-- <div id="tabs"></div> -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/platform/1.3.6/platform.min.js"></script>
-        <script type="text/javascript" src="/boot.js"></script>
-        <script defer type="module" src="/sys.js"></script>
     </body>
 </html>

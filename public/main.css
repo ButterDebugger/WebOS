@@ -1,31 +1,37 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap');
-@import url('https://butterycode.com/static/css/simple.css');
-
-:root {
-    --background-color: #2D2D2D;
-    --text-color: #FFFFFF;
-
-    --primary-color: #d728fa;
-    --highlight-color: #38afff;
-}
+@import url('https://debutter.dev/x/css/simple.css');
 
 html, body {
-    margin: 0px;
-    height: 100vh;
-    overflow: hidden;
+    height: 100%;
 }
 
 body {
-    background-color: var(--background-color);
-    color: var(--text-color);
-    font-family: 'Poppins', sans-serif;
-    font-size: 16px;
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    height: 100%;
+    overflow: hidden;
+    text-size-adjust: none;
+    background-color: black;
 }
 
-#wrapper {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    transform-origin: top left;
+*, ::before, ::after {
+    box-sizing: border-box;
+    font-variant-numeric: tabular-nums;
+    text-rendering: optimizelegibility;
+    user-select: none;
+}
+
+/* Generic styles */
+.flex-spacer {
+    flex: 1;
+}
+
+/* Moving content styles */
+.moveable {
+	transition: filter 0.1s ease-in-out;
+}
+.moving {
+    cursor: grabbing !important;
+	filter: drop-shadow(rgba(0, 0, 0, 0.5) 3px 3px 0px);
+}
+.fix-drag {
+    pointer-events: none;
 }
