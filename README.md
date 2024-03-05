@@ -19,7 +19,7 @@ If you want to contribute to this project and make it better, your contributions
     - [ ] Prevent desktop files from being moved out of bounds
 - Windows
     - [x] Functionality to create windows
-    - [ ] Randomly position new windows
+    - [x] Randomly position new windows
     - [ ] Icons for window buttons
     - [ ] Resizeable windows
 - [ ] Start menu

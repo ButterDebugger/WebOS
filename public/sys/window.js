@@ -1,4 +1,5 @@
 import { domParser } from "https://debutter.dev/x/js/utils.js@1.2";
+import { randomInt } from "https://debutter.dev/x/js/math.js";
 import { addTaskbarItem } from "./taskbar.js";
 import system from "./system.js";
 
@@ -22,6 +23,9 @@ export default class Window {
                 this.unfocusHandler();
             }
         });
+
+        this.x = randomInt(0, window.innerWidth - this.width);
+        this.y = randomInt(0, window.innerHeight - this.height);
     }
 
     set icon(src) {
@@ -38,6 +42,34 @@ export default class Window {
     }
     get title() {
         return this.ele.querySelector(".title").innerText;
+    }
+
+    set x(scalar) {
+        this.ele.style.left = `${scalar}px`;
+    }
+    get x() {
+        return this.ele.getBoundingClientRect().x;
+    }
+
+    set y(scalar) {
+        this.ele.style.top = `${scalar}px`;
+    }
+    get y() {
+        return this.ele.getBoundingClientRect().y;
+    }
+
+    set height(scalar) {
+
+    }
+    get height() {
+        return this.ele.getBoundingClientRect().height;
+    }
+
+    set width(scalar) {
+
+    }
+    get width() {
+        return this.ele.getBoundingClientRect().width;
     }
 
     focusHandler() {
@@ -106,17 +138,16 @@ function createWindowComponent(win, frameSrc) {
         //     win.maximize();
         // }
 
-        let bounds = win.ele.getBoundingClientRect();
         let offset = {
-            x: window.keys["MouseX"] - bounds.x,
-            y: window.keys["MouseY"] - bounds.y
+            x: window.keys["MouseX"] - win.x,
+            y: window.keys["MouseY"] - win.y
         }
 
         const dragHandler = function() {
             if (!win.ele.classList.contains("moving")) win.ele.classList.add("moving");
 
-            win.ele.style.left = `${Math.max(0, Math.min(window.innerWidth - bounds.width, window.keys["MouseX"] - offset.x))}px`;
-            win.ele.style.top = `${Math.max(0, Math.min(window.innerHeight - bounds.height, window.keys["MouseY"] - offset.y))}px`;
+            win.x = Math.max(0, Math.min(window.innerWidth - win.width, window.keys["MouseX"] - offset.x));
+            win.y = Math.max(0, Math.min(window.innerHeight - win.height, window.keys["MouseY"] - offset.y));
         }
 
         document.querySelectorAll("iframe").forEach(ele => ele.classList.add("fix-drag"));

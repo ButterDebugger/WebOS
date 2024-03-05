@@ -6,10 +6,13 @@ const taskbarSpacer = taskbar.querySelector(".flex-spacer");
 export function addTaskbarItem(title, iconSrc) {
     let item = domParser(`
         <button class="taskbar-item gray-button">
-            <img class="taskbar-icon crisp no-drag" src="${iconSrc ?? "/assets/icons/broken-image.png"}">
-            <span class="taskbar-title">${title ?? "Untitled item"}</span>
+            <img class="taskbar-icon crisp no-drag">
+            <span class="taskbar-title"></span>
         </button>
-    `, true);
+    `);
+
+    item.querySelector(".taskbar-icon").src = iconSrc ?? "/assets/icons/broken-image.png";
+    item.querySelector(".taskbar-title").innerText = title ?? "Untitled item";
 
     taskbar.insertBefore(item, taskbarSpacer);
     return item;
