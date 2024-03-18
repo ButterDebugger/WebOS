@@ -20,7 +20,8 @@ If you want to contribute to this project and make it better, your contributions
 - Windows
     - [x] Functionality to create windows
     - [x] Randomly position new windows
-    - [ ] Icons for window buttons
+    - [x] Icons for window buttons
+        - [ ] Make sure the icon fits the container no matter the image size
     - [ ] Resizeable windows
 - [ ] Start menu
 - [ ] Context menu
