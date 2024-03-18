@@ -6,7 +6,7 @@ import Window from "./window.js";
 
 let system = {};
 
-let startIcon = addDesktopIcon("./assets/start-btn.png");
+let startIcon = addDesktopIcon("/sys/img/start-btn.png");
 startIcon.addEventListener("dblclick", () => {
     let window = new Window("https://info.cern.ch/");
     window.title = "My Computer";

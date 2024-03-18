@@ -4,7 +4,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.get("/favicon.ico", (req, res) => {
-    res.sendFile(path.join(__dirname, "public/assets/favicon.ico"));
+    res.sendFile(path.join(__dirname, "public/sys/img/favicon.ico"));
 });
 
 app.get("/sys/license", (req, res) => {

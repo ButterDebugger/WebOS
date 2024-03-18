@@ -11,7 +11,7 @@ export function addTaskbarItem(title, iconSrc) {
         </button>
     `);
 
-    item.querySelector(".taskbar-icon").src = iconSrc ?? "/assets/icons/broken-image.png";
+    item.querySelector(".taskbar-icon").src = iconSrc ?? "/sys/img/broken-image.png";
     item.querySelector(".taskbar-title").innerText = title ?? "Untitled item";
 
     taskbar.insertBefore(item, taskbarSpacer);

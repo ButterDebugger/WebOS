@@ -111,7 +111,7 @@ function createWindowComponent(win, frameSrc) {
     let ele = domParser(`
         <div class="window gray-container moveable">
             <div class="title-bar">
-                <img class="app-icon crisp no-drag no-select" src="/assets/icons/broken-image.png">
+                <img class="app-icon crisp no-drag no-select" src="/sys/img/broken-image.png">
                 <span class="title">Untitled Window</span>
                 <div class="flex-spacer"></div>
             </div>
