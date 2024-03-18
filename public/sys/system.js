@@ -1,6 +1,6 @@
-import { timeInterval } from "../calendar.js";
-import "../background.js";
-import { addDesktopIcon } from "../desktop.js";
+import { timeInterval } from "./calendar.js";
+import "./background.js";
+import { addDesktopIcon } from "./desktop.js";
 import * as fs from "./fs.js";
 import Window from "./window.js";
 
