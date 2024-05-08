@@ -1,9 +1,9 @@
 .desktop-item {
-    position: absolute;
-    cursor: pointer;
-    width: 32px;
-    height: 32px;
+	position: absolute;
+	cursor: pointer;
+	width: 32px;
+	height: 32px;
 }
 .desktop-item.moving {
-    z-index: 1000002; /* Absurdly high number */
+	z-index: 1000002; /* Absurdly high number */
 }
