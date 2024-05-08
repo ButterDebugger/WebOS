@@ -1,8 +1,22 @@
 .desktop-item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
 	position: absolute;
 	cursor: pointer;
+}
+.desktop-item > .icon {
 	width: 32px;
 	height: 32px;
+}
+.desktop-item > .title {
+	line-height: 1em;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	font-size: 12px;
+	max-width: calc(32px + 4ch);
 }
 .desktop-item.moving {
 	z-index: 1000002; /* Absurdly high number */
