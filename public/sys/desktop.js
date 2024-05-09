@@ -1,3 +1,5 @@
+import keys from "https://debutter.dev/x/js/keys.js@1.1.0";
+
 const desktopContent = document.getElementById("desktop-content");
 
 export class DesktopItem {
@@ -22,15 +24,15 @@ export class DesktopItem {
         this.ele.addEventListener("mousedown", () => {
             let bounds = this.ele.getBoundingClientRect();
             let offset = {
-                x: window.keys["MouseX"] - bounds.x,
-                y: window.keys["MouseY"] - bounds.y
+                x: keys["MouseX"] - bounds.x,
+                y: keys["MouseY"] - bounds.y
             }
 
             const dragHandler = (function() {
                 if (!this.ele.classList.contains("moving")) this.ele.classList.add("moving");
 
-                this.ele.style.left = `${Math.max(0, Math.min(window.innerWidth - bounds.width, window.keys["MouseX"] - offset.x))}px`;
-                this.ele.style.top = `${Math.max(0, Math.min(window.innerHeight - bounds.height, window.keys["MouseY"] - offset.y))}px`;
+                this.ele.style.left = `${Math.max(0, Math.min(window.innerWidth - bounds.width, keys["MouseX"] - offset.x))}px`;
+                this.ele.style.top = `${Math.max(0, Math.min(window.innerHeight - bounds.height, keys["MouseY"] - offset.y))}px`;
             }).bind(this);
 
             document.querySelectorAll("iframe").forEach(ele => ele.classList.add("fix-drag"));

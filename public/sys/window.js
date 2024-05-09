@@ -1,3 +1,4 @@
+import keys from "https://debutter.dev/x/js/keys.js@1.1.0";
 import { domParser } from "https://debutter.dev/x/js/utils.js@1.2";
 import { randomInt } from "https://debutter.dev/x/js/math.js";
 import { addTaskbarItem } from "./taskbar.js";
@@ -139,20 +140,20 @@ function createWindowComponent(win, frameSrc) {
         // }
 
         let offset = {
-            x: window.keys["MouseX"] - win.x,
-            y: window.keys["MouseY"] - win.y
+            x: keys["MouseX"] - win.x,
+            y: keys["MouseY"] - win.y
         }
 
         const dragHandler = function() {
             if (!win.ele.classList.contains("moving")) win.ele.classList.add("moving");
 
-            win.x = Math.max(0, Math.min(window.innerWidth - win.width, window.keys["MouseX"] - offset.x));
-            win.y = Math.max(0, Math.min(window.innerHeight - win.height, window.keys["MouseY"] - offset.y));
+            win.x = Math.max(0, Math.min(window.innerWidth - win.width, keys["MouseX"] - offset.x));
+            win.y = Math.max(0, Math.min(window.innerHeight - win.height, keys["MouseY"] - offset.y));
         }
 
         document.querySelectorAll("iframe").forEach(ele => ele.classList.add("fix-drag"));
         window.addEventListener("mousemove", dragHandler);
-        
+
         window.addEventListener("mouseup", () => {
             window.removeEventListener("mousemove", dragHandler);
             win.ele.classList.remove("moving");
