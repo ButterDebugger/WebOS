@@ -25,3 +25,5 @@ If you want to contribute to this project and make it better, your contributions
     - [ ] Resizable windows
 - [ ] Start menu
 - [ ] Context menu
+    - [x] Create context menu constructor
+    - [ ] Make context menus disappear when clicked off

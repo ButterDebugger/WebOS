@@ -3,6 +3,7 @@ import "./background.js";
 import { DesktopItem } from "./desktop.js";
 import * as fs from "./fs.js";
 import Window from "./window.js";
+import { ContextMenu } from "./gui.js";
 
 let system = {};
 
@@ -11,6 +12,26 @@ startItem.ele.addEventListener("dblclick", () => {
     let window = new Window("https://info.cern.ch/");
     window.title = "My Computer";
 });
+startItem.ele.addEventListener("contextmenu", (e) => {
+    new ContextMenu()
+        .addOption("one")
+        .addOption("two", new ContextMenu()
+            .addOption("uno")
+            .addOption("dos", new ContextMenu()
+                .addOption("thres")
+                .addOption("quadroo")
+            )
+        )
+        .addDivider()
+        .addOption("three")
+        .addOption("four", new ContextMenu()
+            .addOption("uno")
+            .addOption("dos")
+        )
+        .addOption("seventy seven")
+        .spawn(e.clientX, e.clientY);
+    e.preventDefault();
+})
 
 let highestZ = 100;
 

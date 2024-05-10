@@ -1,20 +1,3 @@
-/*
- * Taskbar styles
- */
-
-#taskbar {
-	display: flex;
-	gap: 4px;
-
-	position: absolute;
-	bottom: 0px;
-	width: 100vw;
-	height: 30px;
-	padding: 2px;
-	margin: 0px;
-	z-index: 1000000; /* Absurdly high number */
-}
-
 .gray-container {
 	background: silver;
 	border-top: 1px solid silver;
@@ -53,6 +36,20 @@
 	margin-bottom: 1px;
 }
 
+/* Taskbar */
+ #taskbar {
+	display: flex;
+	gap: 4px;
+
+	position: absolute;
+	bottom: 0px;
+	width: 100vw;
+	height: 30px;
+	padding: 2px;
+	margin: 0px;
+	z-index: 1000000; /* Absurdly high number */
+}
+
 .taskbar-item {
 	display: flex;
 	align-items: center;
@@ -65,10 +62,6 @@
 	height: 16px;
 }
 
-/*
- * Menu bar styles
- */
-
 #taskbar-notif {
 	display: flex;
 	align-items: center;
@@ -80,4 +73,23 @@
 }
 #taskbar-notif .date {
 	font-size: 10px;
+}
+
+/* Context menu */
+.context-menu {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+
+	position: absolute;
+}
+.context-menu .option {
+	padding: 2px 8px;
+}
+.context-menu .option:hover {
+	background-color: #357ec7;
+}
+.context-menu .divider {
+	border-top: 1px solid gray;
+	border-bottom: 1px solid #dfdfdf;
 }
