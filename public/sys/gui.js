@@ -5,6 +5,22 @@ export class ContextMenu {
         this.ele = domParser(`<div class="context-menu gray-container"></div>`);
         this.parent = null;
         this.subnet = new Set();
+
+        window.addEventListener("click", ({ target }) => {
+            // Do not check if this context menu is the child of another
+            if (this.parent) return;
+
+            // Check if the clicked element if the child of this context menu
+            let isChild = false;
+
+            for (let menu of flattenSubnet(this)) {
+                if (isChildOf(target, menu.ele)) {
+                    isChild = true;
+                }
+            }
+
+            if (!isChild) this.hide();
+        });
     }
 
     spawn(x = 0, y = 0) {
@@ -50,16 +66,6 @@ export class ContextMenu {
             }
         });
 
-        option.addEventListener("click", () => {
-            this.subnet.forEach(menu => menu.hide());
-
-            if (submenu instanceof ContextMenu) {
-                let bounds = option.getBoundingClientRect();
-
-                submenu.spawn(bounds.x + bounds.width, bounds.y);
-            }
-        });
-
         this.ele.appendChild(option);
         return this;
     }
@@ -100,4 +106,17 @@ export class ContextMenu {
     get y() {
         return this.ele.getBoundingClientRect().y;
     }
+}
+
+function flattenSubnet(menu) {
+    let list = new Set();
+    list.add(menu);
+
+    for (let submenu of menu.subnet) {
+        for (let entry of flattenSubnet(submenu)) {
+            list.add(entry);
+        }
+    }
+
+    return list;
 }

@@ -24,6 +24,6 @@ If you want to contribute to this project and make it better, your contributions
         - [ ] Make sure the icon fits the container no matter the image size
     - [ ] Resizable windows
 - [ ] Start menu
-- [ ] Context menu
+- [x] Context menu
     - [x] Create context menu constructor
-    - [ ] Make context menus disappear when clicked off
+    - [x] Make context menus disappear when clicked off
