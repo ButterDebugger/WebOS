@@ -20,10 +20,11 @@ export class ContextMenu {
         this.ele.remove();
     }
 
-    addOption(text, submenu = null) {
+    addOption(name, id, submenu = null) {
         let option = domParser(`<div class="option"></div>`);
 
-        option.innerText = text;
+        option.innerText = name;
+        option.setAttribute("data-opt-id", id);
         option.submenu = submenu;
 
         if (submenu instanceof ContextMenu) {
@@ -68,6 +69,22 @@ export class ContextMenu {
 
         this.ele.appendChild(divider);
         return this;
+    }
+
+    getOption(id) {
+        // Find the option in the top layer
+        let option = this.ele.querySelector(`.option[data-opt-id=${id}]`);
+
+        if (option) return option;
+
+        // Find the option within the subnet tree
+        for (let menu of this.subnet) {
+            option = menu.getOption(id);
+
+            if (option) return option;
+        }
+
+        return null;
     }
 
     set x(scalar) {

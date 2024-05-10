@@ -8,28 +8,32 @@ import { ContextMenu } from "./gui.js";
 let system = {};
 
 let startItem = new DesktopItem("/sys/img/start-btn.png", "Random Window");
+let startItemMenu = new ContextMenu()
+    .addOption("one")
+    .addOption("two", null, new ContextMenu()
+        .addOption("uno")
+        .addOption("dos", null, new ContextMenu()
+            .addOption("thres")
+            .addOption("quadroo")
+        )
+    )
+    .addDivider()
+    .addOption("alert", "test-alert")
+    .addOption("four", null, new ContextMenu()
+        .addOption("uno")
+        .addOption("dos")
+    )
+    .addOption("seventy seven");
+startItemMenu.getOption("test-alert").addEventListener("click", () => {
+    alert("hi");
+});
+
 startItem.ele.addEventListener("dblclick", () => {
     let window = new Window("https://info.cern.ch/");
     window.title = "My Computer";
 });
 startItem.ele.addEventListener("contextmenu", (e) => {
-    new ContextMenu()
-        .addOption("one")
-        .addOption("two", new ContextMenu()
-            .addOption("uno")
-            .addOption("dos", new ContextMenu()
-                .addOption("thres")
-                .addOption("quadroo")
-            )
-        )
-        .addDivider()
-        .addOption("three")
-        .addOption("four", new ContextMenu()
-            .addOption("uno")
-            .addOption("dos")
-        )
-        .addOption("seventy seven")
-        .spawn(e.clientX, e.clientY);
+    startItemMenu.spawn(e.clientX, e.clientY);
     e.preventDefault();
 })
 
