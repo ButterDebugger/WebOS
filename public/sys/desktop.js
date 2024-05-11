@@ -37,18 +37,18 @@ export class DesktopItem {
                 this.ele.style.top = `${Math.max(0, Math.min(window.innerHeight - bounds.height, keys["MouseY"] - offset.y))}px`;
             }).bind(this);
 
-            document.querySelectorAll("iframe").forEach(ele => ele.classList.add("fix-drag"));
-            window.addEventListener("mousemove", dragHandler);
-
-            window.addEventListener("mouseup", ({ button }) => {
+            const dragEndHandler = (function({ button }) {
                 if (button !== 0) return;
 
                 window.removeEventListener("mousemove", dragHandler);
+                window.removeEventListener("mouseup", dragEndHandler);
                 this.ele.classList.remove("moving");
                 document.querySelectorAll("iframe").forEach(ele => ele.classList.remove("fix-drag"));
-            }, {
-                once: true
-            });
+            }).bind(this);
+
+            document.querySelectorAll("iframe").forEach(ele => ele.classList.add("fix-drag"));
+            window.addEventListener("mousemove", dragHandler);
+            window.addEventListener("mouseup", dragEndHandler);
         });
 
         desktopContent.appendChild(this.ele);
