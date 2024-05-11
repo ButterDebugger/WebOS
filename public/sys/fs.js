@@ -1,91 +1,93 @@
-import localforage from "https://cdn.jsdelivr.net/npm/localforage@1.10.0/+esm";
-import * as JSBin from "https://debutter.dev/x/js/jsbin.js";
+import * as binforage from "https://debutter.dev/x/js/binforage.js";
 
-export async function set(key, value, encode = true) {
-    // Try encoding the value
-    if (encode) {
-        try {
-            value = await JSBin.encode(value);
-        } catch (err) {}
+// File system methods
+const files = new Map();
+
+class SysFile {
+    #path;
+
+    constructor(path) {
+        this.#path = "file:" + path;
     }
 
-    // Save the item
-    try {
-        await localforage.setItem(key, value);
-    } catch (err) {
-        console.error(err);
-        return false;
-    }
-    return true;
-}
-
-export async function get(key) {
-    let value = await localforage.getItem(key);
-
-    // Try decoding the value
-    if (typeof value == "string") {
-        try {
-            value = await JSBin.decode(value);
-        } catch (err) {}
+    get path() {
+        return this.#path.substring(5);
     }
 
-    return value;
-}
-
-export async function remove(key) {
-    try {
-        await localforage.removeItem(key);
-    } catch (err) {
-        console.error(err);
-        return false;
+    get meta() {
+        return registry(this.#path);
     }
-    return true;
-}
 
-export async function clear() {
-    try {
-        await localforage.clear();
-    } catch (err) {
-        console.error(err);
-        return false;
+    async get() {
+        return await binforage.get(this.#path);
     }
-    return true;
-}
 
-export async function length() {
-    try {
-        return await localforage.length();
-    } catch (err) {
-        console.error(err);
-        return -1;
+    async set(value) {
+        return await binforage.set(this.#path, value);
+    }
+
+    async remove() {
+        return await binforage.remove(this.#path);
     }
 }
 
-export async function key(index) {
-    try {
-        return await localforage.key(index);
-    } catch (err) {
-        console.error(err);
-        return null;
+export function file(path) {
+    if (!files.has(path)) {
+        files.set(path, new SysFile(path));
     }
+
+    return files.get(path);
 }
 
-export async function keys() {
-    try {
-        return await localforage.keys();
-    } catch (err) {
-        console.error(err);
-        return [];
-    }
-}
+// Registry methods
+const registries = new Map();
 
-export async function* iterate() {
-    try {
-        for (let key of await localforage.keys()) {
-            yield await get(key);
+class SysRegistry {
+    #location;
+    #cache;
+
+    constructor(location) {
+        this.#location = "registry:" + location;
+        this.#cache = null;
+    }
+
+    get location() {
+        return this.#location.substring(9);
+    }
+
+    async get(key) {
+        if (!(this.#cache instanceof Object)) {
+            this.#cache = await binforage.get(this.#location) ?? {};
         }
-    } catch (err) {
-        console.error(err);
-        return;
+
+        return this.#cache[key];
     }
+
+    async set(key, value) {
+        if (!(this.#cache instanceof Object)) {
+            this.#cache = await binforage.get(this.#location) ?? {};
+        }
+
+        this.#cache[key] = value;
+
+        return await binforage.set(this.#location, this.#cache);
+    }
+
+    async remove(key) {
+        if (!(this.#cache instanceof Object)) {
+            this.#cache = await binforage.get(this.#location) ?? {};
+        }
+
+        delete this.#cache[key];
+
+        return await binforage.set(this.#location, this.#cache);
+    }
+}
+
+export function registry(location) {
+    if (!registries.has(location)) {
+        registries.set(location, new SysRegistry(location));
+    }
+
+    return registries.get(location);
 }
