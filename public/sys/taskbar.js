@@ -5,7 +5,7 @@ const taskbarSpacer = taskbar.querySelector(".flex-spacer");
 
 export function addTaskbarItem(title, iconSrc) {
     let item = domParser(`
-        <button class="taskbar-item gray-button">
+        <button class="taskbar-item gray-container">
             <img class="taskbar-icon crisp no-drag">
             <span class="taskbar-title"></span>
         </button>

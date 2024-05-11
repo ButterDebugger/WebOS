@@ -1,6 +1,37 @@
 import keys from "https://debutter.dev/x/js/keys.js@1.1.0";
+import { initElementScaler } from "https://debutter.dev/x/js/utils.js@1.2";
+import moment from "https://cdn.jsdelivr.net/npm/moment@2.29.4/+esm";
 
 const desktopContent = document.getElementById("desktop-content");
+const canvas = document.getElementById("background");
+const calendarContainer = document.getElementById("notifs-container");
+const timeEle = calendarContainer.querySelector(".time");
+
+// background
+const ctx = canvas.getContext("2d");
+
+let hue = 0;
+
+setInterval(() => {
+    let color = `hsl(${hue}, 75%, 50%)`;
+    hue = (hue + 0.03) % 360;
+
+    ctx.fillStyle = color;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+}, 33.3333);
+
+initElementScaler();
+
+// calendar
+function updateDates() {
+    timeEle.innerText = moment().format("h:mm A");
+}
+
+updateDates();
+
+export const timeInterval = setInterval(updateDates, 100);
+
+// desktop
 
 export class DesktopItem {
     constructor(src, title, x = 9, y = 9) {

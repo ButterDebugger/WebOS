@@ -1,0 +1,34 @@
+#taskbar {
+	display: flex;
+	gap: 4px;
+
+	position: absolute;
+	bottom: 0px;
+	width: 100vw;
+	height: 30px;
+	padding: 2px;
+	margin: 0px;
+	z-index: 1000000; /* Absurdly high number */
+}
+
+.taskbar-item {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+}
+
+.taskbar-icon {
+	width: 16px;
+	height: 16px;
+}
+
+/* Notification center */
+#notifs-container {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+#notifs-container .time {
+	font-size: 0.75em;
+}

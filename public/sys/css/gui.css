@@ -47,3 +47,22 @@
 	height: 0px;
 	padding: 8px;
 }
+
+/* Context menu */
+.context-menu {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+
+	position: absolute;
+}
+.context-menu .option {
+	padding: 2px 8px;
+}
+.context-menu .option:hover {
+	background-color: #357ec7;
+}
+.context-menu .divider {
+	border-top: var(--un-menubar-thickness) solid var(--c-menubar-dark);
+	border-bottom: var(--un-menubar-thickness) solid var(--c-menubar-bright);
+}

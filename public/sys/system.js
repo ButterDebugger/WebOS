@@ -1,5 +1,3 @@
-import { timeInterval } from "./calendar.js";
-import "./background.js";
 import { DesktopItem } from "./desktop.js";
 import * as fs from "./fs.js";
 import Window from "./window.js";
@@ -47,7 +45,6 @@ Object.defineProperty(system, "zIndex", {
     }
 });
 
-system.timeInterval = timeInterval;
 system.fs = fs;
 
 console.log(system);

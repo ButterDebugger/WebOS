@@ -1,5 +1,13 @@
 @import url("https://debutter.dev/x/css/simple.css");
 
+:root {
+	--c-menubar-bg: silver;
+	--c-menubar-bg-dark: #b8b8b8;
+	--c-menubar-bright: #dfdfdf;
+	--c-menubar-dark: gray;
+	--un-menubar-thickness: 2px;
+}
+
 html,
 body {
 	height: 100%;
@@ -23,12 +31,11 @@ body {
 	user-select: none;
 }
 
-/* Generic styles */
+/* Generic */
 .flex-spacer {
 	flex: 1;
 }
 
-/* Moving content styles */
 .moveable {
 	transition: filter 0.1s ease-in-out;
 }
@@ -38,4 +45,23 @@ body {
 }
 .fix-drag {
 	pointer-events: none;
+}
+
+/* Gui container */
+.gray-container,
+button.gray-container {
+	background-color: var(--c-menubar-bg);
+	border-top: var(--un-menubar-thickness) solid var(--c-menubar-bright);
+	border-left: var(--un-menubar-thickness) solid var(--c-menubar-bright);
+	border-right: var(--un-menubar-thickness) solid var(--c-menubar-dark);
+	border-bottom: var(--un-menubar-thickness) solid var(--c-menubar-dark);
+}
+.gray-inset,
+button.gray-container:active,
+button.gray-container.active {
+	background-color: var(--c-menubar-bg-dark);
+	border-top: var(--un-menubar-thickness) solid var(--c-menubar-dark);
+	border-left: var(--un-menubar-thickness) solid var(--c-menubar-dark);
+	border-right: var(--un-menubar-thickness) solid var(--c-menubar-bright);
+	border-bottom: var(--un-menubar-thickness) solid var(--c-menubar-bright);
 }
