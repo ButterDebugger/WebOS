@@ -21,7 +21,9 @@ export class DesktopItem {
         this.ele.appendChild(name);
 
         // Add drag handler
-        this.ele.addEventListener("mousedown", () => {
+        this.ele.addEventListener("mousedown", ({ button }) => {
+            if (button !== 0) return;
+
             let bounds = this.ele.getBoundingClientRect();
             let offset = {
                 x: keys["MouseX"] - bounds.x,
@@ -38,8 +40,9 @@ export class DesktopItem {
             document.querySelectorAll("iframe").forEach(ele => ele.classList.add("fix-drag"));
             window.addEventListener("mousemove", dragHandler);
 
-            window.addEventListener("mouseup", () => {
-                console.log("what")
+            window.addEventListener("mouseup", ({ button }) => {
+                if (button !== 0) return;
+
                 window.removeEventListener("mousemove", dragHandler);
                 this.ele.classList.remove("moving");
                 document.querySelectorAll("iframe").forEach(ele => ele.classList.remove("fix-drag"));
