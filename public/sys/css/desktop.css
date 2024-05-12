@@ -11,12 +11,18 @@
 	height: 32px;
 }
 .desktop-item > .title {
+	display: -webkit-box;
+	text-align: center;
 	line-height: 1em;
-	text-overflow: ellipsis;
-	white-space: nowrap;
 	overflow: hidden;
+	text-overflow: ellipsis;
+	word-break: break-word;
+	word-wrap: break-word;
 	font-size: 12px;
-	max-width: calc(32px + 4ch);
+	max-width: 72px;
+	-webkit-line-clamp: 4;
+	line-clamp: 4;
+	-webkit-box-orient: vertical;
 }
 .desktop-item.moving {
 	z-index: 1000002; /* Absurdly high number */
