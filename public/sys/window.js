@@ -1,6 +1,6 @@
 import keys from "https://debutter.dev/x/js/keys.js@1.1.0";
 import { domParser } from "https://debutter.dev/x/js/utils.js@1.2";
-import { randomInt } from "https://debutter.dev/x/js/math.js";
+import { randomInt, remapRange } from "https://debutter.dev/x/js/math.js";
 import { TaskbarItem } from "./taskbar.js";
 import system from "./system.js";
 
@@ -128,39 +128,8 @@ function createWindowComponent(win, frameSrc) {
         setTimeout(() => window.focus(), 0);
     });
 
-    // Add window drag event handlers
+    // Create title bar
     let titleBar = ele.querySelector(".title-bar");
-
-    titleBar.addEventListener("mousedown", ({ target }) => {
-        if (target.hasAttribute("data-ungrabbable")) return;
-
-        // if (win.isMaximized()) {
-        //     win.maximize();
-        // }
-
-        let offset = {
-            x: keys["MouseX"] - win.x,
-            y: keys["MouseY"] - win.y
-        }
-
-        const dragHandler = function() {
-            if (!win.ele.classList.contains("moving")) win.ele.classList.add("moving");
-
-            win.x = Math.max(0, Math.min(window.innerWidth - win.width, keys["MouseX"] - offset.x));
-            win.y = Math.max(0, Math.min(window.innerHeight - win.height, keys["MouseY"] - offset.y));
-        }
-
-        document.querySelectorAll("iframe").forEach(ele => ele.classList.add("fix-drag"));
-        window.addEventListener("mousemove", dragHandler);
-
-        window.addEventListener("mouseup", () => {
-            window.removeEventListener("mousemove", dragHandler);
-            win.ele.classList.remove("moving");
-            document.querySelectorAll("iframe").forEach(ele => ele.classList.remove("fix-drag"));
-        }, {
-            once: true
-        });
-    });
 
     // Minimize button
     let minimizeBtn = domParser(`
@@ -182,6 +151,57 @@ function createWindowComponent(win, frameSrc) {
     `);
     closeBtn.addEventListener("click", () => win.close());
     titleBar.appendChild(closeBtn);
+
+    // Add window resizers
+    for (let dir of ["n", "e", "s", "w", "ne", "se", "sw", "nw"]) {
+        let resizer = document.createElement("div");
+        resizer.classList.add(`resizer-${dir}`);
+
+        ele.appendChild(resizer);
+    }
+
+    // Add window drag event handlers
+    titleBar.addEventListener("mousedown", ({ target }) => {
+        if (target.hasAttribute("data-ungrabbable")) return;
+
+        let relX;
+        let relY;
+
+        if (win.isMaximized()) {
+            let beforeWidth = titleBar.getBoundingClientRect().width;
+            win.maximize();
+            relX = remapRange(keys["MouseX"], 0, beforeWidth, 0, win.width, true);
+            relY = keys["MouseY"];
+            win.maximize();
+        }
+
+        let offset = {
+            x: relX ?? (keys["MouseX"] - win.x),
+            y: relY ?? (keys["MouseY"] - win.y)
+        }
+
+        const dragHandler = function() {
+            if (win.isMaximized()) {
+                win.maximize();
+            }
+
+            if (!win.ele.classList.contains("moving")) win.ele.classList.add("moving");
+
+            win.x = Math.max(0, Math.min(window.innerWidth - win.width, keys["MouseX"] - offset.x));
+            win.y = Math.max(0, Math.min(window.innerHeight - win.height, keys["MouseY"] - offset.y));
+        }
+
+        document.querySelectorAll("iframe").forEach(ele => ele.classList.add("fix-drag"));
+        window.addEventListener("mousemove", dragHandler);
+
+        window.addEventListener("mouseup", () => {
+            window.removeEventListener("mousemove", dragHandler);
+            win.ele.classList.remove("moving");
+            document.querySelectorAll("iframe").forEach(ele => ele.classList.remove("fix-drag"));
+        }, {
+            once: true
+        });
+    });
 
     document.body.appendChild(ele);
     return ele;
