@@ -157,7 +157,7 @@ function createWindowComponent(win, frameSrc) {
 
     // Add window resizers
     let resizers = {
-        // verticle, invertVerticle, horizontal, invertHorizontal
+        // vertical, invertVertical, horizontal, invertHorizontal
         "n":  [true,  true,  false, false],
         "e":  [false, false, true,  false],
         "s":  [true,  false, false, false],
@@ -173,8 +173,8 @@ function createWindowComponent(win, frameSrc) {
         resizer.classList.add(`resizer-${dir}`);
 
         let {
-            0: verticle,
-            1: invertVerticle,
+            0: vertical,
+            1: invertVertical,
             2: horizontal,
             3: invertHorizontal
         } = resizers[dir];
@@ -186,7 +186,7 @@ function createWindowComponent(win, frameSrc) {
             }
 
             const dragHandler = function() {
-                // TODO: constain the window to the bounds of the document
+                // TODO: constrain the window to the bounds of the document
 
                 if (horizontal) {
                     let diff = keys["MouseX"] - offset.x;
@@ -194,11 +194,11 @@ function createWindowComponent(win, frameSrc) {
                     win.width += diff * (invertHorizontal ? -1 : 1);
                     if (invertHorizontal || win.width == win.minWidth) win.x += diff;
                 }
-                if (verticle) {
+                if (vertical) {
                     let diff = keys["MouseY"] - offset.y;
 
-                    win.height += diff * (invertVerticle ? -1 : 1);
-                    if (invertVerticle || win.height == win.minHeight) win.y += diff;
+                    win.height += diff * (invertVertical ? -1 : 1);
+                    if (invertVertical || win.height == win.minHeight) win.y += diff;
                 }
 
                 offset.x = keys["MouseX"];
