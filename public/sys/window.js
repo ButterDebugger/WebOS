@@ -184,21 +184,49 @@ function createWindowComponent(win, frameSrc) {
                 x: keys["MouseX"],
                 y: keys["MouseY"]
             }
+            let startX = win.x;
+            let startY = win.y;
 
             const dragHandler = function() {
-                // TODO: constrain the window to the bounds of the document
-
                 if (horizontal) {
-                    let diff = keys["MouseX"] - offset.x;
+                    // Calculate the x range of where the user can resize
+                    let minLeft = invertHorizontal
+                        ? 0
+                        : win.x + win.minWidth;
+                    let maxLeft = invertHorizontal
+                        ? startX
+                        : window.innerWidth;
 
-                    win.width += diff * (invertHorizontal ? -1 : 1);
-                    if (invertHorizontal || win.width == win.minWidth) win.x += diff;
+                    // Calculate the mouse position difference
+                    let diff = Math.max(minLeft, Math.min(maxLeft, keys["MouseX"])) - Math.max(minLeft, Math.min(maxLeft, offset.x));
+
+                    // Update the width and or x position of the window
+                    if (invertHorizontal) {
+                        win.width -= diff;
+                        win.x += diff;
+                    } else {
+                        win.width += diff;
+                    }
                 }
                 if (vertical) {
-                    let diff = keys["MouseY"] - offset.y;
+                    // Calculate the y range of where the user can resize
+                    let minTop = invertHorizontal
+                        ? 0
+                        : win.y + win.minHeight;
+                    let maxTop = invertHorizontal
+                        ? startY
+                        : window.innerHeight;
 
-                    win.height += diff * (invertVertical ? -1 : 1);
-                    if (invertVertical || win.height == win.minHeight) win.y += diff;
+                    // Calculate the mouse position difference
+                    let diff = Math.max(minTop, Math.min(maxTop, keys["MouseY"])) - Math.max(minTop, Math.min(maxTop, offset.y));
+
+                    // Update the height and or y position of the window
+                    if (invertVertical) {
+                        win.height -= diff;
+                        win.y += diff;
+                    } else {
+                        win.height += diff;
+                    }
                 }
 
                 offset.x = keys["MouseX"];
