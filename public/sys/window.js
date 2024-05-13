@@ -1,7 +1,7 @@
 import keys from "https://debutter.dev/x/js/keys.js@1.1.0";
 import { domParser } from "https://debutter.dev/x/js/utils.js@1.2";
 import { randomInt } from "https://debutter.dev/x/js/math.js";
-import { addTaskbarItem } from "./taskbar.js";
+import { TaskbarItem } from "./taskbar.js";
 import system from "./system.js";
 
 export default class Window {
@@ -9,18 +9,17 @@ export default class Window {
         this.ele = createWindowComponent(this, frameSrc);
         this.ele.window = this;
 
-        this.taskbarItem = addTaskbarItem();
-        this.taskbarItem.addEventListener("click", () => {
+        this.taskbarItem = new TaskbarItem();
+        this.taskbarItem.ele.addEventListener("click", () => {
             if (this.isMinimized()) this.minimize();
 
             this.focusHandler();
         });
-        this.taskbarItem.window = this;
 
         this.ele.addEventListener("mousedown", () => this.focusHandler());
         this.focusHandler();
         window.addEventListener("click", ({ target }) => {
-            if (!this.ele.contains(target) && !this.taskbarItem.contains(target)) {
+            if (!this.ele.contains(target) && !this.taskbarItem.ele.contains(target)) {
                 this.unfocusHandler();
             }
         });
@@ -31,7 +30,7 @@ export default class Window {
 
     set icon(src) {
         this.ele.querySelector(".app-icon").src = src;
-        this.taskbarItem.querySelector(".taskbar-icon").src = src;
+        this.taskbarItem.icon = src;
     }
     get icon() {
         return this.ele.querySelector(".app-icon").src;
@@ -39,7 +38,7 @@ export default class Window {
 
     set title(text) {
         this.ele.querySelector(".title").innerText = text;
-        this.taskbarItem.querySelector(".taskbar-title").innerText = text;
+        this.taskbarItem.title = text;
     }
     get title() {
         return this.ele.querySelector(".title").innerText;
@@ -76,14 +75,14 @@ export default class Window {
     focusHandler() {
         this.ele.style.zIndex = system.zIndex;
         this.ele.classList.remove("unfocused");
-        this.taskbarItem.classList.add("active");
+        this.taskbarItem.active = true;
         document.querySelectorAll(".window").forEach(win => {
             if (win !== this.ele) win.window.unfocusHandler();
         });
     }
     unfocusHandler() {
         this.ele.classList.add("unfocused");
-        this.taskbarItem.classList.remove("active");
+        this.taskbarItem.active = false;
     }
 
     isMinimized() {

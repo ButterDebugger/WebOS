@@ -1,5 +1,11 @@
 @import url("https://debutter.dev/x/css/simple.css");
 
+@font-face {
+	font-family: px_sans_nouveaux;
+	src: url("/sys/font/px_sans_nouveaux/px_sans_nouveaux.ttf")
+		format("truetype");
+}
+
 :root {
 	--c-menubar-bg: silver;
 	--c-menubar-bg-dark: #b8b8b8;
@@ -14,8 +20,8 @@ body {
 }
 
 body {
-	font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI",
-		Roboto, "Helvetica Neue", sans-serif;
+	font-family: px_sans_nouveaux, Arial, Helvetica, sans-serif;
+	font-size: 8px;
 	height: 100%;
 	overflow: hidden;
 	text-size-adjust: none;
@@ -31,7 +37,25 @@ body {
 	user-select: none;
 }
 
+input,
+button,
+select,
+textarea {
+	font: inherit;
+	letter-spacing: inherit;
+	word-spacing: inherit;
+}
+
 /* Generic */
+.bold-text {
+	text-shadow: -1px 0px;
+	letter-spacing: 1px;
+}
+.white-text {
+	color: white;
+	text-shadow: #245dda 0px 1px;
+}
+
 .flex-spacer {
 	flex: 1;
 }

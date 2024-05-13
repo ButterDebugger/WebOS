@@ -2,11 +2,12 @@ import { DesktopItem } from "./desktop.js";
 import * as fs from "./fs.js";
 import Window from "./window.js";
 import { ContextMenu } from "./gui.js";
-import { addTaskbarItem } from "./taskbar.js";
+import { TaskbarItem } from "./taskbar.js";
 
 let system = {};
 
-addTaskbarItem("Start", "/sys/img/computer.png");
+let startBtn = new TaskbarItem("Start", "/sys/img/computer.png");
+startBtn.bold = true;
 
 let startItem = new DesktopItem("/sys/img/computer.png", "Random Window");
 let startItemMenu = new ContextMenu()

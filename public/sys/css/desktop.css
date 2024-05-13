@@ -13,12 +13,10 @@
 .desktop-item > .title {
 	display: -webkit-box;
 	text-align: center;
-	line-height: 1em;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	word-break: break-word;
 	word-wrap: break-word;
-	font-size: 12px;
 	max-width: 72px;
 	-webkit-line-clamp: 4;
 	line-clamp: 4;

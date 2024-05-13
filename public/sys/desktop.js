@@ -7,7 +7,7 @@ const canvas = document.getElementById("background");
 const calendarContainer = document.getElementById("notifs-container");
 const timeEle = calendarContainer.querySelector(".time");
 
-// background
+// Background
 const ctx = canvas.getContext("2d");
 
 let hue = 0;
@@ -22,7 +22,7 @@ setInterval(() => {
 
 initElementScaler();
 
-// calendar
+// Calendar
 function updateDates() {
     timeEle.innerText = moment().format("h:mm A");
 }
@@ -31,8 +31,7 @@ updateDates();
 
 export const timeInterval = setInterval(updateDates, 100);
 
-// desktop
-
+// Desktop
 export class DesktopItem {
     constructor(src, title, x = 9, y = 9) {
         this.ele = document.createElement("div");
@@ -45,7 +44,7 @@ export class DesktopItem {
         icon.src = src;
 
         let name = document.createElement("span");
-        name.classList.add("title");
+        name.classList.add("title", "white-text");
         name.innerText = title;
 
         this.ele.appendChild(icon);

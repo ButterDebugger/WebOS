@@ -3,17 +3,50 @@ import { domParser } from "https://debutter.dev/x/js/utils.js@1.2";
 const taskbar = document.getElementById("taskbar");
 const taskbarSpacer = taskbar.querySelector(".flex-spacer");
 
-export function addTaskbarItem(title, iconSrc) {
-    let item = domParser(`
-        <button class="taskbar-item gray-container">
-            <img class="taskbar-icon crisp no-drag">
-            <span class="taskbar-title"></span>
-        </button>
-    `);
+export class TaskbarItem {
+    constructor(title = "Untitled item", iconSrc = "/sys/img/broken-image.png") {
+        this.ele = domParser(`
+            <button class="taskbar-item gray-container">
+                <img class="icon crisp no-drag">
+                <span class="title"></span>
+            </button>
+        `);
 
-    item.querySelector(".taskbar-icon").src = iconSrc ?? "/sys/img/broken-image.png";
-    item.querySelector(".taskbar-title").innerText = title ?? "Untitled item";
+        this.title = title;
+        this.icon = iconSrc;
 
-    taskbar.insertBefore(item, taskbarSpacer);
-    return item;
+        taskbar.insertBefore(this.ele, taskbarSpacer);
+    }
+
+    set bold(bool = !this.bold) {
+        this.ele.querySelector(".title").classList[bool ? "add" : "remove"]("bold-text");
+    }
+    get bold() {
+        return this.ele.querySelector(".title").classList.contains("bold-text");
+    }
+
+    set active(bool = !this.active) {
+        this.ele.classList[bool ? "add" : "remove"]("active");
+    }
+    get active() {
+        return this.ele.classList.contains("active");
+    }
+
+    set title(text) {
+        this.ele.querySelector(".title").innerText = text;
+    }
+    get title() {
+        return this.ele.querySelector(".title").innerText;
+    }
+
+    set icon(src) {
+        this.ele.querySelector(".icon").src = src;
+    }
+    get icon() {
+        return this.ele.querySelector(".icon").src;
+    }
+
+    remove() {
+        this.ele.remove();
+    }
 }
