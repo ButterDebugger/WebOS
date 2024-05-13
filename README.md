@@ -22,7 +22,7 @@ If you want to contribute to this project and make it better, your contributions
     - [x] Randomly position new windows
     - [x] Icons for window buttons
         - [ ] Make sure the icon fits the container no matter the image size
-    - [ ] Resizable windows
+    - [x] Resizable windows
 - [ ] Start menu
 - [x] Context menu
     - [x] Create context menu constructor
