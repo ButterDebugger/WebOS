@@ -24,6 +24,9 @@ export default class Window {
             }
         });
 
+        this.width = this.minWidth = 400;
+        this.height = this.minHeight = 300;
+
         this.x = randomInt(0, window.innerWidth - this.width);
         this.y = randomInt(0, window.innerHeight - this.height);
     }
@@ -59,14 +62,14 @@ export default class Window {
     }
 
     set height(scalar) {
-
+        this.ele.style.height = `${Math.max(this.minHeight, scalar)}px`;
     }
     get height() {
         return this.ele.getBoundingClientRect().height;
     }
 
     set width(scalar) {
-
+        this.ele.style.width = `${Math.max(this.minWidth, scalar)}px`;
     }
     get width() {
         return this.ele.getBoundingClientRect().width;
@@ -153,9 +156,65 @@ function createWindowComponent(win, frameSrc) {
     titleBar.appendChild(closeBtn);
 
     // Add window resizers
-    for (let dir of ["n", "e", "s", "w", "ne", "se", "sw", "nw"]) {
+    let resizers = {
+        // verticle, invertVerticle, horizontal, invertHorizontal
+        "n":  [true,  true,  false, false],
+        "e":  [false, false, true,  false],
+        "s":  [true,  false, false, false],
+        "w":  [false, false, true,  true],
+        "ne": [true,  true,  true,  false],
+        "se": [true,  false, true,  false],
+        "sw": [true,  false, true,  true],
+        "nw": [true,  true,  true,  true],
+    }
+
+    for (let dir of Object.keys(resizers)) {
         let resizer = document.createElement("div");
         resizer.classList.add(`resizer-${dir}`);
+
+        let {
+            0: verticle,
+            1: invertVerticle,
+            2: horizontal,
+            3: invertHorizontal
+        } = resizers[dir];
+
+        resizer.addEventListener("mousedown", () => {
+            let offset = {
+                x: keys["MouseX"],
+                y: keys["MouseY"]
+            }
+
+            const dragHandler = function() {
+                // TODO: constain the window to the bounds of the document
+
+                if (horizontal) {
+                    let diff = keys["MouseX"] - offset.x;
+
+                    win.width += diff * (invertHorizontal ? -1 : 1);
+                    if (invertHorizontal || win.width == win.minWidth) win.x += diff;
+                }
+                if (verticle) {
+                    let diff = keys["MouseY"] - offset.y;
+
+                    win.height += diff * (invertVerticle ? -1 : 1);
+                    if (invertVerticle || win.height == win.minHeight) win.y += diff;
+                }
+
+                offset.x = keys["MouseX"];
+                offset.y = keys["MouseY"];
+            }
+
+            document.querySelectorAll("iframe").forEach(ele => ele.classList.add("fix-drag"));
+            window.addEventListener("mousemove", dragHandler);
+
+            window.addEventListener("mouseup", () => {
+                window.removeEventListener("mousemove", dragHandler);
+                document.querySelectorAll("iframe").forEach(ele => ele.classList.remove("fix-drag"));
+            }, {
+                once: true
+            });
+        });
 
         ele.appendChild(resizer);
     }

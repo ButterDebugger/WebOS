@@ -28,7 +28,7 @@
 	top: 0px !important;
 	left: 0px !important;
 	right: 0px !important;
-	bottom: 30px !important; /* Pre calculated taskbar height */
+	bottom: 30pxl !important; /* Pre calculated taskbar height */
 }
 
 .minimize-window {
