@@ -117,9 +117,9 @@ function createWindowComponent(win, frameSrc) {
                 <img class="app-icon crisp no-drag no-select" src="/sys/img/broken-image.png">
                 <span class="title">Untitled Window</span>
                 <div class="flex-spacer"></div>
-                <button data-ungrabbable class="minimize-window crisp zero-padding"><div class="icon"><div/></button>
-                <button data-ungrabbable class="maximize-window crisp zero-padding"><div class="icon"><div/></button>
-                <button data-ungrabbable class="close-window crisp zero-padding"><div class="icon"><div/></button>
+                <button data-ungrabbable class="minimize-window crisp zero-padding"><div class="icon"></div></button>
+                <button data-ungrabbable class="maximize-window crisp zero-padding"><div class="icon"></div></button>
+                <button data-ungrabbable class="close-window crisp zero-padding"><div class="icon"></div></button>
             </div>
             <iframe class="frame gray-inset" src="${frameSrc}"></iframe>
         </div>
