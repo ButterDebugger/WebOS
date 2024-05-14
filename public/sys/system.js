@@ -31,7 +31,7 @@ startItemMenu.getOption("test-alert").addEventListener("click", () => {
 });
 
 startItem.ele.addEventListener("dblclick", () => {
-    let window = new Window("https://info.cern.ch/");
+    let window = new Window("/apps/files/index.html");
     window.title = "My Computer";
 });
 startItem.ele.addEventListener("contextmenu", (e) => {

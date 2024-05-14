@@ -136,21 +136,21 @@ function createWindowComponent(win, frameSrc) {
 
     // Minimize button
     let minimizeBtn = domParser(`
-        <button data-ungrabbable class="gray-container minimize-window crisp"></button>
+        <button data-ungrabbable class="minimize-window crisp"></button>
     `);
     minimizeBtn.addEventListener("click", () => win.minimize());
     titleBar.appendChild(minimizeBtn);
 
     // Maximize button
     let maximizeBtn = domParser(`
-        <button data-ungrabbable class="gray-container maximize-window crisp"></button>
+        <button data-ungrabbable class="maximize-window crisp"></button>
     `);
     maximizeBtn.addEventListener("click", () => win.maximize());
     titleBar.appendChild(maximizeBtn);
 
     // Close button
     let closeBtn = domParser(`
-        <button data-ungrabbable class="gray-container close-window crisp"></button>
+        <button data-ungrabbable class="close-window crisp"></button>
     `);
     closeBtn.addEventListener("click", () => win.close());
     titleBar.appendChild(closeBtn);

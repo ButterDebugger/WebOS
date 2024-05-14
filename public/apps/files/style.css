@@ -1,0 +1,25 @@
+body {
+	display: flex;
+	flex-direction: column;
+	gap: var(--un-menubar-thickness);
+
+	background-color: var(--c-menubar-bg);
+	padding: var(--un-menubar-thickness);
+}
+
+/* Address bar */
+.address-bar {
+	display: flex;
+	flex-direction: row;
+}
+#address {
+	flex: 1;
+
+	/* border-left: none;
+	border-right: none; */
+}
+
+/* File contents */
+#content {
+	flex: 1;
+}

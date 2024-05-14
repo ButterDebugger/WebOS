@@ -6,7 +6,7 @@ const taskbarSpacer = taskbar.querySelector(".flex-spacer");
 export class TaskbarItem {
     constructor(title = "Untitled item", iconSrc = "/sys/img/broken-image.png") {
         this.ele = domParser(`
-            <button class="taskbar-item gray-container">
+            <button class="taskbar-item">
                 <img class="icon crisp no-drag">
                 <span class="title"></span>
             </button>

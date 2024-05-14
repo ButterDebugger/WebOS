@@ -6,7 +6,7 @@
 	bottom: 0px;
 	width: 100vw;
 	height: 30px;
-	padding: 2px;
+	padding: var(--un-menubar-thickness);
 	margin: 0px;
 	z-index: 1000000; /* Absurdly high number */
 }
@@ -16,8 +16,6 @@
 	align-items: center;
 	justify-content: center;
 	gap: 4px;
-
-	padding: 1px 4px;
 }
 
 .taskbar-item > .icon {
@@ -31,5 +29,6 @@
 	align-items: center;
 	gap: 6px;
 
-	padding: 1px 4px;
+	padding: calc(var(--un-menubar-thickness) * 2)
+		calc(var(--un-menubar-thickness) * 4);
 }

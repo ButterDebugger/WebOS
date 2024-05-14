@@ -9,7 +9,7 @@
 	align-items: center;
 	gap: 4px;
 
-	padding: 4px;
+	padding: calc(var(--un-menubar-thickness) * 2);
 }
 .window.unfocused > .title-bar {
 	background-color: #808080;
@@ -132,7 +132,8 @@
 	position: absolute;
 }
 .context-menu .option {
-	padding: 2px 8px;
+	padding: calc(var(--un-menubar-thickness) * 1)
+		calc(var(--un-menubar-thickness) * 4);
 }
 .context-menu .option:hover {
 	background-color: #357ec7;

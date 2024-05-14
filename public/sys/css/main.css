@@ -9,6 +9,7 @@
 :root {
 	--c-menubar-bg: silver;
 	--c-menubar-bg-dark: #b8b8b8;
+	--c-menubar-bg-bright: #f6f6f6;
 	--c-menubar-bright: #dfdfdf;
 	--c-menubar-dark: gray;
 	--un-menubar-thickness: 2px;
@@ -73,19 +74,35 @@ textarea {
 
 /* Gui container */
 .gray-container,
-button.gray-container {
+button {
 	background-color: var(--c-menubar-bg);
 	border-top: var(--un-menubar-thickness) solid var(--c-menubar-bright);
 	border-left: var(--un-menubar-thickness) solid var(--c-menubar-bright);
 	border-right: var(--un-menubar-thickness) solid var(--c-menubar-dark);
 	border-bottom: var(--un-menubar-thickness) solid var(--c-menubar-dark);
 }
+button,
+input[type="text"] {
+	padding: calc(var(--un-menubar-thickness) * 2)
+		calc(var(--un-menubar-thickness) * 4);
+}
+.white-inset,
+input[type="text"],
 .gray-inset,
-button.gray-container:active,
-button.gray-container.active {
+button:active,
+button.active {
 	background-color: var(--c-menubar-bg-dark);
 	border-top: var(--un-menubar-thickness) solid var(--c-menubar-dark);
 	border-left: var(--un-menubar-thickness) solid var(--c-menubar-dark);
 	border-right: var(--un-menubar-thickness) solid var(--c-menubar-bright);
 	border-bottom: var(--un-menubar-thickness) solid var(--c-menubar-bright);
+}
+.white-inset,
+input[type="text"] {
+	background-color: var(--c-menubar-bg-bright);
+}
+button:focus-visible,
+input[type="text"]:focus-visible {
+	outline: 1px dotted black;
+	outline-offset: calc(var(--un-menubar-thickness) * -2);
 }
