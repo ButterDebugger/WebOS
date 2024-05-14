@@ -170,8 +170,8 @@ function createWindowComponent(win, frameSrc) {
                 x: keys["MouseX"],
                 y: keys["MouseY"]
             }
-            let startX = win.x;
-            let startY = win.y;
+            let initLeft = win.x + win.width - win.minWidth;
+            let initTop = win.y + win.height - win.minHeight;
 
             const dragHandler = function() {
                 if (horizontal) {
@@ -180,7 +180,7 @@ function createWindowComponent(win, frameSrc) {
                         ? 0
                         : win.x + win.minWidth;
                     let maxLeft = invertHorizontal
-                        ? startX
+                        ? initLeft
                         : window.innerWidth;
 
                     // Calculate the mouse position difference
@@ -200,7 +200,7 @@ function createWindowComponent(win, frameSrc) {
                         ? 0
                         : win.y + win.minHeight;
                     let maxTop = invertVertical
-                        ? startY
+                        ? initTop
                         : window.innerHeight;
 
                     // Calculate the mouse position difference
