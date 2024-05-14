@@ -196,10 +196,10 @@ function createWindowComponent(win, frameSrc) {
                 }
                 if (vertical) {
                     // Calculate the y range of where the user can resize
-                    let minTop = invertHorizontal
+                    let minTop = invertVertical
                         ? 0
                         : win.y + win.minHeight;
-                    let maxTop = invertHorizontal
+                    let maxTop = invertVertical
                         ? startY
                         : window.innerHeight;
 
