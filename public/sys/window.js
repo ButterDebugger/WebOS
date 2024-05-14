@@ -1,5 +1,5 @@
 import keys from "https://debutter.dev/x/js/keys.js@1.1.0";
-import { domParser } from "https://debutter.dev/x/js/utils.js@1.2";
+import { dom } from "https://debutter.dev/x/js/dom@1.0.0";
 import { randomInt, remapRange } from "https://debutter.dev/x/js/math.js";
 import { TaskbarItem } from "./taskbar.js";
 import system from "./system.js";
@@ -111,12 +111,15 @@ export default class Window {
 }
 
 function createWindowComponent(win, frameSrc) {
-    let ele = domParser(`
+    let $ele = dom(`
         <div class="window gray-container moveable">
             <div class="title-bar">
                 <img class="app-icon crisp no-drag no-select" src="/sys/img/broken-image.png">
                 <span class="title">Untitled Window</span>
                 <div class="flex-spacer"></div>
+                <button data-ungrabbable class="minimize-window crisp"></button>
+                <button data-ungrabbable class="maximize-window crisp"></button>
+                <button data-ungrabbable class="close-window crisp"></button>
             </div>
             <iframe class="frame gray-inset" src="${frameSrc}"></iframe>
         </div>
@@ -124,38 +127,20 @@ function createWindowComponent(win, frameSrc) {
 
     // Add iframe focus event handlers
     let blurFocus = false;
-    ele.addEventListener("mouseover", () => blurFocus = true);
-    ele.addEventListener("mouseout", () => {
+
+    $ele.on("mouseover", () => blurFocus = true );
+    $ele.on("mouseout", () => {
         blurFocus = false;
         setTimeout(() => window.focus(), 0);
     });
-    window.addEventListener("blur", () => {
+    $ele.on("mousedown", () => {
         if (blurFocus) win.focusHandler();
     });
 
-    // Create title bar
-    let titleBar = ele.querySelector(".title-bar");
-
-    // Minimize button
-    let minimizeBtn = domParser(`
-        <button data-ungrabbable class="minimize-window crisp"></button>
-    `);
-    minimizeBtn.addEventListener("click", () => win.minimize());
-    titleBar.appendChild(minimizeBtn);
-
-    // Maximize button
-    let maximizeBtn = domParser(`
-        <button data-ungrabbable class="maximize-window crisp"></button>
-    `);
-    maximizeBtn.addEventListener("click", () => win.maximize());
-    titleBar.appendChild(maximizeBtn);
-
-    // Close button
-    let closeBtn = domParser(`
-        <button data-ungrabbable class="close-window crisp"></button>
-    `);
-    closeBtn.addEventListener("click", () => win.close());
-    titleBar.appendChild(closeBtn);
+    // Add button handlers
+    $ele.find("button.minimize-window").on("click", () => win.minimize());
+    $ele.find("button.maximize-window").on("click", () => win.maximize());
+    $ele.find("button.close-window").on("click", () => win.close());
 
     // Add window resizers
     let resizers = {
@@ -170,9 +155,8 @@ function createWindowComponent(win, frameSrc) {
         "nw": [true,  true,  true,  true],
     }
 
-    for (let dir of Object.keys(resizers)) {
-        let resizer = document.createElement("div");
-        resizer.classList.add(`resizer-${dir}`);
+    for (let dir in resizers) {
+        let $resizer = dom(`<div class="resizer-${dir}"></div>`);
 
         let {
             0: vertical,
@@ -181,7 +165,7 @@ function createWindowComponent(win, frameSrc) {
             3: invertHorizontal
         } = resizers[dir];
 
-        resizer.addEventListener("mousedown", () => {
+        $resizer.on("mousedown", () => {
             let offset = {
                 x: keys["MouseX"],
                 y: keys["MouseY"]
@@ -235,29 +219,31 @@ function createWindowComponent(win, frameSrc) {
                 offset.y = keys["MouseY"];
             }
 
-            document.querySelectorAll("iframe").forEach(ele => ele.classList.add("fix-drag"));
+            dom("iframe").forEachCtx($ => $.addClass("fix-drag"));
             window.addEventListener("mousemove", dragHandler);
 
             window.addEventListener("mouseup", () => {
                 window.removeEventListener("mousemove", dragHandler);
-                document.querySelectorAll("iframe").forEach(ele => ele.classList.remove("fix-drag"));
+                dom("iframe").forEachCtx($ => $.removeClass("fix-drag"));
             }, {
                 once: true
             });
         });
 
-        ele.appendChild(resizer);
+        $ele.append($resizer);
     }
 
     // Add window drag event handlers
-    titleBar.addEventListener("mousedown", ({ target }) => {
+    let $titleBar = $ele.find(".title-bar");
+
+    $titleBar.on("mousedown", ({ target }) => {
         if (target.hasAttribute("data-ungrabbable")) return;
 
         let relX;
         let relY;
 
         if (win.isMaximized()) {
-            let beforeWidth = titleBar.getBoundingClientRect().width;
+            let beforeWidth = win.width;
             win.maximize();
             relX = remapRange(keys["MouseX"], 0, beforeWidth, 0, win.width, true);
             relY = keys["MouseY"];
@@ -280,18 +266,18 @@ function createWindowComponent(win, frameSrc) {
             win.y = Math.max(0, Math.min(window.innerHeight - win.height, keys["MouseY"] - offset.y));
         }
 
-        document.querySelectorAll("iframe").forEach(ele => ele.classList.add("fix-drag"));
+        dom("iframe").forEachCtx($ => $.addClass("fix-drag"));
         window.addEventListener("mousemove", dragHandler);
 
         window.addEventListener("mouseup", () => {
             window.removeEventListener("mousemove", dragHandler);
-            win.ele.classList.remove("moving");
-            document.querySelectorAll("iframe").forEach(ele => ele.classList.remove("fix-drag"));
+            $ele.removeClass("moving");
+            dom("iframe").forEachCtx($ => $.removeClass("fix-drag"));
         }, {
             once: true
         });
     });
 
-    document.body.appendChild(ele);
-    return ele;
+    dom("body").append($ele);
+    return $ele.item(0);
 }
