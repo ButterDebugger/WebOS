@@ -31,21 +31,20 @@
 	height: calc(100% - 30px) !important; /* Pre calculated taskbar height */
 }
 
-.minimize-window {
+.minimize-window > .icon {
 	background-image: url("/sys/img/minimize.png");
+	width: 16px;
+	height: 16px;
 }
-.maximize-window {
+.maximize-window > .icon {
 	background-image: url("/sys/img/maximize.png");
+	width: 16px;
+	height: 16px;
 }
-.close-window {
+.close-window > .icon {
 	background-image: url("/sys/img/close.png");
-}
-.minimize-window,
-.maximize-window,
-.close-window {
-	width: 0px;
-	height: 0px;
-	padding: 8px;
+	width: 16px;
+	height: 16px;
 }
 
 /* Window resizer */
