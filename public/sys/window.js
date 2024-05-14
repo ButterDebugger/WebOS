@@ -126,16 +126,11 @@ function createWindowComponent(win, frameSrc) {
     `);
 
     // Add iframe focus event handlers
-    let blurFocus = false;
-
-    $ele.on("mouseover", () => blurFocus = true );
-    $ele.on("mouseout", () => {
-        blurFocus = false;
-        setTimeout(() => window.focus(), 0);
-    });
-    $ele.on("mousedown", () => {
-        if (blurFocus) win.focusHandler();
-    });
+    setTimeout(() => {
+        $ele.find("iframe").item(0).contentWindow.addEventListener("focus", () => {
+            win.focusHandler();
+        });
+    }, 0);
 
     // Add button handlers
     $ele.find("button.minimize-window").on("click", () => win.minimize());
