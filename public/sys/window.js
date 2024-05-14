@@ -125,10 +125,12 @@ function createWindowComponent(win, frameSrc) {
     // Add iframe focus event handlers
     let blurFocus = false;
     ele.addEventListener("mouseover", () => blurFocus = true);
-    ele.addEventListener("mouseout", () => blurFocus = false);
+    ele.addEventListener("mouseout", () => {
+        blurFocus = false;
+        setTimeout(() => window.focus(), 0);
+    });
     window.addEventListener("blur", () => {
         if (blurFocus) win.focusHandler();
-        setTimeout(() => window.focus(), 0);
     });
 
     // Create title bar
