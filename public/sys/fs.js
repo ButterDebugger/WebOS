@@ -7,15 +7,15 @@ class SysFile {
     #path;
 
     constructor(path) {
-        this.#path = "file:" + path;
+        this.#path = path;
     }
 
     get path() {
-        return this.#path.substring(5);
+        return this.#path;
     }
 
     get meta() {
-        return registry(this.#path);
+        return registry(`meta:${this.#path}`);
     }
 
     async get() {
@@ -32,11 +32,27 @@ class SysFile {
 }
 
 export function file(path) {
+    if (!isValidFilePath(path)) throw new Error("Invalid file path.");
+
     if (!files.has(path)) {
         files.set(path, new SysFile(path));
     }
 
     return files.get(path);
+}
+
+export function isValidFilePath(location) {
+    return location.startsWith("/");
+}
+
+export function* ls(path) {
+    if (!isValidFilePath(path)) throw new Error("Invalid file path.");
+
+    for (let filePath of files.keys()) {
+        if (filePath.startsWith(path)) {
+            yield filePath.substring(path.length);
+        }
+    }
 }
 
 // Registry methods
@@ -47,12 +63,12 @@ class SysRegistry {
     #cache;
 
     constructor(location) {
-        this.#location = "registry:" + location;
+        this.#location = location;
         this.#cache = null;
     }
 
     get location() {
-        return this.#location.substring(9);
+        return this.#location;
     }
 
     async get(key) {
@@ -85,9 +101,24 @@ class SysRegistry {
 }
 
 export function registry(location) {
+    if (!isValidRegistryLocation(location)) throw new Error("Invalid registry location.");
+
     if (!registries.has(location)) {
         registries.set(location, new SysRegistry(location));
     }
 
     return registries.get(location);
+}
+
+export function isValidRegistryLocation(location) {
+    return /^\w+:/.test(location);
+}
+
+// Load all keys
+for (let e of await binforage.keys()) {
+    if (isValidFilePath(e)) {
+        file(e);
+    } else if (isValidRegistryLocation(e)) {
+        registry(e);
+    }
 }

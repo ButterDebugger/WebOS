@@ -1,5 +1,4 @@
 import { DesktopItem } from "./desktop.js";
-import * as fs from "./fs.js";
 import Window from "./window.js";
 import { ContextMenu } from "./gui.js";
 import { TaskbarItem } from "./taskbar.js";
@@ -48,9 +47,5 @@ Object.defineProperty(system, "zIndex", {
         return highestZ++;
     }
 });
-
-system.fs = fs;
-
-console.log(system);
 
 export default system;

@@ -1,5 +1,7 @@
+import * as fs from "./fs.js";
 import keys from "https://debutter.dev/x/js/keys.js@1.1.0";
 import { initElementScaler } from "https://debutter.dev/x/js/utils.js@1.2";
+import eventemitter3 from "https://cdn.jsdelivr.net/npm/eventemitter3@5.0.1/+esm";
 import moment from "https://cdn.jsdelivr.net/npm/moment@2.29.4/+esm";
 
 const desktopContent = document.getElementById("desktop-content");
@@ -32,8 +34,10 @@ updateDates();
 export const timeInterval = setInterval(updateDates, 100);
 
 // Desktop
-export class DesktopItem {
+export class DesktopItem extends eventemitter3 {
     constructor(src, title, x = 9, y = 9) {
+		super();
+
         this.ele = document.createElement("div");
         this.ele.classList.add("desktop-item", "moveable");
         this.ele.style.left = `${x}px`;
@@ -56,15 +60,15 @@ export class DesktopItem {
 
             let bounds = this.ele.getBoundingClientRect();
             let offset = {
-                x: keys["MouseX"] - bounds.x,
-                y: keys["MouseY"] - bounds.y
+                x: keys["MouseX"] - this.x,
+                y: keys["MouseY"] - this.y
             }
 
             const dragHandler = (function() {
                 if (!this.ele.classList.contains("moving")) this.ele.classList.add("moving");
 
-                this.ele.style.left = `${Math.max(0, Math.min(window.innerWidth - bounds.width, keys["MouseX"] - offset.x))}px`;
-                this.ele.style.top = `${Math.max(0, Math.min(window.innerHeight - bounds.height, keys["MouseY"] - offset.y))}px`;
+                this.x = Math.max(0, Math.min(window.innerWidth - bounds.width, keys["MouseX"] - offset.x));
+                this.y = Math.max(0, Math.min(window.innerHeight - bounds.height, keys["MouseY"] - offset.y));
             }).bind(this);
 
             const dragEndHandler = (function({ button }) {
@@ -97,4 +101,38 @@ export class DesktopItem {
     get title() {
         return this.ele.querySelector(".title").innerText;
     }
+
+    set x(scalar) {
+        this.ele.style.left = `${scalar}px`;
+
+        this.emit("move");
+    }
+    get x() {
+        return this.ele.getBoundingClientRect().x;
+    }
+
+    set y(scalar) {
+        this.ele.style.top = `${scalar}px`;
+
+        this.emit("move");
+    }
+    get y() {
+        return this.ele.getBoundingClientRect().y;
+    }
+}
+
+// Load desktop content from memory
+fs.file("/home/desktop/broken file").set("nonsense");
+
+for await (let filePath of fs.ls("/home/desktop/")) {
+    let itemMeta = fs.file("/home/desktop/" + filePath).meta;
+
+    let item = new DesktopItem("/sys/img/broken-image.png", filePath.split("/").pop());
+    item.x = await itemMeta.get("x") ?? 0;
+    item.y = await itemMeta.get("y") ?? 0;
+
+    item.on("move", async () => {
+        await itemMeta.set("x", item.x);
+        await itemMeta.set("y", item.y);
+    });
 }
