@@ -60,11 +60,9 @@ const registries = new Map();
 
 class SysRegistry {
     #location;
-    #cache;
 
     constructor(location) {
         this.#location = location;
-        this.#cache = null;
     }
 
     get location() {
@@ -72,31 +70,25 @@ class SysRegistry {
     }
 
     async get(key) {
-        if (!(this.#cache instanceof Object)) {
-            this.#cache = await binforage.get(this.#location) ?? {};
-        }
+        let table = await binforage.get(this.#location) ?? {};
 
-        return this.#cache[key];
+        return table[key];
     }
 
     async set(key, value) {
-        if (!(this.#cache instanceof Object)) {
-            this.#cache = await binforage.get(this.#location) ?? {};
-        }
+        let table = await binforage.get(this.#location) ?? {};
 
-        this.#cache[key] = value;
+        table[key] = value;
 
-        return await binforage.set(this.#location, this.#cache);
+        return await binforage.set(this.#location, table);
     }
 
     async remove(key) {
-        if (!(this.#cache instanceof Object)) {
-            this.#cache = await binforage.get(this.#location) ?? {};
-        }
+        let table = await binforage.get(this.#location) ?? {};
 
-        delete this.#cache[key];
+        delete table[key];
 
-        return await binforage.set(this.#location, this.#cache);
+        return await binforage.set(this.#location, table);
     }
 }
 
