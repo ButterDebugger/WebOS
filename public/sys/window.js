@@ -1,5 +1,5 @@
 import keys from "https://debutter.dev/x/js/keys.js@1.1.0";
-import { dom } from "https://debutter.dev/x/js/dom@1.0.0";
+import { dom, collection } from "https://debutter.dev/x/js/dom.js@1.0.0?min";
 import { randomInt, remapRange } from "https://debutter.dev/x/js/math.js";
 import { TaskbarItem } from "./taskbar.js";
 import system from "./system.js";
@@ -127,7 +127,7 @@ function createWindowComponent(win, frameSrc) {
 
     // Add iframe focus event handlers
     setTimeout(() => {
-        $ele.find("iframe").item(0).contentWindow.addEventListener("focus", () => {
+        $ele.find("iframe").element.contentWindow.addEventListener("focus", () => {
             win.focusHandler();
         });
     }, 0);
@@ -214,12 +214,12 @@ function createWindowComponent(win, frameSrc) {
                 offset.y = keys["MouseY"];
             }
 
-            dom("iframe").forEachCtx($ => $.addClass("fix-drag"));
+            collection("iframe").addClass("fix-drag");
             window.addEventListener("mousemove", dragHandler);
 
             window.addEventListener("mouseup", () => {
                 window.removeEventListener("mousemove", dragHandler);
-                dom("iframe").forEachCtx($ => $.removeClass("fix-drag"));
+                collection("iframe").removeClass("fix-drag");
             }, {
                 once: true
             });
@@ -261,18 +261,18 @@ function createWindowComponent(win, frameSrc) {
             win.y = Math.max(0, Math.min(window.innerHeight - win.height, keys["MouseY"] - offset.y));
         }
 
-        dom("iframe").forEachCtx($ => $.addClass("fix-drag"));
+        collection("iframe").addClass("fix-drag");
         window.addEventListener("mousemove", dragHandler);
 
         window.addEventListener("mouseup", () => {
             window.removeEventListener("mousemove", dragHandler);
             $ele.removeClass("moving");
-            dom("iframe").forEachCtx($ => $.removeClass("fix-drag"));
+            collection("iframe").removeClass("fix-drag");
         }, {
             once: true
         });
     });
 
     dom("body").append($ele);
-    return $ele.item(0);
+    return $ele.element;
 }
