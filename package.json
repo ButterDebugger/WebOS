@@ -2,20 +2,26 @@
   "name": "webos",
   "version": "1.0.0",
   "description": "An operating system all in the web browser",
-  "main": "server.js",
+  "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js -e js,json,html,css",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "bunx --bun vite",
+    "build": "bunx --bun vite build --emptyOutDir",
+    "start": "bun run build && bun run ./src/server.ts"
   },
   "dependencies": {
-    "express": "^4.19.2"
+    "hono": "^4.7.10"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.29",
+    "glob": "^11.0.2",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5"
   },
   "license": "MIT",
+  "author": "ButterDebugger",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ButterDebugger/WebOS.git"
   },
-  "author": "ButterDebugger",
   "contributors": []
 }

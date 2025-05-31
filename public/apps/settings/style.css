@@ -1,13 +1,15 @@
+@import "../../sys/css/main.css";
+
 #wrapper {
-    display: flex;
-    flex-direction: row;
-    
-    width: 1000px;
+	display: flex;
+	flex-direction: row;
+
+	width: 1000px;
 }
 
 #navbar {
-    min-width: 200px;
+	min-width: 200px;
 }
 #content {
-    flex: 1;
+	flex: 1;
 }

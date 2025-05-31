@@ -32,17 +32,17 @@
 }
 
 .minimize-window > .icon {
-	background-image: url("/sys/img/minimize.png");
+	background-image: url("../img/minimize.png");
 	width: 16px;
 	height: 16px;
 }
 .maximize-window > .icon {
-	background-image: url("/sys/img/maximize.png");
+	background-image: url("../img/maximize.png");
 	width: 16px;
 	height: 16px;
 }
 .close-window > .icon {
-	background-image: url("/sys/img/close.png");
+	background-image: url("../img/close.png");
 	width: 16px;
 	height: 16px;
 }
