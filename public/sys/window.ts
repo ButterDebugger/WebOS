@@ -1,14 +1,31 @@
 import keys from "https://debutter.dev/x/js/keys.js@1.1.0";
 import { dom, collection, html } from "@debutter/dough";
 import { randomInt, remapRange } from "https://debutter.dev/x/js/math.js";
-import { TaskbarItem } from "./taskbar.js";
-import system from "./system.js";
+import { TaskbarItem } from "./taskbar.ts";
+import system from "./system.ts";
 import brokenImagePNG from "./img/broken-image.png";
 
+interface WindowElement extends HTMLElement {
+	window: Window;
+}
+
 export default class Window {
-	constructor(frameSrc) {
+	public ele: WindowElement;
+	public taskbarItem: TaskbarItem;
+	public minWidth: number;
+	public minHeight: number;
+
+	private iconEle: HTMLImageElement;
+	private titleEle: HTMLSpanElement;
+
+	constructor(frameSrc: string) {
 		this.ele = createWindowComponent(this, frameSrc);
 		this.ele.window = this;
+
+		// biome-ignore lint/style/noNonNullAssertion: It is defined
+		this.iconEle = this.ele.querySelector<HTMLImageElement>(".app-icon")!;
+		// biome-ignore lint/style/noNonNullAssertion: It is defined
+		this.titleEle = this.ele.querySelector<HTMLElement>(".title")!;
 
 		this.taskbarItem = new TaskbarItem();
 		this.taskbarItem.ele.addEventListener("click", () => {
@@ -19,10 +36,10 @@ export default class Window {
 
 		this.ele.addEventListener("mousedown", () => this.focusHandler());
 		this.focusHandler();
-		window.addEventListener("click", ({ target }) => {
+		window.addEventListener("click", ({ target }: MouseEvent) => {
 			if (
-				!this.ele.contains(target) &&
-				!this.taskbarItem.ele.contains(target)
+				!this.ele.contains(target as Element) &&
+				!this.taskbarItem.ele.contains(target as Element)
 			) {
 				this.unfocusHandler();
 			}
@@ -35,105 +52,129 @@ export default class Window {
 		this.y = randomInt(0, window.innerHeight - this.height);
 	}
 
-	set icon(src) {
-		this.ele.querySelector(".app-icon").src = src;
+	set icon(src: string) {
+		this.iconEle.src = src;
 		this.taskbarItem.icon = src;
 	}
-	get icon() {
-		return this.ele.querySelector(".app-icon").src;
+	get icon(): string {
+		return this.iconEle.src || "";
 	}
 
-	set title(text) {
-		this.ele.querySelector(".title").innerText = text;
+	set title(text: string) {
+		this.titleEle.innerText = text;
 		this.taskbarItem.title = text;
 	}
-	get title() {
-		return this.ele.querySelector(".title").innerText;
+	get title(): string {
+		return this.titleEle.innerText || "";
 	}
 
-	set x(scalar) {
+	set x(scalar: number) {
 		this.ele.style.left = `${scalar}px`;
 	}
-	get x() {
+	get x(): number {
 		return this.ele.getBoundingClientRect().x;
 	}
 
-	set y(scalar) {
+	set y(scalar: number) {
 		this.ele.style.top = `${scalar}px`;
 	}
-	get y() {
+	get y(): number {
 		return this.ele.getBoundingClientRect().y;
 	}
 
-	set height(scalar) {
+	set height(scalar: number) {
 		this.ele.style.height = `${Math.max(this.minHeight, scalar)}px`;
 	}
-	get height() {
+	get height(): number {
 		return this.ele.getBoundingClientRect().height;
 	}
 
-	set width(scalar) {
+	set width(scalar: number) {
 		this.ele.style.width = `${Math.max(this.minWidth, scalar)}px`;
 	}
-	get width() {
+	get width(): number {
 		return this.ele.getBoundingClientRect().width;
 	}
 
-	focusHandler() {
-		this.ele.style.zIndex = system.zIndex;
+	focusHandler(): void {
+		this.ele.style.zIndex = String(system.zIndex);
 		this.ele.classList.remove("unfocused");
 		this.taskbarItem.active = true;
-		document.querySelectorAll(".window").forEach((win) => {
-			if (win !== this.ele) win.window.unfocusHandler();
-		});
+
+		for (const win of document.querySelectorAll(".window")) {
+			if (win !== this.ele) {
+				(win as WindowElement).window.unfocusHandler();
+			}
+		}
 	}
-	unfocusHandler() {
+	unfocusHandler(): void {
 		this.ele.classList.add("unfocused");
 		this.taskbarItem.active = false;
 	}
 
-	isMinimized() {
+	isMinimized(): boolean {
 		return this.ele.classList.contains("minimized");
 	}
-	minimize() {
+	minimize(): void {
 		this.ele.classList.remove("maximized");
 		this.ele.classList.toggle("minimized");
 	}
 
-	isMaximized() {
+	isMaximized(): boolean {
 		return this.ele.classList.contains("maximized");
 	}
-	maximize() {
+	maximize(): void {
 		this.ele.classList.remove("minimized");
 		this.ele.classList.toggle("maximized");
 	}
 
-	close() {
+	close(): void {
 		this.ele.remove();
 		this.taskbarItem.remove();
 	}
 }
 
-function createWindowComponent(win, frameSrc) {
+function createWindowComponent(win: Window, frameSrc: string): WindowElement {
 	const $ele = dom(html`
-        <div class="window gray-container moveable">
-            <div class="title-bar">
-                <img class="app-icon crisp no-drag no-select" src="${brokenImagePNG}">
-                <span class="title">Untitled Window</span>
-                <div class="flex-spacer"></div>
-                <button data-ungrabbable class="minimize-window crisp zero-padding"><div class="icon"></div></button>
-                <button data-ungrabbable class="maximize-window crisp zero-padding"><div class="icon"></div></button>
-                <button data-ungrabbable class="close-window crisp zero-padding"><div class="icon"></div></button>
-            </div>
-            <iframe class="frame gray-inset" src="${frameSrc}"></iframe>
-        </div>
-    `);
+		<div class="window gray-container moveable">
+			<div class="title-bar">
+				<img
+					class="app-icon crisp no-drag no-select"
+					src="${brokenImagePNG}"
+				/>
+				<span class="title">Untitled Window</span>
+				<div class="flex-spacer"></div>
+				<button
+					data-ungrabbable
+					class="minimize-window crisp zero-padding"
+				>
+					<div class="icon"></div>
+				</button>
+				<button
+					data-ungrabbable
+					class="maximize-window crisp zero-padding"
+				>
+					<div class="icon"></div>
+				</button>
+				<button
+					data-ungrabbable
+					class="close-window crisp zero-padding"
+				>
+					<div class="icon"></div>
+				</button>
+			</div>
+			<iframe class="frame gray-inset" src="${frameSrc}"></iframe>
+		</div>
+	`);
 
 	// Add iframe focus event handlers
 	setTimeout(() => {
-		$ele.find("iframe").element.contentWindow.addEventListener("focus", () => {
-			win.focusHandler();
-		});
+		$ele.find("iframe").element.contentWindow.addEventListener(
+			"focus",
+			() => {
+				win.focusHandler();
+			}
+		);
 	}, 0);
 
 	// Add button handlers
@@ -151,7 +192,7 @@ function createWindowComponent(win, frameSrc) {
 		ne: [true, true, true, false],
 		se: [true, false, true, false],
 		sw: [true, false, true, true],
-		nw: [true, true, true, true],
+		nw: [true, true, true, true]
 	};
 
 	for (const dir in resizers) {
@@ -161,13 +202,13 @@ function createWindowComponent(win, frameSrc) {
 			0: vertical,
 			1: invertVertical,
 			2: horizontal,
-			3: invertHorizontal,
+			3: invertHorizontal
 		} = resizers[dir];
 
 		$resizer.on("mousedown", () => {
 			const offset = {
 				x: keys["MouseX"],
-				y: keys["MouseY"],
+				y: keys["MouseY"]
 			};
 			const initLeft = win.x + win.width - win.minWidth;
 			const initTop = win.y + win.height - win.minHeight;
@@ -176,7 +217,9 @@ function createWindowComponent(win, frameSrc) {
 				if (horizontal) {
 					// Calculate the x range of where the user can resize
 					const minLeft = invertHorizontal ? 0 : win.x + win.minWidth;
-					const maxLeft = invertHorizontal ? initLeft : window.innerWidth;
+					const maxLeft = invertHorizontal
+						? initLeft
+						: window.innerWidth;
 
 					// Calculate the mouse position difference
 					const diff =
@@ -194,7 +237,9 @@ function createWindowComponent(win, frameSrc) {
 				if (vertical) {
 					// Calculate the y range of where the user can resize
 					const minTop = invertVertical ? 0 : win.y + win.minHeight;
-					const maxTop = invertVertical ? initTop : window.innerHeight;
+					const maxTop = invertVertical
+						? initTop
+						: window.innerHeight;
 
 					// Calculate the mouse position difference
 					const diff =
@@ -224,8 +269,8 @@ function createWindowComponent(win, frameSrc) {
 					collection("iframe").removeClass("fix-drag");
 				},
 				{
-					once: true,
-				},
+					once: true
+				}
 			);
 		});
 
@@ -244,14 +289,21 @@ function createWindowComponent(win, frameSrc) {
 		if (win.isMaximized()) {
 			const beforeWidth = win.width;
 			win.maximize();
-			relX = remapRange(keys["MouseX"], 0, beforeWidth, 0, win.width, true);
+			relX = remapRange(
+				keys["MouseX"],
+				0,
+				beforeWidth,
+				0,
+				win.width,
+				true
+			);
 			relY = keys["MouseY"];
 			win.maximize();
 		}
 
 		const offset = {
 			x: relX ?? keys["MouseX"] - win.x,
-			y: relY ?? keys["MouseY"] - win.y,
+			y: relY ?? keys["MouseY"] - win.y
 		};
 
 		const dragHandler = () => {
@@ -264,11 +316,17 @@ function createWindowComponent(win, frameSrc) {
 
 			win.x = Math.max(
 				0,
-				Math.min(window.innerWidth - win.width, keys["MouseX"] - offset.x),
+				Math.min(
+					window.innerWidth - win.width,
+					keys["MouseX"] - offset.x
+				)
 			);
 			win.y = Math.max(
 				0,
-				Math.min(window.innerHeight - win.height, keys["MouseY"] - offset.y),
+				Math.min(
+					window.innerHeight - win.height,
+					keys["MouseY"] - offset.y
+				)
 			);
 		};
 
@@ -283,11 +341,11 @@ function createWindowComponent(win, frameSrc) {
 				collection("iframe").removeClass("fix-drag");
 			},
 			{
-				once: true,
-			},
+				once: true
+			}
 		);
 	});
 
 	dom("body").append($ele);
-	return $ele.element;
+	return $ele.element as WindowElement;
 }

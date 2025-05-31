@@ -1,12 +1,22 @@
 import { html, isChildOf } from "@debutter/dough";
 
+interface OptionElement extends HTMLElement {
+	submenu?: ContextMenu | null;
+}
+
 export class ContextMenu {
+	public ele: HTMLDivElement;
+	public parent: ContextMenu | null;
+	public subnet: Set<ContextMenu>;
+
 	constructor() {
-		this.ele = html`<div class="context-menu gray-container"></div>`;
+		this.ele = html`<div
+			class="context-menu gray-container"
+		></div>` as HTMLDivElement;
 		this.parent = null;
 		this.subnet = new Set();
 
-		window.addEventListener("click", ({ target }) => {
+		window.addEventListener("click", ({ target }: MouseEvent) => {
 			// Do not check if this context menu is the child of another
 			if (this.parent) return;
 
@@ -14,7 +24,7 @@ export class ContextMenu {
 			let isChild = false;
 
 			for (const menu of flattenSubnet(this)) {
-				if (isChildOf(target, menu.ele)) {
+				if (target && isChildOf(target as Element, menu.ele)) {
 					isChild = true;
 				}
 			}
@@ -23,14 +33,14 @@ export class ContextMenu {
 		});
 	}
 
-	spawn(x = 0, y = 0) {
+	spawn(x = 0, y = 0): void {
 		this.x = x;
 		this.y = y;
 
 		document.body.appendChild(this.ele);
 	}
 
-	hide() {
+	hide(): void {
 		for (const menu of this.subnet) {
 			menu.hide();
 		}
@@ -38,8 +48,12 @@ export class ContextMenu {
 		this.ele.remove();
 	}
 
-	addOption(name, id, submenu = null) {
-		const option = html`<div class="option"></div>`;
+	addOption(
+		name: string,
+		id: string,
+		submenu: ContextMenu | null = null
+	): this {
+		const option = html`<div class="option"></div>` as OptionElement;
 
 		option.innerText = name;
 		option.setAttribute("data-opt-id", id);
@@ -62,11 +76,12 @@ export class ContextMenu {
 			}
 		});
 
-		option.addEventListener("mouseout", ({ relatedTarget }) => {
+		option.addEventListener("mouseout", ({ relatedTarget }: MouseEvent) => {
 			if (submenu instanceof ContextMenu) {
 				if (
-					isChildOf(relatedTarget, submenu.ele) ||
-					relatedTarget === submenu.ele
+					relatedTarget &&
+					(isChildOf(relatedTarget as Element, submenu.ele) ||
+						relatedTarget === submenu.ele)
 				)
 					return;
 
@@ -78,14 +93,14 @@ export class ContextMenu {
 		return this;
 	}
 
-	addDivider() {
+	addDivider(): this {
 		const divider = html`<div class="divider"></div>`;
 
 		this.ele.appendChild(divider);
 		return this;
 	}
 
-	getOption(id) {
+	getOption(id: string): Element | null {
 		// Find the option in the top layer
 		let option = this.ele.querySelector(`.option[data-opt-id=${id}]`);
 
@@ -101,23 +116,23 @@ export class ContextMenu {
 		return null;
 	}
 
-	set x(scalar) {
+	set x(scalar: number) {
 		this.ele.style.left = `${scalar}px`;
 	}
-	get x() {
+	get x(): number {
 		return this.ele.getBoundingClientRect().x;
 	}
 
-	set y(scalar) {
+	set y(scalar: number) {
 		this.ele.style.top = `${scalar}px`;
 	}
-	get y() {
+	get y(): number {
 		return this.ele.getBoundingClientRect().y;
 	}
 }
 
-function flattenSubnet(menu) {
-	const list = new Set();
+function flattenSubnet(menu: ContextMenu): Set<ContextMenu> {
+	const list = new Set<ContextMenu>();
 	list.add(menu);
 
 	for (const submenu of menu.subnet) {
