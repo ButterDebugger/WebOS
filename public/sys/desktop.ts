@@ -1,5 +1,5 @@
 import * as fs from "./fs.ts";
-import keys from "https://debutter.dev/x/js/keys.js@1.1.0";
+import { getMouseX, getMouseY } from "./input.ts";
 import { initElementScaler } from "https://debutter.dev/x/js/utils.js@1.2";
 import eventemitter3 from "eventemitter3";
 import moment from "moment";
@@ -76,8 +76,8 @@ export class DesktopItem extends eventemitter3 {
 
 			const bounds = this.ele.getBoundingClientRect();
 			const offset = {
-				x: keys.MouseX - this.x,
-				y: keys.MouseY - this.y
+				x: getMouseX() - this.x,
+				y: getMouseY() - this.y
 			};
 
 			const dragHandler = () => {
@@ -88,14 +88,14 @@ export class DesktopItem extends eventemitter3 {
 					0,
 					Math.min(
 						window.innerWidth - bounds.width,
-						keys.MouseX - offset.x
+						getMouseX() - offset.x
 					)
 				);
 				this.y = Math.max(
 					0,
 					Math.min(
 						window.innerHeight - bounds.height,
-						keys.MouseY - offset.y
+						getMouseY() - offset.y
 					)
 				);
 			};

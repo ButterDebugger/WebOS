@@ -1,4 +1,4 @@
-import keys from "https://debutter.dev/x/js/keys.js@1.1.0";
+import { getMouseX, getMouseY } from "./input.ts";
 import { dom, collection, html } from "@debutter/dough";
 import { randomInt, remapRange } from "https://debutter.dev/x/js/math.js";
 import { TaskbarItem } from "./taskbar.ts";
@@ -207,8 +207,8 @@ function createWindowComponent(win: Window, frameSrc: string): WindowElement {
 
 		$resizer.on("mousedown", () => {
 			const offset = {
-				x: keys["MouseX"],
-				y: keys["MouseY"]
+				x: getMouseX(),
+				y: getMouseY()
 			};
 			const initLeft = win.x + win.width - win.minWidth;
 			const initTop = win.y + win.height - win.minHeight;
@@ -223,7 +223,7 @@ function createWindowComponent(win: Window, frameSrc: string): WindowElement {
 
 					// Calculate the mouse position difference
 					const diff =
-						Math.max(minLeft, Math.min(maxLeft, keys["MouseX"])) -
+						Math.max(minLeft, Math.min(maxLeft, getMouseX())) -
 						Math.max(minLeft, Math.min(maxLeft, offset.x));
 
 					// Update the width and or x position of the window
@@ -243,7 +243,7 @@ function createWindowComponent(win: Window, frameSrc: string): WindowElement {
 
 					// Calculate the mouse position difference
 					const diff =
-						Math.max(minTop, Math.min(maxTop, keys["MouseY"])) -
+						Math.max(minTop, Math.min(maxTop, getMouseY())) -
 						Math.max(minTop, Math.min(maxTop, offset.y));
 
 					// Update the height and or y position of the window
@@ -255,8 +255,8 @@ function createWindowComponent(win: Window, frameSrc: string): WindowElement {
 					}
 				}
 
-				offset.x = keys["MouseX"];
-				offset.y = keys["MouseY"];
+				offset.x = getMouseX();
+				offset.y = getMouseY();
 			};
 
 			collection("iframe").addClass("fix-drag");
@@ -289,21 +289,14 @@ function createWindowComponent(win: Window, frameSrc: string): WindowElement {
 		if (win.isMaximized()) {
 			const beforeWidth = win.width;
 			win.maximize();
-			relX = remapRange(
-				keys["MouseX"],
-				0,
-				beforeWidth,
-				0,
-				win.width,
-				true
-			);
-			relY = keys["MouseY"];
+			relX = remapRange(getMouseX(), 0, beforeWidth, 0, win.width, true);
+			relY = getMouseY();
 			win.maximize();
 		}
 
 		const offset = {
-			x: relX ?? keys["MouseX"] - win.x,
-			y: relY ?? keys["MouseY"] - win.y
+			x: relX ?? getMouseX() - win.x,
+			y: relY ?? getMouseY() - win.y
 		};
 
 		const dragHandler = () => {
@@ -316,16 +309,13 @@ function createWindowComponent(win: Window, frameSrc: string): WindowElement {
 
 			win.x = Math.max(
 				0,
-				Math.min(
-					window.innerWidth - win.width,
-					keys["MouseX"] - offset.x
-				)
+				Math.min(window.innerWidth - win.width, getMouseX() - offset.x)
 			);
 			win.y = Math.max(
 				0,
 				Math.min(
 					window.innerHeight - win.height,
-					keys["MouseY"] - offset.y
+					getMouseY() - offset.y
 				)
 			);
 		};
