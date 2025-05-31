@@ -1,8 +1,8 @@
 import * as fs from "./fs.js";
 import keys from "https://debutter.dev/x/js/keys.js@1.1.0";
 import { initElementScaler } from "https://debutter.dev/x/js/utils.js@1.2";
-import eventemitter3 from "https://cdn.jsdelivr.net/npm/eventemitter3@5.0.1/+esm";
-import moment from "https://cdn.jsdelivr.net/npm/moment@2.29.4/+esm";
+import eventemitter3 from "eventemitter3";
+import moment from "moment";
 import brokenImagePNG from "./img/broken-image.png";
 
 const desktopContent = document.getElementById("desktop-content");
