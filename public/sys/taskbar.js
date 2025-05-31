@@ -1,4 +1,4 @@
-import { domParser } from "https://debutter.dev/x/js/utils.js@1.2";
+import { html } from "@debutter/dough";
 import brokenImagePNG from "./img/broken-image.png";
 
 const taskbar = document.getElementById("taskbar");
@@ -6,12 +6,12 @@ const taskbarSpacer = taskbar.querySelector(".flex-spacer");
 
 export class TaskbarItem {
 	constructor(title = "Untitled item", iconSrc = brokenImagePNG) {
-		this.ele = domParser(`
+		this.ele = html`
             <button class="taskbar-item">
                 <img class="icon crisp no-drag">
                 <span class="title"></span>
             </button>
-        `);
+        `;
 
 		this.title = title;
 		this.icon = iconSrc;

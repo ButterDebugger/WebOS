@@ -1,5 +1,5 @@
 import keys from "https://debutter.dev/x/js/keys.js@1.1.0";
-import { dom, collection } from "https://debutter.dev/x/js/dom.js@1.0.0?min";
+import { dom, collection, html } from "@debutter/dough";
 import { randomInt, remapRange } from "https://debutter.dev/x/js/math.js";
 import { TaskbarItem } from "./taskbar.js";
 import system from "./system.js";
@@ -115,7 +115,7 @@ export default class Window {
 }
 
 function createWindowComponent(win, frameSrc) {
-	const $ele = dom(`
+	const $ele = dom(html`
         <div class="window gray-container moveable">
             <div class="title-bar">
                 <img class="app-icon crisp no-drag no-select" src="${brokenImagePNG}">
@@ -155,7 +155,7 @@ function createWindowComponent(win, frameSrc) {
 	};
 
 	for (const dir in resizers) {
-		const $resizer = dom(`<div class="resizer-${dir}"></div>`);
+		const $resizer = dom(html`<div class="resizer-${dir}"></div>`);
 
 		const {
 			0: vertical,

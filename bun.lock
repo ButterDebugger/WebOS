@@ -4,6 +4,7 @@
     "": {
       "name": "webos",
       "dependencies": {
+        "@debutter/dough": "npm:@jsr/debutter__dough",
         "eventemitter3": "^5.0.1",
         "hono": "^4.7.10",
         "moment": "^2.30.1",
@@ -17,6 +18,8 @@
     },
   },
   "packages": {
+    "@debutter/dough": ["@jsr/debutter__dough@0.4.0", "https://npm.jsr.io/~/11/@jsr/debutter__dough/0.4.0.tgz", {}, "sha512-xMt9edeYQWaqZFQvaSfsXMzzIGsYKlMozTiLsKnL9yc7fWdX6nAEvIcxH67Opuc1as+SpMWX+FNOTxOqCtZIKg=="],
+
     "@esbuild/aix-ppc64": ["@esbuild/aix-ppc64@0.25.5", "", { "os": "aix", "cpu": "ppc64" }, "sha512-9o3TMmpmftaCMepOdA5k/yDw8SfInyzWWTjYTFCX3kPSDJMROQTb8jg+h9Cnwnmm1vOzvxN7gIfB5V2ewpjtGA=="],
 
     "@esbuild/android-arm": ["@esbuild/android-arm@0.25.5", "", { "os": "android", "cpu": "arm" }, "sha512-AdJKSPeEHgi7/ZhuIPtcQKr5RQdo6OO2IL87JkianiMYMPbCtot9fxPbrMiBADOWWm3T2si9stAiVsGbTQFkbA=="],

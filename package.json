@@ -9,6 +9,7 @@
     "start": "bun run build && bun run ./src/server.ts"
   },
   "dependencies": {
+    "@debutter/dough": "npm:@jsr/debutter__dough",
     "eventemitter3": "^5.0.1",
     "hono": "^4.7.10",
     "moment": "^2.30.1"
