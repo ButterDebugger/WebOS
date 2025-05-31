@@ -1,6 +1,6 @@
 import { getMouseX, getMouseY } from "./input.ts";
 import { dom, collection, html } from "@debutter/dough";
-import { randomInt, remapRange } from "https://debutter.dev/x/js/math.js";
+import { randomInt, remapRange } from "@debutter/helper";
 import { TaskbarItem } from "./taskbar.ts";
 import system from "./system.ts";
 import brokenImagePNG from "./img/broken-image.png";

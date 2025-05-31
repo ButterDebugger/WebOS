@@ -1,6 +1,6 @@
 import * as fs from "./mem/fs.ts";
 import { getMouseX, getMouseY } from "./input.ts";
-import { initElementScaler } from "https://debutter.dev/x/js/utils.js@1.2";
+import { elementPageScaler } from "@debutter/helper";
 import eventemitter3 from "eventemitter3";
 import moment from "moment";
 import brokenImagePNG from "./img/broken-image.png";
@@ -32,7 +32,7 @@ setInterval(() => {
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 }, 33.3333);
 
-initElementScaler();
+elementPageScaler(canvas);
 
 // Calendar
 function updateDates(): void {
