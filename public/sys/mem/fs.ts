@@ -1,4 +1,4 @@
-import * as binforage from "https://debutter.dev/x/js/binforage.js";
+import * as storage from "./storage.ts";
 
 // File system methods
 const files = new Map<string, SysFile>();
@@ -19,15 +19,15 @@ class SysFile {
 	}
 
 	async get(): Promise<unknown> {
-		return await binforage.get(this.#path);
+		return await storage.get(this.#path);
 	}
 
 	async set(value: unknown): Promise<unknown> {
-		return await binforage.set(this.#path, value);
+		return await storage.set(this.#path, value);
 	}
 
 	async remove(): Promise<unknown> {
-		return await binforage.remove(this.#path);
+		return await storage.remove(this.#path);
 	}
 }
 
@@ -73,25 +73,25 @@ class SysRegistry {
 	}
 
 	async get(key: string): Promise<unknown> {
-		const table = (await binforage.get(this.#location)) ?? {};
+		const table = (await storage.get(this.#location)) ?? {};
 
 		return (table as Record<string, unknown>)[key];
 	}
 
 	async set(key: string, value: unknown): Promise<unknown> {
-		const table = (await binforage.get(this.#location)) ?? {};
+		const table = (await storage.get(this.#location)) ?? {};
 
 		(table as Record<string, unknown>)[key] = value;
 
-		return await binforage.set(this.#location, table);
+		return await storage.set(this.#location, table);
 	}
 
 	async remove(key: string): Promise<unknown> {
-		const table = (await binforage.get(this.#location)) ?? {};
+		const table = (await storage.get(this.#location)) ?? {};
 
 		delete (table as Record<string, unknown>)[key];
 
-		return await binforage.set(this.#location, table);
+		return await storage.set(this.#location, table);
 	}
 }
 
@@ -114,7 +114,7 @@ export function isValidRegistryLocation(location: string): boolean {
 }
 
 // Load all keys
-for (const e of await binforage.keys()) {
+for (const e of await storage.keys()) {
 	if (isValidFilePath(e)) {
 		file(e);
 	} else if (isValidRegistryLocation(e)) {

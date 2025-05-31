@@ -1,4 +1,4 @@
-import * as fs from "./fs.ts";
+import * as fs from "./mem/fs.ts";
 import { getMouseX, getMouseY } from "./input.ts";
 import { initElementScaler } from "https://debutter.dev/x/js/utils.js@1.2";
 import eventemitter3 from "eventemitter3";

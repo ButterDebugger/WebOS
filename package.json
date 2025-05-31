@@ -10,8 +10,11 @@
   },
   "dependencies": {
     "@debutter/dough": "npm:@jsr/debutter__dough",
+    "@debutter/helper": "npm:@jsr/debutter__helper",
+    "@debutter/jsbin": "npm:@jsr/debutter__jsbin",
     "eventemitter3": "^5.0.1",
     "hono": "^4.7.10",
+    "localforage": "^1.10.0",
     "moment": "^2.30.1"
   },
   "devDependencies": {
