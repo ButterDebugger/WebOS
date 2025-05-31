@@ -1,9 +1,8 @@
 @import url("https://debutter.dev/x/css/simple.css");
 
 @font-face {
-	font-family: px_sans_nouveaux;
-	src: url("/sys/font/px_sans_nouveaux/px_sans_nouveaux.ttf")
-		format("truetype");
+	font-family: "departure mono";
+	src: url("/DepartureMono-1.500/DepartureMono-Regular.woff2") format("woff2");
 }
 
 :root {
@@ -21,8 +20,8 @@ body {
 }
 
 body {
-	font-family: px_sans_nouveaux, Arial, Helvetica, sans-serif;
-	font-size: 8px;
+	font-family: "departure mono", Arial, Helvetica, sans-serif;
+	font-size: 11px;
 	height: 100%;
 	overflow: hidden;
 	text-size-adjust: none;
