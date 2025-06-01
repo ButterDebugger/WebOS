@@ -1,11 +1,12 @@
-@import "../../sys/css/main.css";
+@use "../../sys/styles/mixin/colors.scss" as *;
+@use "../../sys/styles/main.scss";
 
 body {
 	display: flex;
 	flex-direction: column;
 	gap: var(--un-menubar-thickness);
 
-	background-color: var(--c-menubar-bg);
+	background-color: $carbon-8;
 	padding: var(--un-menubar-thickness);
 }
 

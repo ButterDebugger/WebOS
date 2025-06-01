@@ -2,7 +2,7 @@ import localforage from "localforage";
 import { encode, decode } from "@debutter/jsbin";
 import { fromUint8Array, toUint8Array } from "@debutter/helper";
 
-export async function set(key: string, value: unknown) {
+export async function set(key: string, value: unknown): Promise<boolean> {
 	try {
 		// Try encoding the value
 		const encodedValue = fromUint8Array(encode(value));
@@ -16,7 +16,7 @@ export async function set(key: string, value: unknown) {
 	return true;
 }
 
-export async function get(key: string) {
+export async function get(key: string): Promise<unknown | null> {
 	try {
 		// Retrieve the data
 		const value = await localforage.getItem(key);
@@ -31,7 +31,7 @@ export async function get(key: string) {
 	return null;
 }
 
-export async function remove(key: string) {
+export async function remove(key: string): Promise<boolean> {
 	try {
 		await localforage.removeItem(key);
 	} catch (err) {
@@ -41,7 +41,7 @@ export async function remove(key: string) {
 	return true;
 }
 
-export async function clear() {
+export async function clear(): Promise<boolean> {
 	try {
 		await localforage.clear();
 	} catch (err) {
@@ -51,7 +51,7 @@ export async function clear() {
 	return true;
 }
 
-export async function length() {
+export async function length(): Promise<number | -1> {
 	try {
 		return await localforage.length();
 	} catch (err) {
@@ -60,7 +60,7 @@ export async function length() {
 	}
 }
 
-export async function key(index: number) {
+export async function key(index: number): Promise<string | null> {
 	try {
 		return await localforage.key(index);
 	} catch (err) {
@@ -69,7 +69,7 @@ export async function key(index: number) {
 	}
 }
 
-export async function keys() {
+export async function keys(): Promise<string[]> {
 	try {
 		return await localforage.keys();
 	} catch (err) {
@@ -78,7 +78,7 @@ export async function keys() {
 	}
 }
 
-export async function* iterate() {
+export async function* iterate(): AsyncGenerator<unknown> {
 	try {
 		for (const key of await localforage.keys()) {
 			yield await get(key);

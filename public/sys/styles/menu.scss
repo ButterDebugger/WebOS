@@ -1,0 +1,19 @@
+@use "./mixin/colors.scss" as *;
+
+.context-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    position: absolute;
+}
+.context-menu .option {
+    padding: calc(var(--un-menubar-thickness) * 1) calc(var(--un-menubar-thickness) * 4);
+}
+.context-menu .option:hover {
+    background-color: #357ec7;
+}
+.context-menu .divider {
+    border-top: var(--un-menubar-thickness) solid $carbon-6;
+    border-bottom: var(--un-menubar-thickness) solid $carbon-9;
+}

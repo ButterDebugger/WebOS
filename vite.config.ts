@@ -23,5 +23,5 @@ export default defineConfig({
 	},
 	publicDir: resolve(cwd(), "static"),
 	root: resolve(cwd(), "public"),
-	appType: "spa"
+	appType: "mpa"
 });

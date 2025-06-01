@@ -1,3 +1,6 @@
+@use "./mixin/colors.scss" as *;
+@use "./mixin/borders.scss" as *;
+
 .window {
 	display: flex;
 	flex-direction: column;
@@ -5,6 +8,8 @@
 	position: absolute;
 }
 .window > .title-bar {
+	@include gray-inset;
+
 	display: flex;
 	align-items: center;
 	gap: 4px;
@@ -12,7 +17,7 @@
 	padding: calc(var(--un-menubar-thickness) * 2);
 }
 .window.unfocused > .title-bar {
-	background-color: #808080;
+	background-color: $carbon-6;
 }
 .window > .title-bar > .app-icon {
 	width: 16px;
@@ -78,22 +83,18 @@
 .resizer-n,
 .resizer-w,
 .resizer-nw {
-	inset: calc(-1 * var(--un-menubar-thickness)) 0px 0px
-		calc(-1 * var(--un-menubar-thickness));
+	inset: calc(-1 * var(--un-menubar-thickness)) 0px 0px calc(-1 * var(--un-menubar-thickness));
 }
 .resizer-e,
 .resizer-ne {
-	inset: calc(-1 * var(--un-menubar-thickness)) 0px 0px
-		calc(100% + -1 * var(--un-menubar-thickness));
+	inset: calc(-1 * var(--un-menubar-thickness)) 0px 0px calc(100% + -1 * var(--un-menubar-thickness));
 }
 .resizer-s,
 .resizer-sw {
-	inset: calc(100% + -1 * var(--un-menubar-thickness)) 0px 0px
-		calc(-1 * var(--un-menubar-thickness));
+	inset: calc(100% + -1 * var(--un-menubar-thickness)) 0px 0px calc(-1 * var(--un-menubar-thickness));
 }
 .resizer-se {
-	inset: calc(100% + -1 * var(--un-menubar-thickness)) 0px 0px
-		calc(100% + -1 * var(--un-menubar-thickness));
+	inset: calc(100% + -1 * var(--un-menubar-thickness)) 0px 0px calc(100% + -1 * var(--un-menubar-thickness));
 }
 
 /* Window resizer cursors */
@@ -120,24 +121,4 @@
 }
 .resizer-nw {
 	cursor: nw-resize;
-}
-
-/* Context menu */
-.context-menu {
-	display: flex;
-	flex-direction: column;
-	align-items: stretch;
-
-	position: absolute;
-}
-.context-menu .option {
-	padding: calc(var(--un-menubar-thickness) * 1)
-		calc(var(--un-menubar-thickness) * 4);
-}
-.context-menu .option:hover {
-	background-color: #357ec7;
-}
-.context-menu .divider {
-	border-top: var(--un-menubar-thickness) solid var(--c-menubar-dark);
-	border-bottom: var(--un-menubar-thickness) solid var(--c-menubar-bright);
 }
