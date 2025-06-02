@@ -1,4 +1,4 @@
-@use "./mixin/colors.scss" as *;
+@use "./mixin/colors.scss" as c;
 
 .context-menu {
     display: flex;
@@ -14,6 +14,6 @@
     background-color: #357ec7;
 }
 .context-menu .divider {
-    border-top: var(--un-menubar-thickness) solid $carbon-6;
-    border-bottom: var(--un-menubar-thickness) solid $carbon-9;
+    border-top: var(--un-menubar-thickness) solid c.$carbon-6;
+    border-bottom: var(--un-menubar-thickness) solid c.$carbon-9;
 }

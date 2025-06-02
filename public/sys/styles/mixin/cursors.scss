@@ -1,0 +1,35 @@
+// Normal cursors
+$default: url("/sys/img/cursors/default.png"), default;
+$pointer:
+    url("/sys/img/cursors/pointer.png") 6 0,
+    pointer;
+$grabbing: url("/sys/img/cursors/grabbing.png"), grabbing;
+$text:
+    url("/sys/img/cursors/text.png") 12 12,
+    text;
+
+// Resize cursors
+$resize-w:
+    url("/sys/img/cursors/resize-w.png") 0 12,
+    w-resize;
+$resize-e:
+    url("/sys/img/cursors/resize-e.png") 24 12,
+    e-resize;
+$resize-n:
+    url("/sys/img/cursors/resize-n.png") 12 0,
+    n-resize;
+$resize-s:
+    url("/sys/img/cursors/resize-s.png") 12 24,
+    s-resize;
+$resize-nw:
+    url("/sys/img/cursors/resize-nw.png") 0 0,
+    nw-resize;
+$resize-ne:
+    url("/sys/img/cursors/resize-ne.png") 24 0,
+    ne-resize;
+$resize-sw:
+    url("/sys/img/cursors/resize-sw.png") 0 24,
+    sw-resize;
+$resize-se:
+    url("/sys/img/cursors/resize-se.png") 24 24,
+    se-resize;

@@ -1,5 +1,6 @@
-@use "./mixin/colors.scss" as *;
 @use "./mixin/borders.scss" as *;
+@use "./mixin/colors.scss" as c;
+@use "./mixin/cursors.scss" as cur;
 
 .window {
 	display: flex;
@@ -17,7 +18,7 @@
 	padding: calc(var(--un-menubar-thickness) * 2);
 }
 .window.unfocused > .title-bar {
-	background-color: $carbon-6;
+	background-color: c.$carbon-6;
 }
 .window > .title-bar > .app-icon {
 	width: 16px;
@@ -99,26 +100,26 @@
 
 /* Window resizer cursors */
 .resizer-n {
-	cursor: n-resize;
+	cursor: cur.$resize-n;
 }
 .resizer-e {
-	cursor: e-resize;
+	cursor: cur.$resize-e;
 }
 .resizer-s {
-	cursor: s-resize;
+	cursor: cur.$resize-s;
 }
 .resizer-w {
-	cursor: w-resize;
+	cursor: cur.$resize-w;
 }
 .resizer-ne {
-	cursor: ne-resize;
+	cursor: cur.$resize-ne;
 }
 .resizer-se {
-	cursor: se-resize;
+	cursor: cur.$resize-se;
 }
 .resizer-sw {
-	cursor: sw-resize;
+	cursor: cur.$resize-sw;
 }
 .resizer-nw {
-	cursor: nw-resize;
+	cursor: cur.$resize-nw;
 }

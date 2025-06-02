@@ -1,17 +1,17 @@
-@use "./colors.scss" as *;
+@use "./colors.scss" as c;
 
 @mixin gray-inset {
-    background-color: $carbon-7;
-    border-top: var(--un-menubar-thickness) solid $carbon-6;
-    border-left: var(--un-menubar-thickness) solid $carbon-6;
-    border-right: var(--un-menubar-thickness) solid $carbon-9;
-    border-bottom: var(--un-menubar-thickness) solid $carbon-9;
+    background-color: c.$carbon-7;
+    border-top: var(--un-menubar-thickness) solid c.$carbon-6;
+    border-left: var(--un-menubar-thickness) solid c.$carbon-6;
+    border-right: var(--un-menubar-thickness) solid c.$carbon-9;
+    border-bottom: var(--un-menubar-thickness) solid c.$carbon-9;
 }
 
 @mixin gray-outset {
-    background-color: $carbon-8;
-    border-top: var(--un-menubar-thickness) solid $carbon-9;
-    border-left: var(--un-menubar-thickness) solid $carbon-9;
-    border-right: var(--un-menubar-thickness) solid $carbon-6;
-    border-bottom: var(--un-menubar-thickness) solid $carbon-6;
+    background-color: c.$carbon-8;
+    border-top: var(--un-menubar-thickness) solid c.$carbon-9;
+    border-left: var(--un-menubar-thickness) solid c.$carbon-9;
+    border-right: var(--un-menubar-thickness) solid c.$carbon-6;
+    border-bottom: var(--un-menubar-thickness) solid c.$carbon-6;
 }

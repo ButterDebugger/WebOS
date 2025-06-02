@@ -1,4 +1,4 @@
-@use "../../sys/styles/mixin/colors.scss" as *;
+@use "../../sys/styles/mixin/colors.scss" as c;
 @use "../../sys/styles/main.scss";
 
 body {
@@ -6,7 +6,7 @@ body {
 	flex-direction: column;
 	gap: var(--un-menubar-thickness);
 
-	background-color: $carbon-8;
+	background-color: c.$carbon-8;
 	padding: var(--un-menubar-thickness);
 }
 

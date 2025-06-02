@@ -1,5 +1,6 @@
 @use "./mixin/borders.scss" as *;
-@use "./mixin/colors.scss" as *;
+@use "./mixin/colors.scss" as c;
+@use "./mixin/cursors.scss" as cur;
 @use "./desktop.scss";
 @use "./taskbar.scss";
 @use "./window.scss";
@@ -22,12 +23,13 @@ body {
 }
 
 body {
-	font-family: "departure mono", Arial, Helvetica, sans-serif;
-	font-size: 11px;
+	font-family: "departure mono", "Courier New", Courier, monospace;
+	font-size: 16.5px;
 	height: 100%;
 	overflow: hidden;
 	text-size-adjust: none;
 	background-color: black;
+	cursor: cur.$default;
 }
 
 *,
@@ -47,6 +49,12 @@ textarea {
 	letter-spacing: inherit;
 	word-spacing: inherit;
 }
+button {
+	cursor: cur.$pointer;
+}
+input[type="text"] {
+	cursor: cur.$text;
+}
 
 /* Generic */
 .bold-text {
@@ -55,7 +63,7 @@ textarea {
 }
 .white-text {
 	color: white;
-	text-shadow: #245dda 0px 1px;
+	text-shadow: #245dda 0px 1.5px;
 }
 
 .flex-spacer {
@@ -66,7 +74,7 @@ textarea {
 	transition: filter 0.1s ease-in-out;
 }
 .moving {
-	cursor: grabbing !important;
+	cursor: cur.$grabbing !important;
 	filter: drop-shadow(rgba(0, 0, 0, 0.5) 3px 3px 0px);
 }
 .fix-drag {
@@ -91,7 +99,7 @@ button.active {
 }
 .white-inset,
 input[type="text"] {
-	background-color: $carbon-10;
+	background-color: c.$carbon-10;
 }
 button:focus-visible,
 input[type="text"]:focus-visible {
