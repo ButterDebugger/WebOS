@@ -5,22 +5,20 @@ import { TaskbarItem } from "./taskbar.ts";
 import system from "./system.ts";
 import brokenImagePNG from "./img/broken-image.png";
 
-interface WindowElement extends HTMLElement {
-	window: Window;
-}
+const windows: Window[] = [];
 
 export default class Window {
-	public ele: WindowElement;
-	public taskbarItem: TaskbarItem;
+	public ele: HTMLElement;
 	public minWidth: number;
 	public minHeight: number;
 
+	private taskbarItem: TaskbarItem;
 	private iconEle: HTMLImageElement;
 	private titleEle: HTMLSpanElement;
 
 	constructor(frameSrc: string) {
 		this.ele = createWindowComponent(this, frameSrc);
-		this.ele.window = this;
+		windows.push(this);
 
 		// biome-ignore lint/style/noNonNullAssertion: It is defined
 		this.iconEle = this.ele.querySelector<HTMLImageElement>(".app-icon")!;
@@ -28,7 +26,7 @@ export default class Window {
 		this.titleEle = this.ele.querySelector<HTMLElement>(".title")!;
 
 		this.taskbarItem = new TaskbarItem();
-		this.taskbarItem.ele.addEventListener("click", () => {
+		this.taskbarItem.on("click", () => {
 			if (this.isMinimized()) this.minimize();
 
 			this.focusHandler();
@@ -39,7 +37,7 @@ export default class Window {
 		window.addEventListener("click", ({ target }: MouseEvent) => {
 			if (
 				!this.ele.contains(target as Element) &&
-				!this.taskbarItem.ele.contains(target as Element)
+				!this.taskbarItem.element.contains(target as Element)
 			) {
 				this.unfocusHandler();
 			}
@@ -101,10 +99,10 @@ export default class Window {
 		this.ele.classList.remove("unfocused");
 		this.taskbarItem.active = true;
 
-		for (const win of document.querySelectorAll(".window")) {
-			if (win !== this.ele) {
-				(win as WindowElement).window.unfocusHandler();
-			}
+		for (const win of windows) {
+			if (win === this) continue;
+
+			win.unfocusHandler();
 		}
 	}
 	unfocusHandler(): void {
@@ -134,7 +132,7 @@ export default class Window {
 	}
 }
 
-function createWindowComponent(win: Window, frameSrc: string): WindowElement {
+function createWindowComponent(win: Window, frameSrc: string): HTMLDivElement {
 	const $ele = dom(html`
 		<div class="window gray-container moveable">
 			<div class="title-bar">
@@ -337,5 +335,5 @@ function createWindowComponent(win: Window, frameSrc: string): WindowElement {
 	});
 
 	dom("body").append($ele);
-	return $ele.element as WindowElement;
+	return $ele.element as HTMLDivElement;
 }

@@ -1,17 +1,25 @@
+import EventEmitter from "eventemitter3";
 import brokenImagePNG from "./img/broken-image.png";
 
 const taskbar = document.getElementById("taskbar");
 const taskbarSpacer = taskbar?.querySelector(".flex-spacer");
 
-export class TaskbarItem {
-	public ele: HTMLButtonElement;
-
+export class TaskbarItem extends EventEmitter<{
+	click: () => void;
+}> {
+	private ele: HTMLButtonElement;
 	private iconEle: HTMLImageElement;
 	private titleEle: HTMLSpanElement;
 
 	constructor(title = "Untitled item", iconSrc = brokenImagePNG) {
+		super();
+
 		this.ele = document.createElement("button");
 		this.ele.classList.add("taskbar-item");
+
+		this.ele.addEventListener("click", () => {
+			this.emit("click");
+		});
 
 		this.iconEle = document.createElement("img");
 		this.iconEle.classList.add("icon", "crisp", "no-drag");
@@ -26,6 +34,10 @@ export class TaskbarItem {
 		if (taskbar && taskbarSpacer) {
 			taskbar.insertBefore(this.ele, taskbarSpacer);
 		}
+	}
+
+	get element(): HTMLButtonElement {
+		return this.ele;
 	}
 
 	set bold(bool: boolean) {

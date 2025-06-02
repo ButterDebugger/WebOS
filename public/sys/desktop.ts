@@ -1,7 +1,7 @@
 import * as fs from "./mem/fs.ts";
 import { getMouseX, getMouseY } from "./input.ts";
 import { elementPageScaler } from "@debutter/helper";
-import eventemitter3 from "eventemitter3";
+import EventEmitter from "eventemitter3";
 import moment from "moment";
 import brokenImagePNG from "./img/broken-image.png";
 
@@ -45,9 +45,12 @@ updateDates();
 export const timeInterval = setInterval(updateDates, 100);
 
 // Desktop
-export class DesktopItem extends eventemitter3 {
-	public ele: HTMLDivElement;
-
+export class DesktopItem extends EventEmitter<{
+	move: () => void;
+	open: () => void;
+	contextmenu: (position: { x: number; y: number }) => void;
+}> {
+	private ele: HTMLDivElement;
 	private iconEle: HTMLImageElement;
 	private titleEle: HTMLSpanElement;
 
@@ -69,6 +72,18 @@ export class DesktopItem extends eventemitter3 {
 
 		this.ele.appendChild(this.iconEle);
 		this.ele.appendChild(this.titleEle);
+
+		// Add double click (open) listener
+		this.ele.addEventListener("dblclick", () => {
+			this.emit("open");
+		});
+
+		// Add context menu listener
+		this.ele.addEventListener("contextmenu", (event: MouseEvent) => {
+			event.preventDefault();
+
+			this.emit("contextmenu", { x: event.clientX, y: event.clientY });
+		});
 
 		// Add drag handler
 		this.ele.addEventListener("mousedown", ({ button }: MouseEvent) => {

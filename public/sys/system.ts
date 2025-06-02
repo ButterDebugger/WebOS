@@ -45,13 +45,12 @@ if (alertOption) {
 	});
 }
 
-startItem.ele.addEventListener("dblclick", () => {
+startItem.on("open", () => {
 	const window = new Window("/apps/files/index.html");
 	window.title = "My Computer";
 });
-startItem.ele.addEventListener("contextmenu", (e: MouseEvent) => {
-	startItemMenu.spawn(e.clientX, e.clientY);
-	e.preventDefault();
+startItem.on("contextmenu", ({ x, y }) => {
+	startItemMenu.spawn(x, y);
 });
 
 let highestZ = 100;
