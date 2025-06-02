@@ -3,7 +3,9 @@ $default: url("/sys/img/cursors/default.png"), default;
 $pointer:
     url("/sys/img/cursors/pointer.png") 6 0,
     pointer;
-$grabbing: url("/sys/img/cursors/grabbing.png"), grabbing;
+$grabbing:
+    url("/sys/img/cursors/grabbing.png") 6 0,
+    grabbing;
 $text:
     url("/sys/img/cursors/text.png") 12 12,
     text;
