@@ -2,21 +2,14 @@ import * as fs from "./mem/fs.ts";
 import { getMouseX, getMouseY } from "./input.ts";
 import { elementPageScaler } from "@debutter/helper";
 import EventEmitter from "eventemitter3";
-import moment from "moment";
 import brokenImagePNG from "./img/broken-image.png";
+import { ContextMenu } from "./gui.ts";
 
 const desktopContent = document.getElementById("desktop-content");
 if (!desktopContent) throw new Error("Failed to get desktop content element");
 
 const canvas = document.getElementById("background") as HTMLCanvasElement;
 if (!canvas) throw new Error("Failed to get background canvas element");
-
-const calendarContainer = document.getElementById("notifs-container");
-if (!calendarContainer)
-	throw new Error("Failed to get calendar container element");
-
-const timeEle = calendarContainer.querySelector<HTMLSpanElement>(".time");
-if (!timeEle) throw new Error("Failed to get time element");
 
 // Background
 const ctx = canvas?.getContext("2d");
@@ -33,16 +26,6 @@ setInterval(() => {
 }, 33.3333);
 
 elementPageScaler(canvas);
-
-// Calendar
-function updateDates(): void {
-	// @ts-ignore: timeEle has been asserted to be defined
-	timeEle.innerText = moment().format("h:mm A");
-}
-
-updateDates();
-
-export const timeInterval = setInterval(updateDates, 100);
 
 // Desktop
 export class DesktopItem extends EventEmitter<{
@@ -188,3 +171,46 @@ for await (const filePath of fs.ls("/home/desktop/")) {
 		await itemMeta.set("y", item.y);
 	});
 }
+
+// Add context menu
+
+const desktopMenu = new ContextMenu().addOption(
+	"Create New",
+	new ContextMenu()
+		.addOption("File", (ctx) => {
+			// Get available filename
+			let files = Array.from(fs.ls("/home/desktop/"));
+			let filename = "new file";
+
+			if (files.includes(filename)) {
+				let i = 1;
+
+				while (files.includes(`${filename} (${i})`)) {
+					i++;
+				}
+
+				filename += ` (${i})`;
+			}
+
+			// Create desktop item
+			const item = new DesktopItem(brokenImagePNG, filename);
+			item.x = ctx.x;
+			item.y = ctx.y;
+
+			// Save file to memory
+			let file = fs.file("/home/desktop/" + filename);
+			file.set("nonsense");
+			file.meta.set("x", item.x);
+			file.meta.set("y", item.y);
+
+			// Close context menu
+			ctx.close();
+		})
+		.addOption("Folder")
+);
+
+canvas.addEventListener("contextmenu", (event: MouseEvent) => {
+	event.preventDefault();
+
+	desktopMenu.spawn(event.clientX, event.clientY);
+});

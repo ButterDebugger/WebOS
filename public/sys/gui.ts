@@ -1,8 +1,4 @@
-import { html, isChildOf } from "@debutter/dough";
-
-interface OptionElement extends HTMLElement {
-	submenu?: ContextMenu | null;
-}
+import { $, html, isChildOf } from "@debutter/dough";
 
 export class ContextMenu {
 	public ele: HTMLDivElement;
@@ -10,9 +6,9 @@ export class ContextMenu {
 	public subnet: Set<ContextMenu>;
 
 	constructor() {
-		this.ele = html`<div
+		this.ele = html<HTMLDivElement>`<div
 			class="context-menu gray-container"
-		></div>` as HTMLDivElement;
+		></div>`;
 		this.parent = null;
 		this.subnet = new Set();
 
@@ -29,7 +25,7 @@ export class ContextMenu {
 				}
 			}
 
-			if (!isChild) this.hide();
+			if (!isChild) this.close();
 		});
 	}
 
@@ -40,9 +36,9 @@ export class ContextMenu {
 		document.body.appendChild(this.ele);
 	}
 
-	hide(): void {
+	close(): void {
 		for (const menu of this.subnet) {
-			menu.hide();
+			menu.close();
 		}
 
 		this.ele.remove();
@@ -50,46 +46,49 @@ export class ContextMenu {
 
 	addOption(
 		name: string,
-		id: string,
-		submenu: ContextMenu | null = null
+		action:
+			| ContextMenu
+			| ((menu: ContextMenu, event: MouseEvent) => void)
+			| ((menu: ContextMenu, event: MouseEvent) => Promise<void>)
+			| null = null
 	): this {
-		const option = html`<div class="option"></div>` as OptionElement;
+		const $option = $(html<HTMLDivElement>`<div class="option"></div>`);
 
-		option.innerText = name;
-		option.setAttribute("data-opt-id", id);
-		option.submenu = submenu;
+		$option.text(name);
 
-		if (submenu instanceof ContextMenu) {
-			this.subnet.add(submenu);
-			submenu.parent = this;
+		if (action instanceof ContextMenu) {
+			this.subnet.add(action);
+			action.parent = this;
+		} else if (typeof action === "function") {
+			$option.on("click", (event) => action(this.root, event));
 		}
 
-		option.addEventListener("mouseover", () => {
+		$option.on("mouseover", () => {
 			for (const menu of this.subnet) {
-				menu.hide();
+				menu.close();
 			}
 
-			if (submenu instanceof ContextMenu) {
-				const bounds = option.getBoundingClientRect();
+			if (action instanceof ContextMenu) {
+				const bounds = $option.element.getBoundingClientRect();
 
-				submenu.spawn(bounds.x + bounds.width, bounds.y);
+				action.spawn(bounds.x + bounds.width, bounds.y);
 			}
 		});
 
-		option.addEventListener("mouseout", ({ relatedTarget }: MouseEvent) => {
-			if (submenu instanceof ContextMenu) {
+		$option.on("mouseout", ({ relatedTarget }: MouseEvent) => {
+			if (action instanceof ContextMenu) {
 				if (
 					relatedTarget &&
-					(isChildOf(relatedTarget as Element, submenu.ele) ||
-						relatedTarget === submenu.ele)
+					(isChildOf(relatedTarget as Element, action.ele) ||
+						relatedTarget === action.ele)
 				)
 					return;
 
-				submenu.hide();
+				action.close();
 			}
 		});
 
-		this.ele.appendChild(option);
+		this.ele.appendChild($option.element);
 		return this;
 	}
 
@@ -100,20 +99,14 @@ export class ContextMenu {
 		return this;
 	}
 
-	getOption(id: string): Element | null {
-		// Find the option in the top layer
-		let option = this.ele.querySelector(`.option[data-opt-id=${id}]`);
+	get root(): ContextMenu | this {
+		let root: ContextMenu = this;
 
-		if (option) return option;
-
-		// Find the option within the subnet tree
-		for (const menu of this.subnet) {
-			option = menu.getOption(id);
-
-			if (option) return option;
+		while (root.parent) {
+			root = root.parent;
 		}
 
-		return null;
+		return root;
 	}
 
 	set x(scalar: number) {

@@ -4,9 +4,9 @@
     "": {
       "name": "webos",
       "dependencies": {
-        "@debutter/dough": "npm:@jsr/debutter__dough",
-        "@debutter/helper": "npm:@jsr/debutter__helper",
-        "@debutter/jsbin": "npm:@jsr/debutter__jsbin",
+        "@debutter/dough": "npm:@jsr/debutter__dough@^0.5.0",
+        "@debutter/helper": "npm:@jsr/debutter__helper@^1.1.0",
+        "@debutter/jsbin": "npm:@jsr/debutter__jsbin@^1.4.1",
         "eventemitter3": "^5.0.1",
         "hono": "^4.7.10",
         "localforage": "^1.10.0",
@@ -22,7 +22,7 @@
     },
   },
   "packages": {
-    "@debutter/dough": ["@jsr/debutter__dough@0.4.0", "https://npm.jsr.io/~/11/@jsr/debutter__dough/0.4.0.tgz", {}, "sha512-xMt9edeYQWaqZFQvaSfsXMzzIGsYKlMozTiLsKnL9yc7fWdX6nAEvIcxH67Opuc1as+SpMWX+FNOTxOqCtZIKg=="],
+    "@debutter/dough": ["@jsr/debutter__dough@0.5.0", "https://npm.jsr.io/~/11/@jsr/debutter__dough/0.5.0.tgz", {}, "sha512-AFl70mEzDIKMnId0fBLAnjEoE9Mkx38zFA2wCtxbhCbCPvUzbPtxQqGRZttNo9te5eNO72lqVGCD1RZHuC2TaA=="],
 
     "@debutter/helper": ["@jsr/debutter__helper@1.1.0", "https://npm.jsr.io/~/11/@jsr/debutter__helper/1.1.0.tgz", {}, "sha512-U60EnyCdq9NcCcGZmLE6EgNIpQWszJq9zGeYT08/8yB5n/QTZYnSxIIBKEgEibpw3m97cfZTRKzwz1F7AzF5Yg=="],
 

@@ -15,35 +15,20 @@ startBtn.bold = true;
 
 const startItem = new DesktopItem(computerPNG, "Random Window");
 const startItemMenu = new ContextMenu()
-	.addOption("one", "one")
+	.addOption("one")
 	.addOption(
 		"two",
-		"two",
 		new ContextMenu()
-			.addOption("uno", "uno")
+			.addOption("uno")
 			.addOption(
 				"dos",
-				"dos",
-				new ContextMenu()
-					.addOption("thres", "thres")
-					.addOption("quadroo", "quadroo")
+				new ContextMenu().addOption("thres").addOption("quadroo")
 			)
 	)
 	.addDivider()
-	.addOption("alert", "test-alert")
-	.addOption(
-		"four",
-		"four",
-		new ContextMenu().addOption("uno", "uno-2").addOption("dos", "dos-2")
-	)
-	.addOption("seventy seven", "seventy-seven");
-
-const alertOption = startItemMenu.getOption("test-alert");
-if (alertOption) {
-	alertOption.addEventListener("click", () => {
-		alert("hi");
-	});
-}
+	.addOption("alert", () => alert("hi"))
+	.addOption("four", new ContextMenu().addOption("uno").addOption("dos"))
+	.addOption("seventy seven");
 
 startItem.on("open", () => {
 	const window = new Window("/apps/files/index.html");

@@ -1,5 +1,5 @@
 import { getMouseX, getMouseY } from "./input.ts";
-import { dom, collection, html } from "@debutter/dough";
+import { dom, collection, html, $ } from "@debutter/dough";
 import { randomInt, remapRange } from "@debutter/helper";
 import { TaskbarItem } from "./taskbar.ts";
 import system from "./system.ts";
@@ -145,18 +145,21 @@ function createWindowComponent(win: Window, frameSrc: string): HTMLDivElement {
 				<button
 					data-ungrabbable
 					class="minimize-window crisp zero-padding"
+					onclick=${() => win.minimize()}
 				>
 					<div class="icon"></div>
 				</button>
 				<button
 					data-ungrabbable
 					class="maximize-window crisp zero-padding"
+					onclick=${() => win.maximize()}
 				>
 					<div class="icon"></div>
 				</button>
 				<button
 					data-ungrabbable
 					class="close-window crisp zero-padding"
+					onclick=${() => win.close()}
 				>
 					<div class="icon"></div>
 				</button>
@@ -167,18 +170,13 @@ function createWindowComponent(win: Window, frameSrc: string): HTMLDivElement {
 
 	// Add iframe focus event handlers
 	setTimeout(() => {
-		$ele.find("iframe").element.contentWindow.addEventListener(
-			"focus",
-			() => {
-				win.focusHandler();
-			}
-		);
-	}, 0);
+		const iframe = $ele.find("iframe")?.element;
+		if (!iframe || !iframe.contentWindow) return;
 
-	// Add button handlers
-	$ele.find("button.minimize-window").on("click", () => win.minimize());
-	$ele.find("button.maximize-window").on("click", () => win.maximize());
-	$ele.find("button.close-window").on("click", () => win.close());
+		iframe.contentWindow.addEventListener("focus", () => {
+			win.focusHandler();
+		});
+	}, 0);
 
 	// Add window resizers
 	const resizers = {
@@ -334,6 +332,6 @@ function createWindowComponent(win: Window, frameSrc: string): HTMLDivElement {
 		);
 	});
 
-	dom("body").append($ele);
+	$(document.body).append($ele);
 	return $ele.element as HTMLDivElement;
 }

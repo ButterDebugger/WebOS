@@ -9,9 +9,9 @@
     "start": "bun run build && bun run ./src/server.ts"
   },
   "dependencies": {
-    "@debutter/dough": "npm:@jsr/debutter__dough",
-    "@debutter/helper": "npm:@jsr/debutter__helper",
-    "@debutter/jsbin": "npm:@jsr/debutter__jsbin",
+    "@debutter/dough": "npm:@jsr/debutter__dough@^0.5.0",
+    "@debutter/helper": "npm:@jsr/debutter__helper@^1.1.0",
+    "@debutter/jsbin": "npm:@jsr/debutter__jsbin@^1.4.1",
     "eventemitter3": "^5.0.1",
     "hono": "^4.7.10",
     "localforage": "^1.10.0",

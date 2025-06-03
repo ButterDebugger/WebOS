@@ -1,4 +1,5 @@
 import EventEmitter from "eventemitter3";
+import moment from "moment";
 import brokenImagePNG from "./img/broken-image.png";
 
 const taskbar = document.getElementById("taskbar");
@@ -72,3 +73,20 @@ export class TaskbarItem extends EventEmitter<{
 		this.ele.remove();
 	}
 }
+
+// Calendar
+const calendarContainer = document.getElementById("notifs-container");
+if (!calendarContainer)
+	throw new Error("Failed to get calendar container element");
+
+const timeEle = calendarContainer.querySelector<HTMLSpanElement>(".time");
+if (!timeEle) throw new Error("Failed to get time element");
+
+function updateDates(): void {
+	// @ts-ignore: timeEle has been asserted to be defined
+	timeEle.innerText = moment().format("h:mm A");
+}
+
+updateDates();
+
+export const timeInterval = setInterval(updateDates, 100);
