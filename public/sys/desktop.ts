@@ -1,9 +1,12 @@
 import * as fs from "./mem/fs.ts";
+import type { SysFile } from "./mem/fs.ts";
 import { getMouseX, getMouseY } from "./input.ts";
 import { elementPageScaler } from "@debutter/helper";
 import EventEmitter from "eventemitter3";
 import brokenImagePNG from "./img/broken-image.png";
 import { ContextMenu } from "./gui.ts";
+import { collection, html } from "@debutter/dough";
+import { registry } from "./mem/reg.ts";
 
 const desktopContent = document.getElementById("desktop-content");
 if (!desktopContent) throw new Error("Failed to get desktop content element");
@@ -12,13 +15,13 @@ const canvas = document.getElementById("background") as HTMLCanvasElement;
 if (!canvas) throw new Error("Failed to get background canvas element");
 
 // Background
-const ctx = canvas?.getContext("2d");
+const ctx = canvas.getContext("2d");
 if (!ctx) throw new Error("Failed to get background canvas context");
 
-let hue = 0;
+let hue = 30;
 
 setInterval(() => {
-	const color = `hsl(${hue}, 75%, 50%)`;
+	const color = `oklch(0.6499 0.213 ${hue})`;
 	hue = (hue + 0.03) % 360;
 
 	ctx.fillStyle = color;
@@ -27,34 +30,51 @@ setInterval(() => {
 
 elementPageScaler(canvas);
 
+// Check view settings
+const viewReg = registry("sys:view");
+
+let showExtensions = false;
+
+if ((await viewReg.get("showExtensions")) === true) {
+	showExtensions = true;
+}
+
 // Desktop
 export class DesktopItem extends EventEmitter<{
-	move: () => void;
+	placed: () => void;
 	open: () => void;
 	contextmenu: (position: { x: number; y: number }) => void;
 }> {
 	private ele: HTMLDivElement;
 	private iconEle: HTMLImageElement;
-	private titleEle: HTMLSpanElement;
+	private nameEle: HTMLDivElement;
 
-	constructor(src: string, title: string, x = 9, y = 9) {
+	private file: SysFile;
+
+	constructor(file: SysFile) {
 		super();
 
+		this.file = file;
+
 		this.ele = document.createElement("div");
-		this.ele.classList.add("desktop-item", "moveable");
-		this.ele.style.left = `${x}px`;
-		this.ele.style.top = `${y}px`;
+		this.ele.classList.add("desktop-item", "moveable", "hidden");
 
 		this.iconEle = document.createElement("img");
 		this.iconEle.classList.add("crisp", "no-drag", "icon");
-		this.iconEle.src = src;
 
-		this.titleEle = document.createElement("span");
-		this.titleEle.classList.add("title", "white-text");
-		this.titleEle.innerText = title;
+		this.nameEle = <HTMLDivElement>html`<div class="filename">
+			<span class="name white-text"></span>
+			<span class="extension white-text"></span>
+		</div>`;
+
+		if (!showExtensions) {
+			this.nameEle
+				.querySelector<HTMLSpanElement>(".extension")!
+				.classList.add("hidden");
+		}
 
 		this.ele.appendChild(this.iconEle);
-		this.ele.appendChild(this.titleEle);
+		this.ele.appendChild(this.nameEle);
 
 		// Add double click (open) listener
 		this.ele.addEventListener("dblclick", () => {
@@ -103,10 +123,14 @@ export class DesktopItem extends EventEmitter<{
 
 				window.removeEventListener("mousemove", dragHandler);
 				window.removeEventListener("mouseup", dragEndHandler);
+
 				this.ele.classList.remove("moving");
+
 				for (const iframe of document.querySelectorAll("iframe")) {
 					iframe.classList.remove("fix-drag");
 				}
+
+				this.emit("placed");
 			};
 
 			for (const iframe of document.querySelectorAll("iframe")) {
@@ -119,6 +143,29 @@ export class DesktopItem extends EventEmitter<{
 		if (desktopContent) {
 			desktopContent.appendChild(this.ele);
 		}
+
+		this.load();
+	}
+
+	private async load() {
+		const meta = this.file.meta;
+
+		const [src, x, y] = await Promise.all([
+			meta.get("icon"),
+			meta.get("x"),
+			meta.get("y")
+		]);
+
+		this.icon = (src as string) ?? brokenImagePNG;
+		this.name = this.file.path;
+		this.x = (x as number) ?? 0;
+		this.y = (y as number) ?? 0;
+
+		this.ele.classList.remove("hidden");
+
+		this.on("placed", async () => {
+			await meta.update({ x: this.x, y: this.y });
+		});
 	}
 
 	set icon(src: string) {
@@ -128,17 +175,31 @@ export class DesktopItem extends EventEmitter<{
 		return this.iconEle.src || "";
 	}
 
-	set title(text: string) {
-		this.titleEle.innerText = text;
+	set name(text: string) {
+		const { base, ext } = fs.splitFilepath(text);
+
+		// Set name
+		this.nameEle.querySelector<HTMLSpanElement>(".name")!.innerText = base;
+
+		// Set extension
+		const extEle =
+			this.nameEle.querySelector<HTMLSpanElement>(".extension")!;
+		extEle.innerText = ext;
+		extEle.setAttribute("data-ext", ext.substring(1));
 	}
-	get title(): string {
-		return this.titleEle.innerText || "";
+	get name(): string {
+		let base =
+			this.nameEle.querySelector<HTMLSpanElement>(".name")!.innerText;
+		let ext =
+			this.nameEle.querySelector<HTMLSpanElement>(
+				".extension"
+			)!.innerText;
+
+		return base + ext;
 	}
 
 	set x(scalar: number) {
 		this.ele.style.left = `${scalar}px`;
-
-		this.emit("move");
 	}
 	get x(): number {
 		return this.ele.getBoundingClientRect().x;
@@ -146,68 +207,61 @@ export class DesktopItem extends EventEmitter<{
 
 	set y(scalar: number) {
 		this.ele.style.top = `${scalar}px`;
-
-		this.emit("move");
 	}
 	get y(): number {
 		return this.ele.getBoundingClientRect().y;
 	}
 }
 
-// Load desktop content from memory
-fs.file("/home/desktop/broken file").set("nonsense");
-
-for await (const filePath of fs.ls("/home/desktop/")) {
-	const itemMeta = fs.file(`/home/desktop/${filePath}`).meta;
-
-	const fileName = filePath.split("/").pop() || "unknown";
-	const item = new DesktopItem(brokenImagePNG, fileName);
-
-	item.x = ((await itemMeta.get("x")) as number) ?? 0;
-	item.y = ((await itemMeta.get("y")) as number) ?? 0;
-
-	item.on("move", async () => {
-		await itemMeta.set("x", item.x);
-		await itemMeta.set("y", item.y);
-	});
-}
-
 // Add context menu
+const desktopMenu = new ContextMenu()
+	.addOption(
+		"Create New",
+		new ContextMenu()
+			.addOption("File", async (ctx) => {
+				// Get available filename
+				let files = Array.from(fs.ls("/home/desktop/"));
+				let filename = "new file";
 
-const desktopMenu = new ContextMenu().addOption(
-	"Create New",
-	new ContextMenu()
-		.addOption("File", (ctx) => {
-			// Get available filename
-			let files = Array.from(fs.ls("/home/desktop/"));
-			let filename = "new file";
+				if (files.includes(filename)) {
+					let i = 1;
 
-			if (files.includes(filename)) {
-				let i = 1;
+					while (files.includes(`${filename} (${i})`)) {
+						i++;
+					}
 
-				while (files.includes(`${filename} (${i})`)) {
-					i++;
+					filename += ` (${i})`;
 				}
 
-				filename += ` (${i})`;
-			}
+				// Save file to memory
+				let file = fs.file("/home/desktop/" + filename);
 
-			// Create desktop item
-			const item = new DesktopItem(brokenImagePNG, filename);
-			item.x = ctx.x;
-			item.y = ctx.y;
+				await file.set("nonsense");
+				await file.meta.update({ x: ctx.x, y: ctx.y });
 
-			// Save file to memory
-			let file = fs.file("/home/desktop/" + filename);
-			file.set("nonsense");
-			file.meta.set("x", item.x);
-			file.meta.set("y", item.y);
+				// Create desktop item
+				new DesktopItem(file);
 
-			// Close context menu
-			ctx.close();
-		})
-		.addOption("Folder")
-);
+				// Close context menu
+				ctx.close();
+			})
+			.addOption("Folder")
+	)
+	.addOption("Toggle Extensions", () => {
+		showExtensions = !showExtensions;
+
+		viewReg.set("showExtensions", showExtensions);
+
+		// Toggle extensions on all desktop items
+		const $exts = collection(".desktop-item .extension");
+
+		if (showExtensions) {
+			$exts.removeClass("hidden");
+		} else {
+			$exts.addClass("hidden");
+		}
+	})
+	.addOption("Refresh", () => location.reload());
 
 canvas.addEventListener("contextmenu", (event: MouseEvent) => {
 	event.preventDefault();

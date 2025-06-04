@@ -1,6 +1,7 @@
 import EventEmitter from "eventemitter3";
 import moment from "moment";
 import brokenImagePNG from "./img/broken-image.png";
+import computerPNG from "./img/computer.png";
 
 const taskbar = document.getElementById("taskbar");
 const taskbarSpacer = taskbar?.querySelector(".flex-spacer");
@@ -90,3 +91,7 @@ function updateDates(): void {
 updateDates();
 
 export const timeInterval = setInterval(updateDates, 100);
+
+// Start button
+const startBtn = new TaskbarItem("Start", computerPNG);
+startBtn.bold = true;

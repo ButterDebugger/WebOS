@@ -7,22 +7,28 @@
 
 	position: absolute;
 	cursor: cur.$pointer;
-}
-.desktop-item > .icon {
-	width: 32px;
-	height: 32px;
-}
-.desktop-item > .title {
-	display: -webkit-box;
-	text-align: center;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	word-break: break-word;
-	word-wrap: break-word;
-	max-width: 72px;
-	-webkit-line-clamp: 4;
-	line-clamp: 4;
-	-webkit-box-orient: vertical;
+
+	> .icon {
+		width: 32px;
+		height: 32px;
+	}
+	> .filename {
+		display: -webkit-box;
+		text-align: center;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		word-break: break-word;
+		word-wrap: break-word;
+		max-width: 72px;
+		max-height: 4lh;
+		// -webkit-line-clamp: 4;
+		// line-clamp: 4;
+		// -webkit-box-orient: vertical;
+
+		// > .extension[data-ext="txt"] {
+		// 	color: #ffaff4;
+		// }
+	}
 }
 .desktop-item.moving {
 	z-index: 1000002; /* Absurdly high number */

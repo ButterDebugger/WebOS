@@ -1,13 +1,16 @@
+import { registry, type SysRegistry } from "./reg.ts";
 import * as storage from "./storage.ts";
 
 // File system methods
 const files = new Map<string, SysFile>();
 
-class SysFile {
+export class SysFile {
 	#path: string;
+	#cache: unknown | null;
 
 	constructor(path: string) {
 		this.#path = path;
+		this.#cache = null;
 	}
 
 	get path(): string {
@@ -19,15 +22,32 @@ class SysFile {
 	}
 
 	async get(): Promise<unknown> {
-		return await storage.get(this.#path);
+		if (this.#cache) return this.#cache;
+
+		const value = await storage.get(this.#path);
+		this.#cache = value;
+
+		return value;
 	}
 
-	async set(value: unknown): Promise<unknown> {
-		return await storage.set(this.#path, value);
+	async set(value: unknown): Promise<boolean> {
+		const success = await storage.set(this.#path, value);
+
+		if (success) this.#cache = value;
+
+		return success;
 	}
 
-	async remove(): Promise<unknown> {
-		return await storage.remove(this.#path);
+	async remove(): Promise<boolean> {
+		const success = await storage.remove(this.#path);
+
+		if (success) this.#cache = null;
+
+		return success;
+	}
+
+	async exists(): Promise<boolean> {
+		return (await storage.get(this.#path)) !== null;
 	}
 }
 
@@ -48,6 +68,32 @@ export function isValidFilePath(location: string): boolean {
 	return location.startsWith("/");
 }
 
+export function splitFilepath(filepath: string): {
+	container: string;
+	base: string;
+	ext: string;
+} {
+	// Get containing folder and filename
+	let container = "";
+	let filename = filepath;
+
+	const slashIndex = filepath.lastIndexOf("/");
+	if (slashIndex !== -1) {
+		container = filepath.substring(0, slashIndex);
+		filename = filepath.substring(slashIndex + 1);
+	}
+
+	// Get index of last period
+	let dotIndex = filename.lastIndexOf(".");
+	if (dotIndex === -1) dotIndex = filename.length;
+
+	// Split name and extension
+	const base = filename.substring(0, dotIndex);
+	const ext = filename.substring(dotIndex);
+
+	return { container, base, ext };
+}
+
 export function* ls(path: string): Generator<string> {
 	if (!isValidFilePath(path)) throw new Error("Invalid file path.");
 
@@ -55,69 +101,5 @@ export function* ls(path: string): Generator<string> {
 		if (filePath.startsWith(path)) {
 			yield filePath.substring(path.length);
 		}
-	}
-}
-
-// Registry methods
-const registries = new Map<string, SysRegistry>();
-
-class SysRegistry {
-	#location: string;
-
-	constructor(location: string) {
-		this.#location = location;
-	}
-
-	get location(): string {
-		return this.#location;
-	}
-
-	async get(key: string): Promise<unknown> {
-		const table = (await storage.get(this.#location)) ?? {};
-
-		return (table as Record<string, unknown>)[key];
-	}
-
-	async set(key: string, value: unknown): Promise<unknown> {
-		const table = (await storage.get(this.#location)) ?? {};
-
-		(table as Record<string, unknown>)[key] = value;
-
-		return await storage.set(this.#location, table);
-	}
-
-	async remove(key: string): Promise<unknown> {
-		const table = (await storage.get(this.#location)) ?? {};
-
-		delete (table as Record<string, unknown>)[key];
-
-		return await storage.set(this.#location, table);
-	}
-}
-
-export function registry(location: string): SysRegistry {
-	if (!isValidRegistryLocation(location))
-		throw new Error("Invalid registry location.");
-
-	let registryInstance = registries.get(location);
-
-	if (!registryInstance) {
-		registryInstance = new SysRegistry(location);
-		registries.set(location, registryInstance);
-	}
-
-	return registryInstance;
-}
-
-export function isValidRegistryLocation(location: string): boolean {
-	return /^\w+:/.test(location);
-}
-
-// Load all keys
-for (const e of await storage.keys()) {
-	if (isValidFilePath(e)) {
-		file(e);
-	} else if (isValidRegistryLocation(e)) {
-		registry(e);
 	}
 }
