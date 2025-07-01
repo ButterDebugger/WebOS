@@ -1,5 +1,5 @@
 import localforage from "localforage";
-import { encode, decode } from "@debutter/jsbin";
+import { encode, decode } from "@debutter/trufflebyte";
 import { fromUint8Array, toUint8Array } from "@debutter/helper";
 
 export async function set(key: string, value: unknown): Promise<boolean> {

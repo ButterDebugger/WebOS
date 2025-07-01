@@ -11,7 +11,7 @@
   "dependencies": {
     "@debutter/dough": "npm:@jsr/debutter__dough@^0.5.0",
     "@debutter/helper": "npm:@jsr/debutter__helper@^1.1.0",
-    "@debutter/jsbin": "npm:@jsr/debutter__jsbin@^1.4.1",
+    "@debutter/trufflebyte": "npm:@jsr/debutter__trufflebyte@1.4.1",
     "eventemitter3": "^5.0.1",
     "hono": "^4.7.10",
     "localforage": "^1.10.0",
